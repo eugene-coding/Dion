@@ -1,12 +1,26 @@
+using API.Data;
+
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
 
-// Add services to the container.
+services.AddDbContext<Context>(options =>
+{
+    const string connectionStringName = "Database";
 
-builder.Services.AddControllers();
+    var connectionString = builder.Configuration.GetConnectionString(connectionStringName);
+    var serverVersion = ServerVersion.AutoDetect(connectionString);
+
+    options.UseMySql(connectionString, serverVersion, options =>
+    {
+        options.EnableRetryOnFailure();
+    });
+});
+
+services.AddControllers();
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
 
