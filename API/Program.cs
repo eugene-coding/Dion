@@ -22,6 +22,13 @@ services.AddControllers();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var serviceProvider = scope.ServiceProvider;
+
+    SeedData.Initialize(serviceProvider);
+}
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
