@@ -17,13 +17,23 @@ internal static class SeedData
                 {
                     FirstName = "Андрей",
                     LastName = "Игнатов",
-                    Description = "Тренер по боксу"
+                    Description = "Тренер по боксу",
+                    UserCredential = new UserCredential
+                    {
+                        Username = "andrey",
+                        Password = "qwe123"
+                    }
                 },
                 new User
                 {
                     FirstName = "Тимур",
                     LastName = "Лихачев",
-                    Description = "Учитель географии"
+                    Description = "Учитель географии",
+                    UserCredential = new UserCredential
+                    {
+                        Username = "timur",
+                        Password = "qwe123"
+                    }
                 });
         }
 

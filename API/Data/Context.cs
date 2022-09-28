@@ -11,4 +11,5 @@ public sealed class Context : DbContext
     }
 
     public DbSet<User> Users => Set<User>();
+    public DbSet<UserCredential> UserCredentials => Set<UserCredential>();
 }

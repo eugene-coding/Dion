@@ -14,4 +14,6 @@ public sealed class User
 
     [MaxLength(256)]
     public string? Description { get; set; }
+
+    public UserCredential UserCredential { get; set; } = default!;
 }
