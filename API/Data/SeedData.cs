@@ -16,12 +16,14 @@ internal static class SeedData
                 new User
                 {
                     FirstName = "Андрей",
-                    LastName = "Игнатов"
+                    LastName = "Игнатов",
+                    Description = "Тренер по боксу"
                 },
                 new User
                 {
                     FirstName = "Тимур",
-                    LastName = "Лихачев"
+                    LastName = "Лихачев",
+                    Description = "Учитель географии"
                 });
         }
 
