@@ -11,4 +11,7 @@ public sealed class User
 
     [MaxLength(128)]
     public string? LastName { get; set; }
+
+    [MaxLength(256)]
+    public string? Description { get; set; }
 }

@@ -24,7 +24,8 @@ public sealed class UserController : ControllerBase
             .Select(u => new User
             {
                 FirstName = u.FirstName,
-                LastName = u.LastName
+                LastName = u.LastName,
+                Description = u.Description
             });
 
         var result = await query
