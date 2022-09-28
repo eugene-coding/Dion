@@ -10,5 +10,5 @@ public sealed class User
     public string FirstName { get; set; } = string.Empty;
 
     [MaxLength(128)]
-    public string LastName { get; set; } = string.Empty;
+    public string? LastName { get; set; }
 }
