@@ -1,6 +1,7 @@
 ﻿using API.Data;
 using API.DTO;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +18,19 @@ public sealed class UserController : ControllerBase
         _context = context;
     }
 
+    [Authorize]
     [HttpGet]
+    public IActionResult Get()
+    {
+        var query = from c in User.Claims
+                    select new { c.Type, c.Value };
+
+        var result = new JsonResult(query);
+
+        return result;
+    }
+
+    [HttpGet("user")]
     public async Task<IEnumerable<User>> GetUsersAsync()
     {
         var query = _context.Users
