@@ -6,12 +6,7 @@ internal static class HostingExtensions
 {
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
-        builder.Services.AddIdentityServer(options =>
-            {
-                options.EmitStaticAudienceClaim = true;
-            })
-
-            .AddInMemoryIdentityResources(Config.IdentityResources)
+        builder.Services.AddIdentityServer()
             .AddInMemoryApiScopes(Config.ApiScopes)
             .AddInMemoryClients(Config.Clients);
 

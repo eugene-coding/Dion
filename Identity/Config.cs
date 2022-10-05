@@ -4,22 +4,16 @@ namespace Identity;
 
 public static class Config
 {
-    private const string _apiScopeName = "api";
+    static Config()
+    {
+        var apiScope = new ApiScope("api", "API");
 
-    public static IEnumerable<IdentityResource> IdentityResources =>
-        new IdentityResource[]
+        ApiScopes = new List<ApiScope>()
         {
-        new IdentityResources.OpenId()
+            apiScope
         };
 
-    public static IEnumerable<ApiScope> ApiScopes =>
-        new List<ApiScope>
-        {
-            new(_apiScopeName, "API")
-        };
-
-    public static IEnumerable<Client> Clients =>
-        new List<Client>
+        Clients = new List<Client>()
         {
             new Client
             {
@@ -31,7 +25,11 @@ public static class Config
                     new Secret("secret".Sha256())
                 },
 
-                AllowedScopes = {_apiScopeName}
+                AllowedScopes = { apiScope.Name }
             }
         };
+    }
+
+    public static IEnumerable<ApiScope> ApiScopes { get; private set; }
+    public static IEnumerable<Client> Clients { get; private set; }
 }
