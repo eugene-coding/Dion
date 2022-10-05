@@ -32,6 +32,26 @@ services.AddAuthentication(bearerSchemeName)
         };
     });
 
+services.AddAuthorization(options =>
+{
+    options.AddPolicy("Api", policy =>
+    {
+        policy
+            .RequireAuthenticatedUser()
+            .RequireClaim("scope", "api");
+    });
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy
+            .WithOrigins("https://localhost:7199")
+            .WithHeaders("authorization");
+    });
+});
+
 services.AddControllers();
 
 var app = builder.Build();
@@ -45,9 +65,11 @@ using (var scope = app.Services.CreateScope())
 
 app.UseHttpsRedirection();
 
+app.UseCors();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapControllers().RequireAuthorization("Api");
 
 app.Run();

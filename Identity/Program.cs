@@ -12,14 +12,27 @@ try
 {
     var builder = WebApplication.CreateBuilder(args);
 
+    builder.Services.AddCors(options =>
+    {
+        options.AddDefaultPolicy(policy =>
+        {
+            policy
+                .WithOrigins("https://localhost:7199")
+                .WithHeaders("authorization");
+        });
+    });
+
     builder.Host.UseSerilog((ctx, lc) => lc
         .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}")
         .Enrich.FromLogContext()
         .ReadFrom.Configuration(ctx.Configuration));
 
     var app = builder
-        .ConfigureServices()
-        .ConfigurePipeline();
+        .ConfigureServices();
+
+    app.UseCors();
+
+    app.ConfigurePipeline();
 
     app.Run();
 }
