@@ -13,7 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UI\UI.csproj" />
+    <ProjectReference Include="..\..\UI\UI.csproj" />
+    <ProjectReference Include="..\Shared\Web.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
