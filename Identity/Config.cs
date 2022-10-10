@@ -11,9 +11,8 @@ public static class Config
 
         var apiScope = new ApiScope("api", "API");
         
-        var clientUrl = new Uri("https://localhost:5002");
-        var signInUrl = new Uri($"{clientUrl}signin-oidc");
-        var signOutUrl = new Uri($"{clientUrl}signout-callback-oidc");
+        var signInUrl = new Uri($"{Shared.Config.WebUrl}signin-oidc");
+        var signOutUrl = new Uri($"{Shared.Config.WebUrl}signout-callback-oidc");
 
         ApiScopes = new List<ApiScope>()
         {

@@ -3,6 +3,8 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
+using Shared;
+
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
@@ -24,7 +26,7 @@ const string bearerSchemeName = "Bearer";
 services.AddAuthentication(bearerSchemeName)
     .AddJwtBearer(bearerSchemeName, options =>
     {
-        options.Authority = "https://localhost:5001";
+        options.Authority = Config.IdentityUrl;
 
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -47,7 +49,7 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policy =>
     {
         policy
-            .WithOrigins("https://localhost:7199", "https://localhost:5002")
+            .WithOrigins("https://localhost:7199", Config.WebUrl)
             .WithHeaders("authorization");
     });
 });

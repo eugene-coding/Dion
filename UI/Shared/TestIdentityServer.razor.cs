@@ -2,6 +2,8 @@
 
 using Microsoft.AspNetCore.Components;
 
+using Shared;
+
 using System.Text.Json;
 
 namespace UI.Shared;
@@ -18,7 +20,7 @@ public partial class TestIdentityServer
 
     public async Task GetAsync()
     {
-        var disco = await Client.GetDiscoveryDocumentAsync("https://localhost:5001");
+        var disco = await Client.GetDiscoveryDocumentAsync(Config.IdentityUrl);
 
         if (disco.IsError)
         {
@@ -43,7 +45,7 @@ public partial class TestIdentityServer
     {
         Client.SetBearerToken(_token?.AccessToken);
 
-        var response = await Client.GetAsync("https://localhost:6001/user");
+        var response = await Client.GetAsync($"{Config.ApiUrl}/user");
         
         if (!response.IsSuccessStatusCode)
         {

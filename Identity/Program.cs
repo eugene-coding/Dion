@@ -17,7 +17,7 @@ try
         options.AddDefaultPolicy(policy =>
         {
             policy
-                .WithOrigins("https://localhost:7199", "https://localhost:5002")
+                .WithOrigins("https://localhost:7199", Shared.Config.WebUrl)
                 .WithHeaders("authorization");
         });
     });

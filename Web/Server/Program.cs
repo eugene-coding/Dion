@@ -1,3 +1,5 @@
+using Shared;
+
 using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,7 +10,6 @@ services.AddRazorPages();
 
 const string defaultSchemeName = "Cookies";
 const string defaultChallengeSchemeName = "oidc";
-var identityServerUrl = new Uri("https://localhost:5001");
 
 JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
@@ -20,7 +21,7 @@ services.AddAuthentication(options =>
     .AddCookie(defaultSchemeName)
     .AddOpenIdConnect(defaultChallengeSchemeName, options =>
     {
-        options.Authority = identityServerUrl.ToString();
+        options.Authority = Config.IdentityUrl;
 
         options.ClientId = "user";
         options.ClientSecret = "secret";
