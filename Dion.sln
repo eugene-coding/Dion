@@ -2,22 +2,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mobile", "Mobile\Mobile.csproj", "{DEE3C7B0-9E6C-4FCF-8382-B57C8C483110}"
-	ProjectSection(ProjectDependencies) = postProject
-		{F777D036-7871-47F4-9E2C-446960406BBA} = {F777D036-7871-47F4-9E2C-446960406BBA}
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{1F25E976-F5FC-444F-983C-7BF35D76AAA6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI", "UI\UI.csproj", "{F777D036-7871-47F4-9E2C-446960406BBA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity", "Identity\Identity.csproj", "{D73DCBDF-FECD-4A50-AB18-9BDCC69317CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Server", "Web\Server\Web.Server.csproj", "{2BFA97AE-971A-49FF-AFFE-4710D6A0EB1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Server", "Web\Server\Web.Server.csproj", "{2BFA97AE-971A-49FF-AFFE-4710D6A0EB1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Client", "Web\Client\Web.Client.csproj", "{875F10E9-9BF3-4DD6-9E25-8D58B8149917}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Client", "Web\Client\Web.Client.csproj", "{875F10E9-9BF3-4DD6-9E25-8D58B8149917}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Shared", "Web\Shared\Web.Shared.csproj", "{C4BD9A64-5389-4E39-B201-B8AF843C9E1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Shared", "Web\Shared\Web.Shared.csproj", "{C4BD9A64-5389-4E39-B201-B8AF843C9E1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,12 +20,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DEE3C7B0-9E6C-4FCF-8382-B57C8C483110}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DEE3C7B0-9E6C-4FCF-8382-B57C8C483110}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DEE3C7B0-9E6C-4FCF-8382-B57C8C483110}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{DEE3C7B0-9E6C-4FCF-8382-B57C8C483110}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DEE3C7B0-9E6C-4FCF-8382-B57C8C483110}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DEE3C7B0-9E6C-4FCF-8382-B57C8C483110}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{1F25E976-F5FC-444F-983C-7BF35D76AAA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1F25E976-F5FC-444F-983C-7BF35D76AAA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F25E976-F5FC-444F-983C-7BF35D76AAA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
