@@ -47,7 +47,7 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policy =>
     {
         policy
-            .WithOrigins("https://localhost:7199")
+            .WithOrigins("https://localhost:7199", "https://localhost:5002")
             .WithHeaders("authorization");
     });
 });

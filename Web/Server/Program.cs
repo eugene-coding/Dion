@@ -1,7 +1,38 @@
-var builder = WebApplication.CreateBuilder(args);
+using System.IdentityModel.Tokens.Jwt;
 
-builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
+var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
+
+services.AddControllersWithViews();
+services.AddRazorPages();
+
+const string defaultSchemeName = "Cookies";
+const string defaultChallengeSchemeName = "oidc";
+var identityServerUrl = new Uri("https://localhost:5001");
+
+JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
+
+services.AddAuthentication(options =>
+{
+    options.DefaultScheme = defaultSchemeName;
+    options.DefaultChallengeScheme = defaultChallengeSchemeName;
+})
+    .AddCookie(defaultSchemeName)
+    .AddOpenIdConnect(defaultChallengeSchemeName, options =>
+    {
+        options.Authority = identityServerUrl.ToString();
+
+        options.ClientId = "user";
+        options.ClientSecret = "secret";
+        options.ResponseType = "code";
+
+        options.Scope.Clear();
+        options.Scope.Add("openid");
+        options.Scope.Add("profile");
+
+        options.SaveTokens = true;
+    });
+
 
 var app = builder.Build();
 
@@ -22,8 +53,10 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 
-app.MapRazorPages();
+app.MapRazorPages().RequireAuthorization();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 
