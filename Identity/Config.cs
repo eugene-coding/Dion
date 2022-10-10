@@ -7,6 +7,8 @@ public static class Config
 {
     static Config()
     {
+        const string secret = "secret";
+
         var apiScope = new ApiScope("api", "API");
         
         var clientUrl = new Uri("https://localhost:5002");
@@ -27,7 +29,7 @@ public static class Config
 
                 ClientSecrets =
                 {
-                    new Secret("secret".Sha256())
+                    new Secret(secret.Sha256())
                 },
 
                 AllowedScopes = { apiScope.Name }
@@ -39,7 +41,7 @@ public static class Config
 
                 ClientSecrets =
                 {
-                    new Secret("secret".Sha256())
+                    new Secret(secret.Sha256())
                 },
 
                 AllowedGrantTypes = GrantTypes.Code,
