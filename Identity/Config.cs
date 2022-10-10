@@ -11,8 +11,8 @@ public static class Config
 
         var apiScope = new ApiScope("api", "API");
         
-        var signInUrl = new Uri($"{Shared.Config.WebUrl}signin-oidc");
-        var signOutUrl = new Uri($"{Shared.Config.WebUrl}signout-callback-oidc");
+        var signInUrl = $"{Shared.Config.WebUrl}/signin-oidc";
+        var signOutUrl = $"{Shared.Config.WebUrl}/signout-callback-oidc";
 
         ApiScopes = new List<ApiScope>()
         {
@@ -44,8 +44,8 @@ public static class Config
                 },
 
                 AllowedGrantTypes = GrantTypes.Code,
-                RedirectUris = { signInUrl.ToString() },
-                PostLogoutRedirectUris = { signOutUrl.ToString() },
+                RedirectUris = { signInUrl },
+                PostLogoutRedirectUris = { signOutUrl },
 
                 AllowedScopes = new List<string>
                 {
