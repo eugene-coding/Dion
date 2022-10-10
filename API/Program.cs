@@ -50,7 +50,7 @@ builder.Services.AddCors(options =>
     {
         policy
             .WithOrigins(Config.WebUrl)
-            .WithHeaders("authorization");
+            .WithHeaders(Config.OidcCorsHeader);
     });
 });
 

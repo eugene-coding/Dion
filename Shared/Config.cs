@@ -2,6 +2,10 @@
 
 public static class Config
 {
+    public const string CookieSchemeName = "cookies";
+    public const string OidcSchemeName = "oidc";
+    public const string OidcCorsHeader = "authorization";
+
     private readonly static string _baseUrl = "https://localhost";
 
     public static string ApiUrl => $"{_baseUrl}:6001";

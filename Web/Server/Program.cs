@@ -8,18 +8,15 @@ var services = builder.Services;
 services.AddControllersWithViews();
 services.AddRazorPages();
 
-const string defaultSchemeName = "Cookies";
-const string defaultChallengeSchemeName = "oidc";
-
 JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
 services.AddAuthentication(options =>
 {
-    options.DefaultScheme = defaultSchemeName;
-    options.DefaultChallengeScheme = defaultChallengeSchemeName;
+    options.DefaultScheme = Config.CookieSchemeName;
+    options.DefaultChallengeScheme = Config.OidcSchemeName;
 })
-    .AddCookie(defaultSchemeName)
-    .AddOpenIdConnect(defaultChallengeSchemeName, options =>
+    .AddCookie(Config.CookieSchemeName)
+    .AddOpenIdConnect(Config.OidcSchemeName, options =>
     {
         options.Authority = Config.IdentityUrl;
 

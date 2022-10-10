@@ -18,7 +18,7 @@ try
         {
             policy
                 .WithOrigins(Shared.Config.WebUrl)
-                .WithHeaders("authorization");
+                .WithHeaders(Shared.Config.OidcCorsHeader);
         });
     });
 
