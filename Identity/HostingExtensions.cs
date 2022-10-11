@@ -1,3 +1,5 @@
+using Duende.IdentityServer;
+
 using Serilog;
 
 namespace Identity;
@@ -6,13 +8,23 @@ internal static class HostingExtensions
 {
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
-        builder.Services.AddRazorPages();
+        var services = builder.Services;
 
-        builder.Services.AddIdentityServer()
+        services.AddRazorPages();
+
+        services.AddIdentityServer()
             .AddInMemoryApiScopes(Config.ApiScopes)
             .AddInMemoryClients(Config.Clients)
             .AddInMemoryIdentityResources(Config.IdentityResources)
             .AddTestUsers(TestUsers.Users);
+
+        services.AddAuthentication()
+            .AddGoogle("Google", options =>
+            {
+                options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+                options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+            });
 
         return builder.Build();
     }

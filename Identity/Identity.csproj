@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>d2705bb5-f376-4f9c-aebf-335bbd44d6b6</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -109,6 +110,7 @@
   
   <ItemGroup>
     <PackageReference Include="Duende.IdentityServer" Version="6.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.9" />
 
     <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
   </ItemGroup>
