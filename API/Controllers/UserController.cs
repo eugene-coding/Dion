@@ -8,6 +8,7 @@ using Shared.DTO;
 
 namespace API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public sealed class UserController : ControllerBase
@@ -19,7 +20,6 @@ public sealed class UserController : ControllerBase
         _context = context;
     }
 
-    [Authorize]
     [HttpGet]
     public IActionResult Get()
     {
