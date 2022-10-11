@@ -44,13 +44,16 @@ public static class Config
                 },
 
                 AllowedGrantTypes = GrantTypes.Code,
+                AllowOfflineAccess = true,
                 RedirectUris = { signInUrl },
                 PostLogoutRedirectUris = { signOutUrl },
 
                 AllowedScopes = new List<string>
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
-                    IdentityServerConstants.StandardScopes.Profile
+                    IdentityServerConstants.StandardScopes.Profile,
+                    IdentityServerConstants.StandardScopes.OfflineAccess,
+                    apiScope.Name
                 }
             }
         };

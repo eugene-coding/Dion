@@ -1,3 +1,5 @@
+using Duende.IdentityServer;
+
 using Shared;
 
 using System.IdentityModel.Tokens.Jwt;
@@ -25,12 +27,14 @@ services.AddAuthentication(options =>
         options.ResponseType = "code";
 
         options.Scope.Clear();
-        options.Scope.Add("openid");
-        options.Scope.Add("profile");
+        options.Scope.Add(IdentityServerConstants.StandardScopes.OpenId);
+        options.Scope.Add(IdentityServerConstants.StandardScopes.Profile);
+        options.Scope.Add(IdentityServerConstants.StandardScopes.OfflineAccess);
+        options.Scope.Add("api");
+        options.GetClaimsFromUserInfoEndpoint = true;
 
         options.SaveTokens = true;
     });
-
 
 var app = builder.Build();
 
