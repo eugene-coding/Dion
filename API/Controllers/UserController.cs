@@ -1,9 +1,10 @@
 ﻿using API.Data;
-using API.DTO;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
+using Shared.DTO;
 
 namespace API.Controllers;
 

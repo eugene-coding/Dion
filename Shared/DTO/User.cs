@@ -1,4 +1,4 @@
-﻿namespace API.DTO;
+﻿namespace Shared.DTO;
 
 public sealed class User
 {
