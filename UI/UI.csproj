@@ -11,4 +11,8 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.9" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Shared\" />
+	</ItemGroup>
+
 </Project>
