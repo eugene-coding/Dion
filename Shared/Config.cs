@@ -5,6 +5,7 @@ public static class Config
     public const string CookieSchemeName = "cookies";
     public const string OidcSchemeName = "oidc";
     public const string OidcCorsHeader = "authorization";
+    public const string BearerSchemeName = "bearer";
 
     private readonly static string _baseUrl = "https://localhost";
 

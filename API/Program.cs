@@ -21,10 +21,8 @@ services.AddDbContext<Context>(options =>
     });
 });
 
-const string bearerSchemeName = "Bearer";
-
-services.AddAuthentication(bearerSchemeName)
-    .AddJwtBearer(bearerSchemeName, options =>
+services.AddAuthentication(Config.BearerSchemeName)
+    .AddJwtBearer(Config.BearerSchemeName, options =>
     {
         options.Authority = Config.IdentityUrl;
 
