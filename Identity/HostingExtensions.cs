@@ -1,4 +1,10 @@
 using Duende.IdentityServer;
+using Duende.IdentityServer.EntityFramework.DbContexts;
+using Duende.IdentityServer.EntityFramework.Mappers;
+
+using Identity.Data;
+
+using Microsoft.EntityFrameworkCore;
 
 using Serilog;
 
@@ -12,10 +18,17 @@ internal static class HostingExtensions
 
         services.AddRazorPages();
 
+        var connectionString = builder.Configuration["IdentityServer:ConnectionString"];
+
         services.AddIdentityServer()
-            .AddInMemoryApiScopes(Config.ApiScopes)
-            .AddInMemoryClients(Config.Clients)
-            .AddInMemoryIdentityResources(Config.IdentityResources)
+            .AddConfigurationStore(options =>
+            {
+                options.ConfigureDbContext = builder => ConfigureDbContext(builder, connectionString);
+            })
+            .AddOperationalStore(options =>
+            {
+                options.ConfigureDbContext = builder => ConfigureDbContext(builder, connectionString);
+            })
             .AddTestUsers(TestUsers.Users);
 
         services.AddAuthentication()
@@ -38,6 +51,13 @@ internal static class HostingExtensions
             app.UseDeveloperExceptionPage();
         }
 
+        using (var scope = app.Services.CreateScope())
+        {
+            var serviceProvider = scope.ServiceProvider;
+
+            SeedData.Initialize(serviceProvider);
+        }
+
         app.UseStaticFiles();
         app.UseRouting();
 
@@ -50,5 +70,16 @@ internal static class HostingExtensions
             .RequireAuthorization();
 
         return app;
+    }
+
+    private static void ConfigureDbContext(DbContextOptionsBuilder builder, string connectionString)
+    {
+        var serverVersion = ServerVersion.AutoDetect(connectionString);
+        var migrationAssembly = typeof(Program).Assembly.GetName().Name;
+
+        builder.UseMySql(connectionString, serverVersion, options =>
+        {
+            options.MigrationsAssembly(migrationAssembly);
+        });
     }
 }

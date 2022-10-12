@@ -38,7 +38,10 @@ try
 }
 catch (Exception ex)
 {
-    Log.Fatal(ex, "Unhandled exception");
+    if (ex.GetType().Name != "StopTheHostException")
+    {
+        Log.Fatal(ex, "Unhandled exception");
+    }
 }
 finally
 {
