@@ -1,0 +1,15 @@
+﻿<AuthorizeView>
+    <Authorized>
+        <section>
+            <h2>Your claims:</h2>
+
+            <dl>
+                @foreach (var claim in @context.User.Claims)
+                {
+                    <dt>@claim.Type</dt>
+                    <dd>@claim.Value</dd>
+                }
+            </dl>
+        </section>
+    </Authorized>
+</AuthorizeView>

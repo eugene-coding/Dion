@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Client", "Web\Client\We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{716DDED6-FD30-49EA-92DB-A91456DF33E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity", "Identity\Identity.csproj", "{ED6F78CE-167C-4912-A403-DEFDBB44486E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity", "Identity\Identity.csproj", "{ED6F78CE-167C-4912-A403-DEFDBB44486E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
