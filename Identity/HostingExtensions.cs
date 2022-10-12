@@ -1,9 +1,9 @@
 using Duende.IdentityServer;
-using Duende.IdentityServer.EntityFramework.DbContexts;
-using Duende.IdentityServer.EntityFramework.Mappers;
 
 using Identity.Data;
+using Identity.Models;
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using Serilog;
@@ -18,23 +18,48 @@ internal static class HostingExtensions
 
         services.AddRazorPages();
 
-        var connectionString = builder.Configuration["IdentityServer:ConnectionString"];
+        var optionsSettings = new OptionsSettings(builder);
 
-        services.AddIdentityServer()
-            .AddConfigurationStore(options =>
-            {
-                options.ConfigureDbContext = builder => ConfigureDbContext(builder, connectionString);
-            })
-            .AddOperationalStore(options =>
-            {
-                options.ConfigureDbContext = builder => ConfigureDbContext(builder, connectionString);
-            })
-            .AddTestUsers(TestUsers.Users);
+        services.AddDbContext<ApplicationDbContext>(options =>
+        {
+            ConfigureDbContextOptions(options, optionsSettings);
+        });
+
+        services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+        services
+            .AddIdentityServer(options =>
+                {
+                    options.Events.RaiseErrorEvents = true;
+                    options.Events.RaiseInformationEvents = true;
+                    options.Events.RaiseFailureEvents = true;
+                    options.Events.RaiseSuccessEvents = true;
+
+                    options.EmitStaticAudienceClaim = true;
+                })
+                .AddConfigurationStore(options =>
+                {
+                    options.ConfigureDbContext = options =>
+                    {
+                        ConfigureDbContextOptions(options, optionsSettings);
+                    };
+                })
+                .AddOperationalStore(options =>
+                {
+                    options.ConfigureDbContext = options =>
+                    {
+                        ConfigureDbContextOptions(options, optionsSettings);
+                    };
+                })
+                .AddAspNetIdentity<ApplicationUser>();
 
         services.AddAuthentication()
-            .AddGoogle("Google", options =>
+            .AddGoogle(options =>
             {
                 options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+
                 options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
                 options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
             });
@@ -54,32 +79,42 @@ internal static class HostingExtensions
         using (var scope = app.Services.CreateScope())
         {
             var serviceProvider = scope.ServiceProvider;
-
-            SeedData.Initialize(serviceProvider);
+            SeedData.InitializeIdentityServer(serviceProvider);
         }
 
         app.UseStaticFiles();
         app.UseRouting();
-
         app.UseIdentityServer();
-
         app.UseAuthorization();
 
-        app
-            .MapRazorPages()
+        app.MapRazorPages()
             .RequireAuthorization();
 
         return app;
     }
 
-    private static void ConfigureDbContext(DbContextOptionsBuilder builder, string connectionString)
+    private static void ConfigureDbContextOptions(DbContextOptionsBuilder options, OptionsSettings settings)
     {
-        var serverVersion = ServerVersion.AutoDetect(connectionString);
-        var migrationAssembly = typeof(Program).Assembly.GetName().Name;
-
-        builder.UseMySql(connectionString, serverVersion, options =>
+        options.UseMySql(settings.ConnectionString, settings.ServerVersion, options =>
         {
-            options.MigrationsAssembly(migrationAssembly);
+            options.MigrationsAssembly(settings.AssemblyName);
+            options.EnableRetryOnFailure();
+            options.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
         });
+    }
+
+    private struct OptionsSettings
+    {
+        public OptionsSettings(WebApplicationBuilder builder)
+        {
+            ConnectionString = builder.Configuration["IdentityServer:ConnectionString"];
+            ServerVersion = ServerVersion.AutoDetect(ConnectionString);
+
+            AssemblyName = typeof(Program).Assembly.GetName().Name;
+        }
+
+        public string ConnectionString { get; set; }
+        public ServerVersion ServerVersion { get; set; }
+        public string AssemblyName { get; set; }
     }
 }

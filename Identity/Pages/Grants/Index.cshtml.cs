@@ -1,11 +1,13 @@
-using System.ComponentModel.DataAnnotations;
 using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Extensions;
 using Duende.IdentityServer.Services;
 using Duende.IdentityServer.Stores;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+
+using System.ComponentModel.DataAnnotations;
 
 namespace Identity.Pages.Grants;
 
@@ -30,7 +32,7 @@ public class Index : PageModel
     }
 
     public ViewModel View { get; set; }
-        
+
     public async Task OnGet()
     {
         var grants = await _interaction.GetAllUserGrantsAsync();

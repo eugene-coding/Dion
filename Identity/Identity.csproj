@@ -1,126 +1,34 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>d2705bb5-f376-4f9c-aebf-335bbd44d6b6</UserSecretsId>
+	  <TargetFramework>net6.0</TargetFramework>
+	  <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>98575607-2e25-4fe9-b6e7-955d62ded8d9</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\css\site.css" />
-    <Content Remove="wwwroot\css\site.min.css" />
-    <Content Remove="wwwroot\css\site.scss" />
-    <Content Remove="wwwroot\duende-logo.svg" />
-    <Content Remove="wwwroot\favicon.ico" />
-    <Content Remove="wwwroot\js\signin-redirect.js" />
-    <Content Remove="wwwroot\js\signout-redirect.js" />
-    <Content Remove="wwwroot\lib\bootstrap4-glyphicons\css\bootstrap-glyphicons.css" />
-    <Content Remove="wwwroot\lib\bootstrap4-glyphicons\css\bootstrap-glyphicons.min.css" />
-    <Content Remove="wwwroot\lib\bootstrap4-glyphicons\fonts\glyphicons\glyphicons-halflings-regular.eot" />
-    <Content Remove="wwwroot\lib\bootstrap4-glyphicons\fonts\glyphicons\glyphicons-halflings-regular.svg" />
-    <Content Remove="wwwroot\lib\bootstrap4-glyphicons\fonts\glyphicons\glyphicons-halflings-regular.ttf" />
-    <Content Remove="wwwroot\lib\bootstrap4-glyphicons\fonts\glyphicons\glyphicons-halflings-regular.woff" />
-    <Content Remove="wwwroot\lib\bootstrap4-glyphicons\fonts\glyphicons\glyphicons-halflings-regular.woff2" />
-    <Content Remove="wwwroot\lib\bootstrap4-glyphicons\LICENSE" />
-    <Content Remove="wwwroot\lib\bootstrap4-glyphicons\maps\glyphicons-fontawesome.css" />
-    <Content Remove="wwwroot\lib\bootstrap4-glyphicons\maps\glyphicons-fontawesome.less" />
-    <Content Remove="wwwroot\lib\bootstrap4-glyphicons\maps\glyphicons-fontawesome.min.css" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.css" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
-    <Content Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
-    <Content Remove="wwwroot\lib\bootstrap\LICENSE" />
-    <Content Remove="wwwroot\lib\bootstrap\README.md" />
-    <Content Remove="wwwroot\lib\jquery\dist\jquery.js" />
-    <Content Remove="wwwroot\lib\jquery\dist\jquery.min.js" />
-    <Content Remove="wwwroot\lib\jquery\dist\jquery.min.map" />
-    <Content Remove="wwwroot\lib\jquery\dist\jquery.slim.js" />
-    <Content Remove="wwwroot\lib\jquery\dist\jquery.slim.min.js" />
-    <Content Remove="wwwroot\lib\jquery\dist\jquery.slim.min.map" />
-    <Content Remove="wwwroot\lib\jquery\LICENSE.txt" />
-    <Content Remove="wwwroot\lib\jquery\README.md" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\css\site.css" />
-    <None Include="wwwroot\css\site.min.css" />
-    <None Include="wwwroot\css\site.scss" />
-    <None Include="wwwroot\duende-logo.svg" />
-    <None Include="wwwroot\favicon.ico" />
-    <None Include="wwwroot\js\signin-redirect.js" />
-    <None Include="wwwroot\js\signout-redirect.js" />
-    <None Include="wwwroot\lib\bootstrap4-glyphicons\css\bootstrap-glyphicons.css" />
-    <None Include="wwwroot\lib\bootstrap4-glyphicons\css\bootstrap-glyphicons.min.css" />
-    <None Include="wwwroot\lib\bootstrap4-glyphicons\fonts\glyphicons\glyphicons-halflings-regular.eot" />
-    <None Include="wwwroot\lib\bootstrap4-glyphicons\fonts\glyphicons\glyphicons-halflings-regular.svg" />
-    <None Include="wwwroot\lib\bootstrap4-glyphicons\fonts\glyphicons\glyphicons-halflings-regular.ttf" />
-    <None Include="wwwroot\lib\bootstrap4-glyphicons\fonts\glyphicons\glyphicons-halflings-regular.woff" />
-    <None Include="wwwroot\lib\bootstrap4-glyphicons\fonts\glyphicons\glyphicons-halflings-regular.woff2" />
-    <None Include="wwwroot\lib\bootstrap4-glyphicons\LICENSE" />
-    <None Include="wwwroot\lib\bootstrap4-glyphicons\maps\glyphicons-fontawesome.css" />
-    <None Include="wwwroot\lib\bootstrap4-glyphicons\maps\glyphicons-fontawesome.less" />
-    <None Include="wwwroot\lib\bootstrap4-glyphicons\maps\glyphicons-fontawesome.min.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
-    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
-    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
-    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
-    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
-    <None Include="wwwroot\lib\bootstrap\LICENSE" />
-    <None Include="wwwroot\lib\bootstrap\README.md" />
-    <None Include="wwwroot\lib\jquery\dist\jquery.js" />
-    <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
-    <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
-    <None Include="wwwroot\lib\jquery\dist\jquery.slim.js" />
-    <None Include="wwwroot\lib\jquery\dist\jquery.slim.min.js" />
-    <None Include="wwwroot\lib\jquery\dist\jquery.slim.min.map" />
-    <None Include="wwwroot\lib\jquery\LICENSE.txt" />
-    <None Include="wwwroot\lib\jquery\README.md" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="Duende.IdentityServer" Version="6.1.6" />
+    <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.1.6" />
     <PackageReference Include="Duende.IdentityServer.EntityFramework" Version="6.1.6" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.10" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
 
-    <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
+	<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.10" />
+
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
+
+	<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
+	<PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
+
+	<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.10" />
+	<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.10" />
+	<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.10" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
   </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>

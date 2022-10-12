@@ -34,14 +34,14 @@ try
 
     app.ConfigurePipeline();
 
+    Log.Information("Seeding database...");
+    SeedData.InitializeAspIdentity(app);
+
     app.Run();
 }
-catch (Exception ex)
+catch (Exception ex) when (ex.GetType().Name is not "StopTheHostException")
 {
-    if (ex.GetType().Name != "StopTheHostException")
-    {
-        Log.Fatal(ex, "Unhandled exception");
-    }
+    Log.Fatal(ex, "Unhandled exception");
 }
 finally
 {
