@@ -15,7 +15,9 @@ services.AddDbContext<Context>(options =>
 
     options.UseMySql(connectionString, serverVersion, options =>
     {
-        options.EnableRetryOnFailure();
+        options
+            .EnableRetryOnFailure()
+            .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
     });
 });
 
