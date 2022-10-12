@@ -10,9 +10,7 @@ var services = builder.Services;
 
 services.AddDbContext<Context>(options =>
 {
-    const string connectionStringName = "Database";
-
-    var connectionString = builder.Configuration.GetConnectionString(connectionStringName);
+    var connectionString = builder.Configuration["Api:ConnectionString"];
     var serverVersion = ServerVersion.AutoDetect(connectionString);
 
     options.UseMySql(connectionString, serverVersion, options =>
