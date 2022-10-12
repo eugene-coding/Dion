@@ -71,7 +71,11 @@ app.UseAuthorization();
 
 app.MapBffManagementEndpoints();
 app.MapRazorPages().RequireAuthorization();
-app.MapControllers();
+
+app.MapControllers()
+   .RequireAuthorization()
+   .AsBffApiEndpoint();
+
 app.MapFallbackToFile("index.html");
 
 app.Run();
