@@ -31,9 +31,11 @@ services.AddAuthentication(Config.BearerSchemeName)
         };
     });
 
+const string apiAuthorizationPolicyName = "Api";
+
 services.AddAuthorization(options =>
 {
-    options.AddPolicy("Api", policy =>
+    options.AddPolicy(apiAuthorizationPolicyName, policy =>
     {
         policy.RequireAuthenticatedUser()
               .RequireClaim("scope", "api");
@@ -61,6 +63,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers()
-   .RequireAuthorization("Api");
+   .RequireAuthorization(apiAuthorizationPolicyName);
 
 app.Run();
