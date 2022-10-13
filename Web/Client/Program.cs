@@ -6,23 +6,28 @@ using UI;
 
 using Web.Client;
 
+const string httpClientName = "backend";
+
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
-builder.RootComponents.Add<App>("#app");
-builder.RootComponents.Add<HeadOutlet>("head::after");
+var rootComponents = builder.RootComponents;
+var services = builder.Services;
 
-builder.Services.AddTransient<AntiforgeryHandler>();
+rootComponents.Add<App>("#app");
+rootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddHttpClient("backend", client =>
+services.AddTransient<AntiforgeryHandler>();
+
+services.AddHttpClient(httpClientName, client =>
 {
     client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
 })
     .AddHttpMessageHandler<AntiforgeryHandler>();
 
-builder.Services.AddTransient(sp => 
+services.AddTransient(sp => 
     sp.GetRequiredService<IHttpClientFactory>()
-      .CreateClient("backend"));
+      .CreateClient(httpClientName));
 
-builder.Services.AddAuthorizationCore();
-builder.Services.AddScoped<AuthenticationStateProvider, BffAuthenticationStateProvider>();
+services.AddAuthorizationCore();
+services.AddScoped<AuthenticationStateProvider, BffAuthenticationStateProvider>();
 
 await builder.Build().RunAsync();
