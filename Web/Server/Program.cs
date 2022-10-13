@@ -12,7 +12,7 @@ services.AddRazorPages();
 
 JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
-builder.Services.AddBff();
+services.AddBff();
 
 services.AddAuthentication(options =>
 {
@@ -29,7 +29,7 @@ services.AddAuthentication(options =>
     {
         options.Authority = Config.IdentityUrl;
 
-        options.ClientId = "user";
+        options.ClientId = "bff";
         options.ClientSecret = "secret";
         options.ResponseType = "code";
         options.ResponseMode = "query";

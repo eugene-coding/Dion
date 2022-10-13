@@ -10,36 +10,46 @@ public static class Config
         const string secret = "secret";
         var apiScope = new ApiScope("api", "API");
 
-        var signInUrl = $"{Shared.Config.WebUrl}/signin-oidc";
-        var signOutUrl = $"{Shared.Config.WebUrl}/signout-callback-oidc";
+        var signInUrl = $"{Shared.Config.BffUrl}/signin-oidc";
+        var signOutUrl = $"{Shared.Config.BffUrl}/signout-oidc";
+        var signOutCallbackUrl = $"{Shared.Config.BffUrl}/signout-callback-oidc";
 
         ApiScopes = new List<ApiScope>()
         {
             apiScope
         };
+
         Clients = new List<Client>()
         {
             new Client
             {
                 ClientId = "client",
                 AllowedGrantTypes = GrantTypes.ClientCredentials,
+
                 ClientSecrets =
                 {
                     new Secret(secret.Sha256())
                 },
+
                 AllowedScopes = { apiScope.Name }
             },
+
             new Client
             {
-                ClientId = "user",
+                ClientId = "bff",
+                
                 ClientSecrets =
                 {
                     new Secret(secret.Sha256())
                 },
+
                 AllowedGrantTypes = GrantTypes.Code,
                 AllowOfflineAccess = true,
+
                 RedirectUris = { signInUrl },
-                PostLogoutRedirectUris = { signOutUrl },
+                FrontChannelLogoutUri = signOutUrl,
+                PostLogoutRedirectUris = { signOutCallbackUrl },
+
                 AllowedScopes = new List<string>
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
@@ -49,6 +59,7 @@ public static class Config
                 }
             }
         };
+
         IdentityResources = new List<IdentityResource>()
         {
             new IdentityResources.OpenId(),
