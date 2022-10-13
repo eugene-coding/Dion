@@ -23,9 +23,12 @@ services.AddHttpClient(httpClientName, client =>
 })
     .AddHttpMessageHandler<AntiforgeryHandler>();
 
-services.AddTransient(sp => 
-    sp.GetRequiredService<IHttpClientFactory>()
-      .CreateClient(httpClientName));
+services.AddTransient(serviceProvider => 
+{
+    var httpClientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
+
+    return httpClientFactory.CreateClient(httpClientName);
+});
 
 services.AddAuthorizationCore();
 services.AddScoped<AuthenticationStateProvider, BffAuthenticationStateProvider>();

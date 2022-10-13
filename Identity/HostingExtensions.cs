@@ -29,31 +29,30 @@ internal static class HostingExtensions
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-        services
-            .AddIdentityServer(options =>
-                {
-                    options.Events.RaiseErrorEvents = true;
-                    options.Events.RaiseInformationEvents = true;
-                    options.Events.RaiseFailureEvents = true;
-                    options.Events.RaiseSuccessEvents = true;
+        services.AddIdentityServer(options =>
+        {
+            options.Events.RaiseErrorEvents = true;
+            options.Events.RaiseInformationEvents = true;
+            options.Events.RaiseFailureEvents = true;
+            options.Events.RaiseSuccessEvents = true;
 
-                    options.EmitStaticAudienceClaim = true;
-                })
-                .AddConfigurationStore(options =>
+            options.EmitStaticAudienceClaim = true;
+        })
+            .AddConfigurationStore(options =>
+            {
+                options.ConfigureDbContext = options =>
                 {
-                    options.ConfigureDbContext = options =>
-                    {
-                        ConfigureDbContextOptions(options, optionsSettings);
-                    };
-                })
-                .AddOperationalStore(options =>
+                    ConfigureDbContextOptions(options, optionsSettings);
+                };
+            })
+            .AddOperationalStore(options =>
+            {
+                options.ConfigureDbContext = options =>
                 {
-                    options.ConfigureDbContext = options =>
-                    {
-                        ConfigureDbContextOptions(options, optionsSettings);
-                    };
-                })
-                .AddAspNetIdentity<ApplicationUser>();
+                    ConfigureDbContextOptions(options, optionsSettings);
+                };
+            })
+            .AddAspNetIdentity<ApplicationUser>();
 
         services.AddAuthentication()
             .AddGoogle(options =>
@@ -88,7 +87,7 @@ internal static class HostingExtensions
         app.UseAuthorization();
 
         app.MapRazorPages()
-            .RequireAuthorization();
+           .RequireAuthorization();
 
         return app;
     }

@@ -16,9 +16,8 @@ try
     {
         options.AddDefaultPolicy(policy =>
         {
-            policy
-                .WithOrigins(Shared.Config.WebUrl)
-                .WithHeaders(Shared.Config.OidcCorsHeader);
+            policy.WithOrigins(Shared.Config.WebUrl)
+                  .WithHeaders(Shared.Config.OidcCorsHeader);
         });
     });
 
@@ -27,8 +26,7 @@ try
         .Enrich.FromLogContext()
         .ReadFrom.Configuration(ctx.Configuration));
 
-    var app = builder
-        .ConfigureServices();
+    var app = builder.ConfigureServices();
 
     app.UseCors();
 

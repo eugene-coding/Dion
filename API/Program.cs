@@ -15,9 +15,8 @@ services.AddDbContext<Context>(options =>
 
     options.UseMySql(connectionString, serverVersion, options =>
     {
-        options
-            .EnableRetryOnFailure()
-            .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+        options.EnableRetryOnFailure()
+               .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
     });
 });
 
@@ -36,9 +35,8 @@ services.AddAuthorization(options =>
 {
     options.AddPolicy("Api", policy =>
     {
-        policy
-            .RequireAuthenticatedUser()
-            .RequireClaim("scope", "api");
+        policy.RequireAuthenticatedUser()
+              .RequireClaim("scope", "api");
     });
 });
 
@@ -46,9 +44,8 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy
-            .WithOrigins(Config.WebUrl)
-            .WithHeaders(Config.OidcCorsHeader);
+        policy.WithOrigins(Config.WebUrl)
+              .WithHeaders(Config.OidcCorsHeader);
     });
 });
 
@@ -63,6 +60,7 @@ app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers().RequireAuthorization("Api");
+app.MapControllers()
+   .RequireAuthorization("Api");
 
 app.Run();
