@@ -31,7 +31,7 @@ services.AddAuthentication(Config.BearerSchemeName)
         };
     });
 
-var apiAuthorizationPolicyName = "Api";
+const string apiAuthorizationPolicyName = "Api";
 
 services.AddAuthorization(options =>
 {
