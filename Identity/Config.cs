@@ -10,9 +10,9 @@ public static class Config
         const string secret = "secret";
         var apiScope = new ApiScope("api", "API");
 
-        var signInUrl = $"{Shared.Config.BffUrl}/signin-oidc";
-        var signOutUrl = $"{Shared.Config.BffUrl}/signout-oidc";
-        var signOutCallbackUrl = $"{Shared.Config.BffUrl}/signout-callback-oidc";
+        var signInUrl = $"{Shared.Config.WebUrl}/signin-oidc";
+        var signOutUrl = $"{Shared.Config.WebUrl}/signout-oidc";
+        var signOutCallbackUrl = $"{Shared.Config.WebUrl}/signout-callback-oidc";
 
         ApiScopes = new List<ApiScope>()
         {

@@ -6,7 +6,6 @@ public static class Config
     public const string OidcSchemeName = "oidc";
     public const string OidcCorsHeader = "authorization";
     public const string BearerSchemeName = "bearer";
-    public const string BffUrl = "https://bff_host";
 
     private readonly static string _baseUrl = "https://localhost";
 
