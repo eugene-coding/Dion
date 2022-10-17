@@ -1,20 +1,53 @@
 using API.Data;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+
+using Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
 services.AddDbContext<Context>(options =>
 {
-    const string connectionStringName = "Database";
-
-    var connectionString = builder.Configuration.GetConnectionString(connectionStringName);
+    var connectionString = builder.Configuration["Api:ConnectionString"];
     var serverVersion = ServerVersion.AutoDetect(connectionString);
 
     options.UseMySql(connectionString, serverVersion, options =>
     {
-        options.EnableRetryOnFailure();
+        options.EnableRetryOnFailure()
+               .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+    });
+});
+
+services.AddAuthentication(Config.BearerSchemeName)
+    .AddJwtBearer(Config.BearerSchemeName, options =>
+    {
+        options.Authority = Config.IdentityUrl;
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = false
+        };
+    });
+
+const string apiAuthorizationPolicyName = "Api";
+
+services.AddAuthorization(options =>
+{
+    options.AddPolicy(apiAuthorizationPolicyName, policy =>
+    {
+        policy.RequireAuthenticatedUser()
+              .RequireClaim("scope", "api");
+    });
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins(Config.WebUrl)
+              .WithHeaders(Config.OidcCorsHeader);
     });
 });
 
@@ -22,17 +55,14 @@ services.AddControllers();
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var serviceProvider = scope.ServiceProvider;
-
-    SeedData.Initialize(serviceProvider);
-}
-
 app.UseHttpsRedirection();
 
+app.UseCors();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapControllers()
+   .RequireAuthorization(apiAuthorizationPolicyName);
 
 app.Run();
