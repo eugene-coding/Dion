@@ -30,6 +30,7 @@ services.AddTransient(serviceProvider =>
     return httpClientFactory.CreateClient(httpClientName);
 });
 
+services.AddLocalization();
 services.AddAuthorizationCore();
 services.AddScoped<AuthenticationStateProvider, BffAuthenticationStateProvider>();
 
