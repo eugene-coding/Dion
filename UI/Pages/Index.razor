@@ -19,44 +19,44 @@
             <div class="inner-profile d-inline-flex flex-row">
                 <img height="60" width="60" title=@Localization["Profile"] class="inner-profile__photo" src="https://placehold.jp/000000/ffffff/60x60.png" />
 
-                <div class="inner-profile-text">
-                    <h1 class="inner-profile-text__name title">Pavel Sergeev</h1>
-                    <p class="text inner-profile-text__description">ASP.Net Developer</p>
+                <div itemscope itemtype="http://schema.org/Person" class="inner-profile-text">
+                    <h1 itemprop="name" class="inner-profile-text__name title">Pavel Sergeev</h1>
+                    <p itemprop="description" class="text inner-profile-text__description">ASP.Net Developer</p>
                 </div>
             </div>
         </header>
 
-        <section class="socials">
-            <h2 class="socials__title title">@Localization["Contacts"]</h2>
+        <section itemscope itemtype="http://schema.org/Article" class="socials">
+            <h2 itemprop="headline" class="socials__title title">Contacts</h2>
             <ul class="socials-list">
                 <li class="d-flex flex-row">
                     <a class="socials-list-link d-flex flex-row" href="mailto:2916675@gmail.com">
                         <i class="socials-list__icon fa-solid fa-envelope"></i>
-                        <p class="socials-list__text title text">2916675@gmail.com</p>
+                        <p itemprop="associatedMedia" class="socials-list__text title text">2916675@gmail.com</p>
                     </a>
                 </li>
                 <li class="d-flex flex-row">
                     <a class="socials-list-link d-flex flex-row" href="tel:+123456789">
                         <i class="socials-list__icon fa-solid fa-phone"></i>
-                        <p class="socials-list__text title text">+123456789</p>
+                        <p itemprop="associatedMedia" class="socials-list__text title text">+123456789</p>
                     </a>
                 </li>
                 <li class="d-flex flex-row">
                     <a class="socials-list-link d-flex flex-row" href="https://github.com/Good1Cheese" target="_blank">
                         <i class="socials-list__icon fa-brands fa-github"></i>
-                        <p class="socials-list__text title text">Good1Cheese</p>
+                        <p itemprop="associatedMedia" class="socials-list__text title text">Good1Cheese</p>
                     </a>
                 </li>
                 <li class="d-flex flex-row">
                     <a class="socials-list-link d-flex flex-row" href="https://t.me/Good1Cheese" target="_blank">
                         <i class="socials-list__icon fa-brands fa-telegram"></i>
-                        <p class="socials-list__text title text">Good1Cheese</p>
+                        <p itemprop="associatedMedia" class="socials-list__text title text">Good1Cheese</p>
                     </a>
                 </li>
                 <li class="d-flex flex-row">
                     <a class="socials-list-link d-flex flex-row" href="https://vk.com/pashkevich31" target="_blank">
                         <i class="socials-list__icon fa-brands fa-vk"></i>
-                        <p class="socials-list__text title text">pashkevich31</p>
+                        <p itemprop="associatedMedia" class="socials-list__text title text">pashkevich31</p>
                     </a>
                 </li>
             </ul>
