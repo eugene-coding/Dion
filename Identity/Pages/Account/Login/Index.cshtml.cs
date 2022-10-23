@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 
 namespace Identity.Pages.Login;
 
@@ -25,6 +26,7 @@ public class Index : PageModel
     private readonly IIdentityProviderStore _identityProviderStore;
 
     public ViewModel View { get; set; }
+    public IStringLocalizer<Index> Text { get; private init; }
 
     [BindProperty]
     public InputModel Input { get; set; }
@@ -34,6 +36,7 @@ public class Index : PageModel
         IAuthenticationSchemeProvider schemeProvider,
         IIdentityProviderStore identityProviderStore,
         IEventService events,
+        IStringLocalizer<Index> text,
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager)
     {
@@ -43,6 +46,8 @@ public class Index : PageModel
         _schemeProvider = schemeProvider;
         _identityProviderStore = identityProviderStore;
         _events = events;
+        
+        Text = text;
     }
 
     public async Task<IActionResult> OnGet(string returnUrl)
@@ -93,6 +98,7 @@ public class Index : PageModel
         if (ModelState.IsValid)
         {
             var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberLogin, lockoutOnFailure: true);
+
             if (result.Succeeded)
             {
                 var user = await _userManager.FindByNameAsync(Input.Username);
@@ -133,6 +139,7 @@ public class Index : PageModel
 
         // something went wrong, show form with error
         await BuildModelAsync(Input.ReturnUrl);
+
         return Page();
     }
 
@@ -144,6 +151,7 @@ public class Index : PageModel
         };
 
         var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
+
         if (context?.IdP != null && await _schemeProvider.GetSchemeAsync(context.IdP) != null)
         {
             var local = context.IdP == Duende.IdentityServer.IdentityServerConstants.LocalIdentityProvider;
@@ -181,14 +189,16 @@ public class Index : PageModel
                 AuthenticationScheme = x.Scheme,
                 DisplayName = x.DisplayName
             });
-        providers.AddRange(dyanmicSchemes);
 
+        providers.AddRange(dyanmicSchemes);
 
         var allowLocal = true;
         var client = context?.Client;
+
         if (client != null)
         {
             allowLocal = client.EnableLocalLogin;
+
             if (client.IdentityProviderRestrictions != null && client.IdentityProviderRestrictions.Any())
             {
                 providers = providers.Where(provider => client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme)).ToList();
