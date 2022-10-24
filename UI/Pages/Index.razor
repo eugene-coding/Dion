@@ -2,7 +2,7 @@
 @using Microsoft.Extensions.Localization
 
 <div style="background-color:#FFCE0B;" class="d-flex justify-content-center min-vh-100">
-    <article class="main d-flex flex-column m-auto">
+    <article itemscope itemtype="http://schema.org/Person" class="main d-flex flex-column m-auto">
         <nav class="header d-flex flex-row-reverse">
             <button title=@Text["Edit"] type="submit" class="header__button">
                 <img height="24" width="24" alt=@Text["Edit"] title=@Text["Edit"] class="header__icon" src="_content/UI/edit-icon.svg" />
@@ -19,44 +19,43 @@
             <div class="inner-profile d-inline-flex flex-row">
                 <img height="60" width="60" title=@Text["Profile"] class="inner-profile__photo" src="https://placehold.jp/000000/ffffff/60x60.png" />
 
-                <div itemscope itemtype="http://schema.org/Person" class="inner-profile-text">
+                <div class="inner-profile-text">
                     <h1 itemprop="name" class="inner-profile-text__name title">Pavel Sergeev</h1>
                     <p itemprop="description" class="text inner-profile-text__description">ASP.Net Developer</p>
                 </div>
             </div>
         </header>
 
-        <section itemscope itemtype="http://schema.org/Article" class="socials">
-            <h2 itemprop="headline" class="socials__title title">Contacts</h2>
+        <section class="socials">
             <ul class="socials-list">
                 <li class="d-flex flex-row">
                     <a class="socials-list-link d-flex flex-row" href="mailto:2916675@gmail.com">
                         <i class="socials-list__icon fa-solid fa-envelope"></i>
-                        <p itemprop="associatedMedia" class="socials-list__text title text">2916675@gmail.com</p>
+                        <p itemprop="sameAs" class="socials-list__text title text">2916675@gmail.com</p>
                     </a>
                 </li>
                 <li class="d-flex flex-row">
                     <a class="socials-list-link d-flex flex-row" href="tel:+123456789">
                         <i class="socials-list__icon fa-solid fa-phone"></i>
-                        <p itemprop="associatedMedia" class="socials-list__text title text">+123456789</p>
+                        <p itemprop="sameAs" class="socials-list__text title text">+123456789</p>
                     </a>
                 </li>
                 <li class="d-flex flex-row">
                     <a class="socials-list-link d-flex flex-row" href="https://github.com/Good1Cheese" target="_blank">
                         <i class="socials-list__icon fa-brands fa-github"></i>
-                        <p itemprop="associatedMedia" class="socials-list__text title text">Good1Cheese</p>
+                        <p itemprop="sameAs" class="socials-list__text title text">Good1Cheese</p>
                     </a>
                 </li>
                 <li class="d-flex flex-row">
                     <a class="socials-list-link d-flex flex-row" href="https://t.me/Good1Cheese" target="_blank">
                         <i class="socials-list__icon fa-brands fa-telegram"></i>
-                        <p itemprop="associatedMedia" class="socials-list__text title text">Good1Cheese</p>
+                        <p itemprop="sameAs" class="socials-list__text title text">Good1Cheese</p>
                     </a>
                 </li>
                 <li class="d-flex flex-row">
                     <a class="socials-list-link d-flex flex-row" href="https://vk.com/pashkevich31" target="_blank">
                         <i class="socials-list__icon fa-brands fa-vk"></i>
-                        <p itemprop="associatedMedia" class="socials-list__text title text">pashkevich31</p>
+                        <p itemprop="sameAs" class="socials-list__text title text">pashkevich31</p>
                     </a>
                 </li>
             </ul>
