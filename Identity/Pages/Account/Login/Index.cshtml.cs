@@ -166,31 +166,13 @@ public class Index : PageModel
 
             if (!local)
             {
-                View.ExternalProviders = new[] { new ViewModel.ExternalProvider { AuthenticationScheme = context.IdP } };
+                View.ExternalProviders = new[] { new ExternalProvider { AuthenticationScheme = context.IdP } };
             }
 
             return;
         }
 
-        var schemes = await _schemeProvider.GetAllSchemesAsync();
-
-        var providers = schemes
-            .Where(x => x.DisplayName != null)
-            .Select(x => new ViewModel.ExternalProvider
-            {
-                DisplayName = x.DisplayName ?? x.Name,
-                AuthenticationScheme = x.Name
-            }).ToList();
-
-        var dyanmicSchemes = (await _identityProviderStore.GetAllSchemeNamesAsync())
-            .Where(x => x.Enabled)
-            .Select(x => new ViewModel.ExternalProvider
-            {
-                AuthenticationScheme = x.Scheme,
-                DisplayName = x.DisplayName
-            });
-
-        providers.AddRange(dyanmicSchemes);
+        var providers = await GetExternalProvidersAsync();
 
         var allowLocal = true;
         var client = context?.Client;
@@ -211,5 +193,44 @@ public class Index : PageModel
             EnableLocalLogin = allowLocal && LoginOptions.AllowLocalLogin,
             ExternalProviders = providers.ToArray()
         };
+    }
+
+    private async Task<List<ExternalProvider>> GetExternalProvidersAsync()
+    {
+        var schemes = await _schemeProvider.GetAllSchemesAsync();
+        var identityProviderNames = await _identityProviderStore.GetAllSchemeNamesAsync();
+
+        var providers = GetExternalProviders(schemes);
+        var identityProviders = GetExternalProviders(identityProviderNames);
+
+        providers.AddRange(identityProviders);
+
+        return providers;
+    }
+
+    private static List<ExternalProvider> GetExternalProviders(IEnumerable<AuthenticationScheme> schemes)
+    {
+        var providers = schemes
+            .Where(x => x.DisplayName != null)
+            .Select(x => new ExternalProvider
+            {
+                DisplayName = x.DisplayName ?? x.Name,
+                AuthenticationScheme = x.Name
+            }).ToList();
+
+        return providers;
+    }
+
+    private static IEnumerable<ExternalProvider> GetExternalProviders(IEnumerable<IdentityProviderName> identityProviderNames)
+    {
+        var providers = identityProviderNames
+            .Where(x => x.Enabled)
+            .Select(x => new ExternalProvider
+            {
+                AuthenticationScheme = x.Scheme,
+                DisplayName = x.DisplayName
+            });
+
+        return providers;
     }
 }
