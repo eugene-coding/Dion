@@ -5,5 +5,5 @@ namespace UI.Pages;
 
 public partial class Index
 {
-    [Inject] public IStringLocalizer<Index> Text { get; set; } = default!;
+    [Inject] public IStringLocalizer<Index> Text { get; init; } = default!;
 }
