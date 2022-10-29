@@ -70,13 +70,11 @@ public class Callback : PageModel
 
         // find external user
         var user = await _userManager.FindByLoginAsync(provider, providerUserId);
-        if (user == null)
-        {
-            // this might be where you might initiate a custom workflow for user registration
-            // in this sample we don't show how that would be done, as our sample implementation
-            // simply auto-provisions new external user
-            user = await AutoProvisionUserAsync(provider, providerUserId, externalUser.Claims);
-        }
+
+        // this might be where you might initiate a custom workflow for user registration
+        // in this sample we don't show how that would be done, as our sample implementation
+        // simply auto-provisions new external user
+        user ??= await AutoProvisionUserAsync(provider, providerUserId, externalUser.Claims);
 
         // this allows us to collect any additional claims or properties
         // for the specific protocols used and store them in the local auth cookie.
