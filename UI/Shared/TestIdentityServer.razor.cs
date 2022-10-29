@@ -27,14 +27,15 @@ public partial class TestIdentityServer
             _disco = disco.Error;
         }
 
-        _token = await Client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+        using var tokenRequest = new ClientCredentialsTokenRequest
         {
             Address = disco.TokenEndpoint,
-
             ClientId = "client",
             ClientSecret = "secret",
             Scope = "api"
-        });
+        };
+
+        _token = await Client.RequestClientCredentialsTokenAsync(tokenRequest);
 
         _tokenValue = _token.IsError ? _token.Error : _token.AccessToken;
 
@@ -46,7 +47,7 @@ public partial class TestIdentityServer
         Client.SetBearerToken(_token?.AccessToken);
 
         var response = await Client.GetAsync($"{Config.ApiUrl}/user");
-        
+
         if (!response.IsSuccessStatusCode)
         {
             _apiResult = response.StatusCode.ToString();
