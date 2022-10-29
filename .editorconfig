@@ -84,7 +84,7 @@ csharp_style_var_when_type_is_apparent = true:error
 csharp_style_expression_bodied_accessors = true:error
 csharp_style_expression_bodied_constructors = false:error
 csharp_style_expression_bodied_indexers = true:error
-csharp_style_expression_bodied_lambdas = true:error
+csharp_style_expression_bodied_lambdas = true:silent
 csharp_style_expression_bodied_local_functions = false:error
 csharp_style_expression_bodied_methods = false:error
 csharp_style_expression_bodied_operators = false:error
@@ -256,6 +256,9 @@ dotnet_diagnostic.CA2211.severity = error
 
 # CA2253: Именованные заполнители не должны быть числовыми значениями
 dotnet_diagnostic.CA2253.severity = error
+
+# IDE0058: Значение выражения никогда не используется
+dotnet_diagnostic.IDE0058.severity = silent
 
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
