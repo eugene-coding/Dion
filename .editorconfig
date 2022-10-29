@@ -297,6 +297,10 @@ dotnet_diagnostic.CA2356.severity = error
 dotnet_diagnostic.CA2362.severity = error
 dotnet_diagnostic.CA2014.severity = error
 dotnet_diagnostic.CA2016.severity = error
+dotnet_diagnostic.IL3000.severity = error
+dotnet_diagnostic.IL3001.severity = error
+dotnet_diagnostic.IL3002.severity = error
+dotnet_diagnostic.IL3003.severity = error
 
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
