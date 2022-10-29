@@ -248,6 +248,15 @@ dotnet_naming_style.underscore_prefix.capitalization = camel_case
 # IDE0052: Удалить непрочитанные закрытые члены
 dotnet_diagnostic.IDE0052.severity = error
 
+# CA1822: Пометьте члены как статические
+dotnet_diagnostic.CA1822.severity = error
+
+# CA2211: Поля, не являющиеся константами, не должны быть видимыми
+dotnet_diagnostic.CA2211.severity = error
+
+# CA2253: Именованные заполнители не должны быть числовыми значениями
+dotnet_diagnostic.CA2253.severity = error
+
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 tab_width = 4
