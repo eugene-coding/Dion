@@ -118,7 +118,7 @@ public class Consent : PageModel
         var request = await _interaction.GetLoginRequestByInternalIdAsync(id);
         if (request != null && request.Subject.GetSubjectId() == User.GetSubjectId())
         {
-            return CreateConsentViewModel(model, id, request);
+            return CreateConsentViewModel(model, request);
         }
         else
         {
@@ -128,9 +128,7 @@ public class Consent : PageModel
         return null;
     }
 
-    private ViewModel CreateConsentViewModel(
-        InputModel model, string id,
-        BackchannelUserLoginRequest request)
+    private ViewModel CreateConsentViewModel(InputModel model, BackchannelUserLoginRequest request)
     {
         var vm = new ViewModel
         {
