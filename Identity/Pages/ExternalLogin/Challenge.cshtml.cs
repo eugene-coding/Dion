@@ -1,5 +1,7 @@
 using Duende.IdentityServer.Services;
 
+using Identity.Exceptions;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +31,7 @@ public class Challenge : PageModel
         if (Url.IsLocalUrl(returnUrl) == false && _interactionService.IsValidReturnUrl(returnUrl) == false)
         {
             // user might have clicked on a malicious link - should be logged
-            throw new Exception("invalid return URL");
+            throw new InvalidUrlException("invalid return URL", nameof(returnUrl));
         }
 
         // start challenge and roundtrip the return URL and scheme 

@@ -2,6 +2,7 @@ using Duende.IdentityServer;
 using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Services;
 
+using Identity.Exceptions;
 using Identity.Models;
 
 using IdentityModel;
@@ -46,7 +47,7 @@ public class Callback : PageModel
         var result = await HttpContext.AuthenticateAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
         if (result?.Succeeded != true)
         {
-            throw new Exception("External authentication error");
+            throw new ExternalAuthenticationException("External authentication error");
         }
 
         var externalUser = result.Principal;
@@ -63,7 +64,7 @@ public class Callback : PageModel
         // depending on the external provider, some other claim type might be used
         var userIdClaim = externalUser.FindFirst(JwtClaimTypes.Subject) ??
                           externalUser.FindFirst(ClaimTypes.NameIdentifier) ??
-                          throw new Exception("Unknown userid");
+                          throw new FindUserByClaimsFailedException("Unknown userid");
 
         var provider = result.Properties.Items["scheme"];
         var providerUserId = userIdClaim.Value;
@@ -161,7 +162,7 @@ public class Callback : PageModel
 
         if (!identityResult.Succeeded)
         {
-            throw new Exception(identityResult.Errors.First().Description);
+            throw new CreateUserFailedException(identityResult.Errors.First().Description);
         }
 
         if (filtered.Any())
@@ -170,7 +171,7 @@ public class Callback : PageModel
 
             if (!identityResult.Succeeded)
             {
-                throw new Exception(identityResult.Errors.First().Description);
+                throw new AddClaimsFailedException(identityResult.Errors.First().Description);
             }
         }
 
@@ -178,7 +179,7 @@ public class Callback : PageModel
 
         if (!identityResult.Succeeded)
         {
-            throw new Exception(identityResult.Errors.First().Description);
+            throw new AddUserLoginInfoFailedException(identityResult.Errors.First().Description);
         }
 
         return user;
