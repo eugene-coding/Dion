@@ -269,7 +269,7 @@ dotnet_style_object_initializer = true:error
 dotnet_style_collection_initializer = true:error
 dotnet_style_prefer_simplified_boolean_expressions = true:error
 dotnet_style_prefer_conditional_expression_over_assignment = true:error
-dotnet_style_prefer_conditional_expression_over_return = true:error
+dotnet_style_prefer_conditional_expression_over_return = true:silent
 dotnet_style_explicit_tuple_names = true:error
 dotnet_style_prefer_inferred_tuple_names = true:error
 dotnet_style_prefer_inferred_anonymous_type_member_names = true:error
@@ -291,3 +291,6 @@ dotnet_style_parentheses_in_other_binary_operators = always_for_clarity:error
 dotnet_style_parentheses_in_relational_binary_operators = always_for_clarity:error
 dotnet_style_parentheses_in_other_operators = never_if_unnecessary:error
 dotnet_style_require_accessibility_modifiers = for_non_interface_members:silent
+
+# IDE0046: Преобразовать в условное выражение
+dotnet_diagnostic.IDE0046.severity = silent
