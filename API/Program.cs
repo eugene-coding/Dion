@@ -24,11 +24,6 @@ services.AddAuthentication(Config.BearerSchemeName)
     .AddJwtBearer(Config.BearerSchemeName, options =>
     {
         options.Authority = Config.IdentityUrl;
-
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateAudience = false
-        };
     });
 
 const string apiAuthorizationPolicyName = "Api";
