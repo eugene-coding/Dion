@@ -262,6 +262,27 @@ dotnet_diagnostic.IDE0058.severity = silent
 
 # IDE0053: Использовать тело выражения для лямбда-выражений
 dotnet_diagnostic.IDE0053.severity = silent
+dotnet_diagnostic.CA2234.severity = error
+dotnet_diagnostic.MVC1003.severity = error
+dotnet_diagnostic.CA2252.severity = error
+dotnet_diagnostic.MVC1006.severity = error
+dotnet_diagnostic.MVC1002.severity = error
+dotnet_diagnostic.MVC1001.severity = error
+dotnet_diagnostic.MVC1000.severity = error
+dotnet_diagnostic.ASP0006.severity = error
+dotnet_diagnostic.ASP0005.severity = error
+dotnet_diagnostic.ASP0004.severity = error
+dotnet_diagnostic.ASP0003.severity = error
+dotnet_diagnostic.MVC1005.severity = error
+dotnet_diagnostic.ASP0001.severity = error
+dotnet_diagnostic.CA2246.severity = error
+dotnet_diagnostic.CA2255.severity = error
+dotnet_diagnostic.CA2244.severity = error
+dotnet_diagnostic.BL0006.severity = error
+dotnet_diagnostic.BL0005.severity = error
+dotnet_diagnostic.BL0003.severity = error
+dotnet_diagnostic.BL0002.severity = error
+dotnet_diagnostic.EF1001.severity = error
 
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
@@ -300,3 +321,36 @@ dotnet_style_require_accessibility_modifiers = for_non_interface_members:silent
 
 # IDE0046: Преобразовать в условное выражение
 dotnet_diagnostic.IDE0046.severity = silent
+dotnet_diagnostic.CA2258.severity = error
+dotnet_diagnostic.CA2256.severity = error
+dotnet_diagnostic.CA2257.severity = error
+dotnet_diagnostic.CA2254.severity = error
+dotnet_diagnostic.CA2253.severity = error
+dotnet_diagnostic.CA2251.severity = error
+dotnet_diagnostic.CA2250.severity = error
+dotnet_diagnostic.CA2249.severity = error
+dotnet_diagnostic.CA2248.severity = error
+dotnet_diagnostic.CA2247.severity = error
+dotnet_diagnostic.CA2245.severity = error
+dotnet_diagnostic.CA2243.severity = error
+dotnet_diagnostic.CA2242.severity = error
+dotnet_diagnostic.CA2241.severity = error
+dotnet_diagnostic.CA2237.severity = error
+dotnet_diagnostic.CA2235.severity = error
+dotnet_diagnostic.CA2231.severity = error
+dotnet_diagnostic.CA2229.severity = error
+dotnet_diagnostic.CA2227.severity = error
+dotnet_diagnostic.CA2226.severity = error
+dotnet_diagnostic.CA2225.severity = error
+dotnet_diagnostic.CA2219.severity = error
+dotnet_diagnostic.CA2217.severity = error
+dotnet_diagnostic.CA2216.severity = error
+dotnet_diagnostic.CA2215.severity = error
+dotnet_diagnostic.CA2214.severity = error
+dotnet_diagnostic.CA2213.severity = error
+dotnet_diagnostic.CA2211.severity = error
+dotnet_diagnostic.CA2208.severity = error
+dotnet_diagnostic.CA2207.severity = error
+dotnet_diagnostic.CA2201.severity = error
+dotnet_diagnostic.CA2200.severity = error
+dotnet_diagnostic.CA1816.severity = error
