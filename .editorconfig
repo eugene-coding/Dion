@@ -295,6 +295,8 @@ dotnet_diagnostic.CA2354.severity = error
 dotnet_diagnostic.CA2355.severity = error
 dotnet_diagnostic.CA2356.severity = error
 dotnet_diagnostic.CA2362.severity = error
+dotnet_diagnostic.CA2014.severity = error
+dotnet_diagnostic.CA2016.severity = error
 
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
@@ -455,3 +457,14 @@ dotnet_diagnostic.CA5402.severity = error
 dotnet_diagnostic.CA5403.severity = error
 dotnet_diagnostic.CA5405.severity = error
 dotnet_diagnostic.CA5404.severity = error
+dotnet_diagnostic.CA2000.severity = error
+dotnet_diagnostic.CA2002.severity = error
+dotnet_diagnostic.CA2007.severity = silent
+dotnet_diagnostic.CA2008.severity = error
+dotnet_diagnostic.CA2009.severity = error
+dotnet_diagnostic.CA2011.severity = error
+dotnet_diagnostic.CA2012.severity = error
+dotnet_diagnostic.CA2013.severity = error
+dotnet_diagnostic.CA2015.severity = error
+dotnet_diagnostic.CA2017.severity = error
+dotnet_diagnostic.CA2018.severity = error
