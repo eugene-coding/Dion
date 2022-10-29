@@ -7,7 +7,7 @@ namespace Web.Client;
 
 public class BffAuthenticationStateProvider : AuthenticationStateProvider
 {
-    private static readonly TimeSpan s_userCacheRefreshInterval = TimeSpan.FromSeconds(60);
+    private static readonly TimeSpan _userCacheRefreshInterval = TimeSpan.FromSeconds(60);
 
     private readonly HttpClient _client;
     private readonly ILogger<BffAuthenticationStateProvider> _logger;
@@ -32,7 +32,7 @@ public class BffAuthenticationStateProvider : AuthenticationStateProvider
     {
         var now = DateTimeOffset.Now;
 
-        if (useCache && now < _userLastCheck + s_userCacheRefreshInterval)
+        if (useCache && now < _userLastCheck + _userCacheRefreshInterval)
         {
             _logger.LogDebug("Taking user from cache");
 
