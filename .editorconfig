@@ -260,6 +260,9 @@ dotnet_diagnostic.CA2253.severity = error
 # IDE0058: Значение выражения никогда не используется
 dotnet_diagnostic.IDE0058.severity = silent
 
+# IDE0053: Использовать тело выражения для лямбда-выражений
+dotnet_diagnostic.IDE0053.severity = silent
+
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 tab_width = 4
