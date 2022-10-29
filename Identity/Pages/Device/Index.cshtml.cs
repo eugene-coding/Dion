@@ -134,7 +134,6 @@ public class Index : PageModel
         return Page();
     }
 
-
     private async Task<ViewModel> BuildViewModelAsync(string userCode, InputModel model = null)
     {
         var request = await _interaction.GetAuthorizationContextAsync(userCode);
