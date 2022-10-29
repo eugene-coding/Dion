@@ -135,6 +135,7 @@ public class Index : PageModel
         {
             _logger.LogError("No consent request matching request: {0}", returnUrl);
         }
+
         return null;
     }
 
@@ -172,10 +173,12 @@ public class Index : PageModel
                 apiScopes.Add(scopeVm);
             }
         }
+
         if (ConsentOptions.EnableOfflineAccess && request.ValidatedResources.Resources.OfflineAccess)
         {
             apiScopes.Add(GetOfflineAccessScope(model == null || model.ScopesConsented?.Contains(Duende.IdentityServer.IdentityServerConstants.StandardScopes.OfflineAccess) == true));
         }
+
         vm.ApiScopes = apiScopes;
 
         return vm;
