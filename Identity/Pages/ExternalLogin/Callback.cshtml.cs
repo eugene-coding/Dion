@@ -3,6 +3,7 @@ using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Services;
 
 using Identity.Exceptions;
+using Identity.Extensions;
 using Identity.Models;
 
 using IdentityModel;
@@ -55,7 +56,7 @@ public class Callback : PageModel
         if (_logger.IsEnabled(LogLevel.Debug))
         {
             var externalClaims = externalUser.Claims.Select(c => $"{c.Type}: {c.Value}");
-            _logger.LogDebug("External claims: {@claims}", externalClaims);
+            _logger.ExternalClaims(externalClaims);
         }
 
         // lookup our user and external provider info

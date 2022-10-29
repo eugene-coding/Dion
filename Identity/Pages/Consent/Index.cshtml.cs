@@ -4,6 +4,8 @@ using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 using Duende.IdentityServer.Validation;
 
+using Identity.Extensions;
+
 using IdentityModel;
 
 using Microsoft.AspNetCore.Authorization;
@@ -133,7 +135,7 @@ public class Index : PageModel
         }
         else
         {
-            _logger.LogError("No consent request matching request: {0}", returnUrl);
+            _logger.NoConsentRequestMatchingRequest(returnUrl);
         }
 
         return null;

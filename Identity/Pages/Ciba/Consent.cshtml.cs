@@ -4,6 +4,8 @@ using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 using Duende.IdentityServer.Validation;
 
+using Identity.Extensions;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -55,7 +57,7 @@ public class Consent : PageModel
         var request = await _interaction.GetLoginRequestByInternalIdAsync(Input.Id);
         if (request == null || request.Subject.GetSubjectId() != User.GetSubjectId())
         {
-            _logger.LogError("Invalid id {id}", Input.Id);
+            _logger.InvalidId(Input.Id);
             return RedirectToPage("/Home/Error/Index");
         }
 
@@ -122,7 +124,7 @@ public class Consent : PageModel
         }
         else
         {
-            _logger.LogError("No backchannel login request matching id: {id}", id);
+            _logger.NoBackchannelLoginRequestMatchingId(id);
         }
 
         return null;
