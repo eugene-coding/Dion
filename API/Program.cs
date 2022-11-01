@@ -1,90 +1,63 @@
 using API.Data;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 using Shared;
 
-internal static class Program
+var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
+
+services.AddDbContext<Context>(options =>
 {
-    private const string ApiAuthorizationPolicyName = "Api";
+    var connectionString = builder.Configuration["Api:ConnectionString"];
+    var serverVersion = ServerVersion.AutoDetect(connectionString);
 
-    private static void Main(string[] args)
+    options.UseMySql(connectionString, serverVersion, options =>
     {
-        var builder = WebApplication.CreateBuilder(args);
-        builder.ConfigureServices();
+        options.EnableRetryOnFailure()
+               .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+    });
+});
 
-        var app = builder.Build();
-        app.ConfigurePipeline();
-        app.Run();
-    }
-
-    private static void ConfigureServices(this WebApplicationBuilder builder)
+services.AddAuthentication(Config.BearerSchemeName)
+    .AddJwtBearer(Config.BearerSchemeName, options =>
     {
-        builder.ConfigureDbContext();
-        builder.Services.ConfigureAuthentication();
-        builder.Services.ConfigureAuthorization();
-        builder.Services.ConfigureCors();
-        builder.Services.AddControllers();
-    }
+        options.Authority = Config.IdentityUrl;
+    });
 
-    private static void ConfigurePipeline(this WebApplication app)
+const string apiAuthorizationPolicyName = "Api";
+
+services.AddAuthorization(options =>
+{
+    options.AddPolicy(apiAuthorizationPolicyName, policy =>
     {
-        app.UseHttpsRedirection();
+        policy.RequireAuthenticatedUser()
+              .RequireClaim("scope", "api");
+    });
+});
 
-        app.UseCors();
-
-        app.UseAuthentication();
-        app.UseAuthorization();
-
-        app.MapControllers()
-           .RequireAuthorization(ApiAuthorizationPolicyName);
-    }
-
-    private static void ConfigureDbContext(this WebApplicationBuilder builder)
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
     {
-        builder.Services.AddDbContext<Context>(options =>
-        {
-            var connectionString = builder.Configuration["Api:ConnectionString"];
-            var serverVersion = ServerVersion.AutoDetect(connectionString);
+        policy.WithOrigins(Config.WebUrl)
+              .WithHeaders(Config.OidcCorsHeader);
+    });
+});
 
-            options.UseMySql(connectionString, serverVersion, options =>
-            {
-                options.EnableRetryOnFailure()
-                       .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
-            });
-        });
-    }
-    
-    private static void ConfigureAuthentication(this IServiceCollection services)
-    {
-        services.AddAuthentication(Config.BearerSchemeName)
-                .AddJwtBearer(Config.BearerSchemeName, options =>
-                {
-                    options.Authority = Config.IdentityUrl;
-                });
-    }
-    
-    private static void ConfigureAuthorization(this IServiceCollection services)
-    {
-        services.AddAuthorization(options =>
-        {
-            options.AddPolicy(ApiAuthorizationPolicyName, policy =>
-            {
-                policy.RequireAuthenticatedUser()
-                      .RequireClaim("scope", "api");
-            });
-        });
-    }
-    
-    private static void ConfigureCors(this IServiceCollection services)
-    {
-        services.AddCors(options =>
-        {
-            options.AddDefaultPolicy(policy =>
-            {
-                policy.WithOrigins(Config.WebUrl)
-                      .WithHeaders(Config.OidcCorsHeader);
-            });
-        });
-    }
-}
+services.AddControllers();
+
+var app = builder.Build();
+
+app.UseHttpsRedirection();
+
+app.UseCors();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers()
+   .RequireAuthorization(apiAuthorizationPolicyName);
+
+app.Run();
