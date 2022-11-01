@@ -3,7 +3,7 @@
 
 namespace Identity.Pages.Consent;
 
-public class ConsentOptions
+public static class ConsentOptions
 {
     public const string OfflineAccessDisplayName = "Offline Access";
     public const string OfflineAccessDescription = "Access to your applications and resources, even when you are offline";

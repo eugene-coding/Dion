@@ -3,7 +3,7 @@
 
 namespace Identity.Pages.Device;
 
-public class DeviceOptions
+public static class DeviceOptions
 {
     public const string OfflineAccessDisplayName = "Offline Access";
     public const string OfflineAccessDescription = "Access to your applications and resources, even when you are offline";

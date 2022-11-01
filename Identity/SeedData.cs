@@ -15,7 +15,7 @@ using System.Security.Claims;
 
 namespace Identity;
 
-public class SeedData
+internal static class SeedData
 {
     public static void InitializeIdentityServer(IServiceProvider serviceProvider)
     {
