@@ -13,7 +13,7 @@ internal static class Program
 
         var app = builder.Build();
         app.ConfigurePipeline();
-
+        
         app.Run();
     }
 
@@ -75,17 +75,21 @@ internal static class Program
             .AddOpenIdConnect(Config.OidcSchemeName, options =>
             {
                 options.Authority = Config.IdentityUrl;
+                
                 options.ClientId = "bff";
                 options.ClientSecret = "secret";
                 options.ResponseType = "code";
                 options.ResponseMode = "query";
+                
                 options.Scope.Clear();
                 options.Scope.Add(IdentityServerConstants.StandardScopes.OpenId);
                 options.Scope.Add(IdentityServerConstants.StandardScopes.Profile);
                 options.Scope.Add(IdentityServerConstants.StandardScopes.OfflineAccess);
                 options.Scope.Add("api");
+
                 options.MapInboundClaims = false;
                 options.GetClaimsFromUserInfoEndpoint = true;
+
                 options.SaveTokens = true;
             });
     }
