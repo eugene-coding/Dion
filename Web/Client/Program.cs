@@ -6,31 +6,42 @@ using UI;
 
 using Web.Client;
 
-const string httpClientName = "backend";
-
-var builder = WebAssemblyHostBuilder.CreateDefault(args);
-var rootComponents = builder.RootComponents;
-var services = builder.Services;
-
-rootComponents.Add<App>("#app");
-rootComponents.Add<HeadOutlet>("head::after");
-
-services.AddTransient<AntiforgeryHandler>();
-
-services.AddHttpClient(httpClientName, client =>
+internal static class Program
 {
-    client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
-})
-    .AddHttpMessageHandler<AntiforgeryHandler>();
+    private const string ClientName = "backend";
 
-services.AddTransient(serviceProvider => 
-{
-    var httpClientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
+    private static async Task Main(string[] args)
+    {
+        var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-    return httpClientFactory.CreateClient(httpClientName);
-});
+        builder.ConfigureRootComponents();
+        builder.ConfigureServices();
 
-services.AddAuthorizationCore();
-services.AddScoped<AuthenticationStateProvider, BffAuthenticationStateProvider>();
+        await builder.Build().RunAsync();
+    }
 
-await builder.Build().RunAsync();
+    private static void ConfigureRootComponents(this WebAssemblyHostBuilder builder)
+    {
+        builder.RootComponents.Add<App>("#app");
+        builder.RootComponents.Add<HeadOutlet>("head::after");
+    }
+
+    private static void ConfigureServices(this WebAssemblyHostBuilder builder)
+    {
+        builder.Services.AddAuthorizationCore();
+        builder.Services.AddScoped<AuthenticationStateProvider, BffAuthenticationStateProvider>();
+
+        builder.Services.ConfigureHttpClient(builder.HostEnvironment.BaseAddress);
+    }
+
+    private static void ConfigureHttpClient(this IServiceCollection services, string baseAddress)
+    {
+        services.AddTransient<AntiforgeryHandler>();
+
+        services.AddHttpClient(ClientName, client => client.BaseAddress = new Uri(baseAddress))
+            .AddHttpMessageHandler<AntiforgeryHandler>();
+
+        services.AddTransient(sp =>
+            sp.GetRequiredService<IHttpClientFactory>().CreateClient(ClientName));
+    }
+}

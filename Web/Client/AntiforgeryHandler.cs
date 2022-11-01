@@ -1,6 +1,6 @@
 ﻿namespace Web.Client;
 
-public class AntiforgeryHandler : DelegatingHandler
+internal sealed class AntiforgeryHandler : DelegatingHandler
 {
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {

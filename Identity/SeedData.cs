@@ -2,6 +2,7 @@
 using Duende.IdentityServer.EntityFramework.Mappers;
 
 using Identity.Data;
+using Identity.Exceptions;
 using Identity.Models;
 
 using IdentityModel;
@@ -14,7 +15,7 @@ using System.Security.Claims;
 
 namespace Identity;
 
-public class SeedData
+internal static class SeedData
 {
     public static void InitializeIdentityServer(IServiceProvider serviceProvider)
     {
@@ -68,7 +69,7 @@ public class SeedData
 
             if (!result.Succeeded)
             {
-                throw new Exception(result.Errors.First().Description);
+                throw new CreateUserFailedException(result.Errors.First().Description);
             }
 
             result = userMgr.AddClaimsAsync(alice, new Claim[]{
@@ -80,7 +81,7 @@ public class SeedData
 
             if (!result.Succeeded)
             {
-                throw new Exception(result.Errors.First().Description);
+                throw new AddClaimsFailedException(result.Errors.First().Description);
             }
 
             Log.Debug("alice created");
@@ -105,7 +106,7 @@ public class SeedData
 
             if (!result.Succeeded)
             {
-                throw new Exception(result.Errors.First().Description);
+                throw new CreateUserFailedException(result.Errors.First().Description);
             }
 
             result = userMgr.AddClaimsAsync(bob, new Claim[]{
@@ -118,7 +119,7 @@ public class SeedData
 
             if (!result.Succeeded)
             {
-                throw new Exception(result.Errors.First().Description);
+                throw new AddClaimsFailedException(result.Errors.First().Description);
             }
 
             Log.Debug("bob created");

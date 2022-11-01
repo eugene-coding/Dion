@@ -6,10 +6,9 @@ public static class Config
     public const string OidcSchemeName = "oidc";
     public const string OidcCorsHeader = "authorization";
     public const string BearerSchemeName = "bearer";
+    private const string BaseUrl = "https://localhost";
 
-    private readonly static string _baseUrl = "https://localhost";
-
-    public static string ApiUrl => $"{_baseUrl}:6001";
-    public static string IdentityUrl => $"{_baseUrl}:5001";
-    public static string WebUrl => $"{_baseUrl}:5002";
+    public static string ApiUrl => $"{BaseUrl}:6001";
+    public static string IdentityUrl => $"{BaseUrl}:5001";
+    public static string WebUrl => $"{BaseUrl}:5002";
 }
