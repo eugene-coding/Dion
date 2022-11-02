@@ -6,7 +6,7 @@ using Shared;
 
 internal static class Program
 {
-    private const string ApiAuthorizationPolicyName = "Api";
+    private const string AuthorizationPolicyName = "Api";
 
     private static void Main(string[] args)
     {
@@ -39,7 +39,7 @@ internal static class Program
         app.UseAuthorization();
 
         app.MapControllers()
-           .RequireAuthorization(ApiAuthorizationPolicyName);
+           .RequireAuthorization(AuthorizationPolicyName);
     }
 
     private static void ConfigureDbContext(this WebApplicationBuilder builder)
@@ -70,7 +70,7 @@ internal static class Program
     {
         services.AddAuthorization(options =>
         {
-            options.AddPolicy(ApiAuthorizationPolicyName, policy =>
+            options.AddPolicy(AuthorizationPolicyName, policy =>
             {
                 policy.RequireAuthenticatedUser()
                       .RequireClaim("scope", Config.ApiName);
