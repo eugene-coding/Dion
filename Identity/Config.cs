@@ -7,16 +7,13 @@ public static class Config
 {
     static Config()
     {
-        const string secret = "secret";
-        var apiScope = new ApiScope("api", "API");
-
         var signInUrl = $"{Shared.Config.WebUrl}/signin-oidc";
         var signOutUrl = $"{Shared.Config.WebUrl}/signout-oidc";
         var signOutCallbackUrl = $"{Shared.Config.WebUrl}/signout-callback-oidc";
 
         ApiScopes = new List<ApiScope>()
         {
-            apiScope
+            new (Shared.Config.ApiName, "API")
         };
 
         Clients = new List<Client>()
@@ -28,19 +25,19 @@ public static class Config
 
                 ClientSecrets =
                 {
-                    new Secret(secret.Sha256())
+                    new Secret("secret".Sha256())
                 },
 
-                AllowedScopes = { apiScope.Name }
+                AllowedScopes = { Shared.Config.ApiName }
             },
 
             new Client
             {
-                ClientId = "bff",
-                
+                ClientId = Shared.Config.WebClientId,
+
                 ClientSecrets =
                 {
-                    new Secret(secret.Sha256())
+                    new Secret(Shared.Config.WebClientSecret.Sha256())
                 },
 
                 AllowedGrantTypes = GrantTypes.Code,
@@ -55,7 +52,7 @@ public static class Config
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
                     IdentityServerConstants.StandardScopes.OfflineAccess,
-                    apiScope.Name
+                    Shared.Config.ApiName
                 }
             }
         };
@@ -66,6 +63,7 @@ public static class Config
             new IdentityResources.Profile()
         };
     }
+
     public static IEnumerable<ApiScope> ApiScopes { get; private set; }
     public static IEnumerable<Client> Clients { get; private set; }
     public static IEnumerable<IdentityResource> IdentityResources { get; private set; }

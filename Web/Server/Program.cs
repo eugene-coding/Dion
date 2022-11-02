@@ -76,8 +76,8 @@ internal static class Program
             {
                 options.Authority = Config.IdentityUrl;
                 
-                options.ClientId = "bff";
-                options.ClientSecret = "secret";
+                options.ClientId = Config.WebClientId;
+                options.ClientSecret = Config.WebClientSecret;
                 options.ResponseType = "code";
                 options.ResponseMode = "query";
                 
@@ -85,7 +85,7 @@ internal static class Program
                 options.Scope.Add(IdentityServerConstants.StandardScopes.OpenId);
                 options.Scope.Add(IdentityServerConstants.StandardScopes.Profile);
                 options.Scope.Add(IdentityServerConstants.StandardScopes.OfflineAccess);
-                options.Scope.Add("api");
+                options.Scope.Add(Config.ApiName);
 
                 options.MapInboundClaims = false;
                 options.GetClaimsFromUserInfoEndpoint = true;

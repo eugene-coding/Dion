@@ -73,7 +73,7 @@ internal static class Program
             options.AddPolicy(ApiAuthorizationPolicyName, policy =>
             {
                 policy.RequireAuthenticatedUser()
-                      .RequireClaim("scope", "api");
+                      .RequireClaim("scope", Config.ApiName);
             });
         });
     }
