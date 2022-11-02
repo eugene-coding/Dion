@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
-
-namespace Identity.Pages.Login;
+﻿namespace Identity.Pages.Login;
 
 public sealed class ExternalProvider
 {
