@@ -1,5 +1,5 @@
 @page
 @model Identity.Pages.Account.AccessDeniedModel
 
-<h1>Access Denied</h1>
-<p>You do not have permission to access that resource.</p>
+<h1>@Model.Text["HeadingTitle"]</h1>
+<p>@Model.Text["NoPermission"]</p>
