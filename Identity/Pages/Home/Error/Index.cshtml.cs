@@ -2,6 +2,7 @@ using Duende.IdentityServer.Services;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 
 namespace Identity.Pages.Error;
 
@@ -13,11 +14,16 @@ public class Index : PageModel
     private readonly IWebHostEnvironment _environment;
 
     public ViewModel View { get; set; }
+    public IStringLocalizer<Index> Text { get; init; }
 
-    public Index(IIdentityServerInteractionService interaction, IWebHostEnvironment environment)
+    public Index(
+        IIdentityServerInteractionService interaction,
+        IWebHostEnvironment environment,
+        IStringLocalizer<Index> text)
     {
         _interaction = interaction;
         _environment = environment;
+        Text = text;
     }
 
     public async Task OnGet(string errorId)
@@ -26,6 +32,7 @@ public class Index : PageModel
 
         // retrieve error details from identityserver
         var message = await _interaction.GetErrorContextAsync(errorId);
+
         if (message != null)
         {
             View.Error = message;
