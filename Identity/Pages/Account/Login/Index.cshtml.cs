@@ -3,6 +3,7 @@ using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 using Duende.IdentityServer.Stores;
 
+using Identity.Exceptions;
 using Identity.Models;
 
 using Microsoft.AspNetCore.Authentication;
@@ -46,7 +47,7 @@ public class Index : PageModel
         _schemeProvider = schemeProvider;
         _identityProviderStore = identityProviderStore;
         _events = events;
-        
+
         Text = text;
     }
 
@@ -129,7 +130,7 @@ public class Index : PageModel
                 else
                 {
                     // user might have clicked on a malicious link - should be logged
-                    throw new Exception("invalid return URL");
+                    throw new InvalidUrlException("invalid return URL", nameof(Input.ReturnUrl));
                 }
             }
 

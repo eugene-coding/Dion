@@ -8,7 +8,7 @@ namespace Identity.Pages.Home;
 [AllowAnonymous]
 public class Index : PageModel
 {
-    public string Version;
+    public string Version { get; set; }
 
     public void OnGet()
     {

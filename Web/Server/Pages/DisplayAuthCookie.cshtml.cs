@@ -5,7 +5,7 @@ namespace Web.Server.Pages;
 
 public class DisplayAuthCookieModel : PageModel
 {
-    public IDictionary<string, string?> AuthenticateProperties = default!;
+    public IDictionary<string, string?> AuthenticateProperties { get; private set; } = default!;
     
     public async Task OnGetAsync()
     {

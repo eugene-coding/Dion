@@ -3,11 +3,13 @@
 using System.Net.Http.Json;
 using System.Security.Claims;
 
+using Web.Client.Extensions;
+
 namespace Web.Client;
 
 public class BffAuthenticationStateProvider : AuthenticationStateProvider
 {
-    private static readonly TimeSpan s_userCacheRefreshInterval = TimeSpan.FromSeconds(60);
+    private static readonly TimeSpan _userCacheRefreshInterval = TimeSpan.FromSeconds(60);
 
     private readonly HttpClient _client;
     private readonly ILogger<BffAuthenticationStateProvider> _logger;
@@ -32,14 +34,14 @@ public class BffAuthenticationStateProvider : AuthenticationStateProvider
     {
         var now = DateTimeOffset.Now;
 
-        if (useCache && now < _userLastCheck + s_userCacheRefreshInterval)
+        if (useCache && now < _userLastCheck + _userCacheRefreshInterval)
         {
-            _logger.LogDebug("Taking user from cache");
+            _logger.TakingUserFromCache();
 
             return _cachedUser;
         }
 
-        _logger.LogDebug("Fetching user");
+        _logger.FetchingUser();
         _cachedUser = await FetchUser();
         _userLastCheck = now;
 
@@ -50,7 +52,7 @@ public class BffAuthenticationStateProvider : AuthenticationStateProvider
     {
         try
         {
-            _logger.LogInformation("Fetching user information");
+            _logger.FetchingUserInformation();
 
             var claimRecords = await _client.GetFromJsonAsync<List<ClaimRecord>>("bff/user?slide=false");
 
@@ -70,7 +72,7 @@ public class BffAuthenticationStateProvider : AuthenticationStateProvider
         }
         catch (Exception ex)
         {
-            _logger.LogWarning(ex, "Fetching user failed");
+            _logger.FetchingUserFailed(ex);
         }
 
         return new(new ClaimsIdentity());
