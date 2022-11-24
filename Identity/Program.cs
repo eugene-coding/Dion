@@ -73,6 +73,8 @@ internal static class Program
             SeedData.InitializeIdentityServer(serviceProvider);
         }
 
+        app.ConfigureHeaders();
+
         app.UseStaticFiles();
         app.UseRouting();
         app.UseIdentityServer();
@@ -166,6 +168,15 @@ internal static class Program
             options.MigrationsAssembly(contextOptions.AssemblyName);
             options.EnableRetryOnFailure();
             options.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+        });
+    }
+
+    private static void ConfigureHeaders(this WebApplication app)
+    {
+        app.Use(async (context, next) =>
+        {
+            context.Response.Headers.Append("content-security-policy", "script-src 'self' 'unsafe-eval' 'sha256-0KnbD5oz092bv32PTW+Sx0izSZP5x4YY9WEEtTzbrHw='");
+            await next.Invoke();
         });
     }
 
