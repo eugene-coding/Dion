@@ -1,0 +1,43 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "provider": "cdnjs",
+      "library": "jquery@3.6.1",
+      "destination": "wwwroot/lib/jquery/",
+      "files": [
+        "jquery.slim.min.js"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "bootstrap@5.2.3",
+      "destination": "wwwroot/lib/bootstrap/",
+      "files": [
+        "js/bootstrap.bundle.min.js",
+        "css/bootstrap.min.css"
+      ]
+    }
+  ,
+{
+  "provider": "cdnjs",
+  "library": "bootstrap-icons@1.10.2",
+  "destination": "wwwroot/lib/bootstrap-icons/",
+  "files": [
+    "font/bootstrap-icons.min.css"
+  ]
+}
+,
+{
+  "provider": "cdnjs",
+  "library": "bootstrap-icons@1.10.2",
+  "destination": "wwwroot/lib/bootstrap-icons/",
+  "files": [
+    "font/fonts/bootstrap-icons.woff",
+    "font/fonts/bootstrap-icons.woff2",
+    "font/bootstrap-icons.min.css"
+  ]
+}
+]
+}

@@ -173,7 +173,7 @@ public class Index : PageModel
             return;
         }
 
-        var providers = await GetExternalProviders();
+        var providers = await GetExternalProvidersAsync();
 
         var allowLocal = true;
         var client = context?.Client;
@@ -196,15 +196,15 @@ public class Index : PageModel
         };
     }
 
-    private async Task<List<ExternalProvider>> GetExternalProviders()
+    private async Task<List<ExternalProvider>> GetExternalProvidersAsync()
     {
         var schemes = await _schemeProvider.GetAllSchemesAsync();
         var identityProviderNames = await _identityProviderStore.GetAllSchemeNamesAsync();
 
         var providers = GetExternalProviders(schemes);
-        var dynamicSchemes = GetExternalProviders(identityProviderNames);
+        var identityProviders = GetExternalProviders(identityProviderNames);
 
-        providers.AddRange(dynamicSchemes);
+        providers.AddRange(identityProviders);
 
         return providers;
     }
