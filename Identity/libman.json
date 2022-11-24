@@ -7,7 +7,7 @@
       "library": "jquery@3.6.1",
       "destination": "wwwroot/lib/jquery/",
       "files": [
-        "jquery.slim.min.js"
+        "jquery.min.js"
       ]
     },
     {
@@ -15,28 +15,52 @@
       "library": "bootstrap@5.2.3",
       "destination": "wwwroot/lib/bootstrap/",
       "files": [
-        "js/bootstrap.bundle.min.js",
         "css/bootstrap.min.css"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "bootstrap-icons@1.10.2",
+      "destination": "wwwroot/lib/bootstrap-icons/",
+      "files": [
+        "font/bootstrap-icons.min.css"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "bootstrap-icons@1.10.2",
+      "destination": "wwwroot/lib/bootstrap-icons/",
+      "files": [
+        "font/fonts/bootstrap-icons.woff",
+        "font/fonts/bootstrap-icons.woff2",
+        "font/bootstrap-icons.min.css"
       ]
     }
   ,
 {
-  "provider": "cdnjs",
-  "library": "bootstrap-icons@1.10.2",
-  "destination": "wwwroot/lib/bootstrap-icons/",
+  "provider": "unpkg",
+  "library": "jquery-validation@1.19.5",
+  "destination": "wwwroot/lib/jquery-validation/",
   "files": [
-    "font/bootstrap-icons.min.css"
+    "dist/jquery.validate.min.js"
   ]
 }
 ,
 {
   "provider": "cdnjs",
-  "library": "bootstrap-icons@1.10.2",
-  "destination": "wwwroot/lib/bootstrap-icons/",
+  "library": "jquery-validation-unobtrusive@4.0.0",
+  "destination": "wwwroot/lib/jquery-validation-unobtrusive/",
   "files": [
-    "font/fonts/bootstrap-icons.woff",
-    "font/fonts/bootstrap-icons.woff2",
-    "font/bootstrap-icons.min.css"
+    "jquery.validate.unobtrusive.min.js"
+  ]
+}
+,
+{
+  "provider": "cdnjs",
+  "library": "jquery-ajax-unobtrusive@3.2.6",
+  "destination": "wwwroot/lib/jquery-ajax-unobtrusive/",
+  "files": [
+    "jquery.unobtrusive-ajax.min.js"
   ]
 }
 ]

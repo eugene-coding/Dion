@@ -13,14 +13,12 @@
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Identity.styles.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/lib/jquery/jquery.min.js"></script>
 </head>
 <body>
     <main class="container-fluid">
         @RenderBody()
     </main>
-
-    <script src="~/lib/jquery/jquery.slim.min.js"></script>
-    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     @RenderSection("scripts", required: false)
 </body>
