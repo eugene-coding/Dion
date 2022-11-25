@@ -3,37 +3,24 @@
 
 <h1 class="mb-3">@Model.Text["HeadingTitle"]</h1>
 
-<partial name="_ValidationSummary" />
-
 @if (Model.View.EnableLocalLogin)
 {
-    <form class="mb-3" asp-page="/Account/Login/Index">
+    <form class="mb-3" method="post">
         <input type="hidden" asp-for="Input.ReturnUrl" />
 
-        <div class="mb-3">
-            <input class="form-control" placeholder="@Model.Text[nameof(@Model.Input.Username)]" asp-for="Input.Username" autofocus>
+        <div class="form-floating mb-3">
+            <input class="form-control" data-val-remote-additionalfields="__RequestVerificationToken" 
+                placeholder="@Model.Text[nameof(@Model.Input.Username)]" asp-for="Input.Username" autofocus />
+            <label asp-for="Input.Username"></label>
+            <span asp-validation-for="Input.Username"></span>
         </div>
 
-        <div class="mb-3">
-            <input class="form-control" placeholder="@Model.Text[nameof(@Model.Input.Password)]" asp-for="Input.Password" autocomplete="off">
-        </div>
-
-        @if (Model.View.AllowRememberLogin)
-        {
-            <div class="mb-3 form-check">
-                <input class="form-check-input" asp-for="Input.RememberLogin" />
-                <label class="form-check-label" asp-for="Input.RememberLogin">@Model.Text[nameof(@Model.Input.RememberLogin)]</label>
-            </div>
-        }
-
-        <button class="btn btn-primary" name="Input.Button" value="login">@Model.Text["Login"]</button>
+        <button class="btn btn-primary" value="login">@Model.Text["Login"]</button>
     </form>
 }
 
 @if (Model.View.VisibleExternalProviders.Any())
 {
-    <p>@Model.Text["SuggestExternalLogin"]</p>
-
     <ul class="list-inline">
         @foreach (var provider in Model.View.VisibleExternalProviders)
         {
@@ -55,4 +42,15 @@
         <strong>@Model.Text["InvalidLoginTitle"]</strong>
         @Model.Text["InvalidLoginDescription"]
     </div>
+}
+
+@section Scripts {
+    <partial name="_Validation" />
+
+    <script>
+        $.validator.setDefaults({
+            onkeyup: false,
+            onfocusout: false
+        });
+    </script>
 }

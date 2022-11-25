@@ -135,9 +135,6 @@
   <data name="RememberLogin" xml:space="preserve">
     <value>Запомнить меня</value>
   </data>
-  <data name="SuggestExternalLogin" xml:space="preserve">
-    <value>... или войти с помощью</value>
-  </data>
   <data name="Username" xml:space="preserve">
     <value>Имя пользователя</value>
   </data>

@@ -1,9 +1,6 @@
-using Duende.IdentityServer.Events;
-using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 using Duende.IdentityServer.Stores;
 
-using Identity.Exceptions;
 using Identity.Models;
 
 using Microsoft.AspNetCore.Authentication;
@@ -20,9 +17,7 @@ namespace Identity.Pages.Login;
 public class Index : PageModel
 {
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly IIdentityServerInteractionService _interaction;
-    private readonly IEventService _events;
     private readonly IAuthenticationSchemeProvider _schemeProvider;
     private readonly IIdentityProviderStore _identityProviderStore;
 
@@ -36,17 +31,13 @@ public class Index : PageModel
         IIdentityServerInteractionService interaction,
         IAuthenticationSchemeProvider schemeProvider,
         IIdentityProviderStore identityProviderStore,
-        IEventService events,
         IStringLocalizer<Index> text,
-        UserManager<ApplicationUser> userManager,
-        SignInManager<ApplicationUser> signInManager)
+        UserManager<ApplicationUser> userManager)
     {
         _userManager = userManager;
-        _signInManager = signInManager;
         _interaction = interaction;
         _schemeProvider = schemeProvider;
         _identityProviderStore = identityProviderStore;
-        _events = events;
 
         Text = text;
     }
@@ -57,7 +48,6 @@ public class Index : PageModel
 
         if (View.IsExternalLoginOnly)
         {
-            // we only have one option for logging in and it's an external provider
             return RedirectToPage("/ExternalLogin/Challenge", new { scheme = View.ExternalLoginScheme, returnUrl });
         }
 
@@ -66,82 +56,22 @@ public class Index : PageModel
 
     public async Task<IActionResult> OnPost()
     {
-        // check if we are in the context of an authorization request
-        var context = await _interaction.GetAuthorizationContextAsync(Input.ReturnUrl);
-
-        // the user clicked the "cancel" button
-        if (Input.Button != "login")
-        {
-            if (context != null)
-            {
-                // if the user cancels, send a result back into IdentityServer as if they 
-                // denied the consent (even if this client does not require consent).
-                // this will send back an access denied OIDC error response to the client.
-                await _interaction.DenyAuthorizationAsync(context, AuthorizationError.AccessDenied);
-
-                // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
-                if (context.IsNativeClient())
-                {
-                    // The client is native, so this change in how to
-                    // return the response is for better UX for the end user.
-                    return this.LoadingPage(Input.ReturnUrl);
-                }
-
-                return Redirect(Input.ReturnUrl);
-            }
-            else
-            {
-                // since we don't have a valid context, then we just go back to the home page
-                return Redirect("~/");
-            }
-        }
-
         if (ModelState.IsValid)
         {
-            var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberLogin, lockoutOnFailure: true);
-
-            if (result.Succeeded)
-            {
-                var user = await _userManager.FindByNameAsync(Input.Username);
-                await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName, clientId: context?.Client.ClientId));
-
-                if (context != null)
-                {
-                    if (context.IsNativeClient())
-                    {
-                        // The client is native, so this change in how to
-                        // return the response is for better UX for the end user.
-                        return this.LoadingPage(Input.ReturnUrl);
-                    }
-
-                    // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
-                    return Redirect(Input.ReturnUrl);
-                }
-
-                // request for a local page
-                if (Url.IsLocalUrl(Input.ReturnUrl))
-                {
-                    return Redirect(Input.ReturnUrl);
-                }
-                else if (string.IsNullOrEmpty(Input.ReturnUrl))
-                {
-                    return Redirect("~/");
-                }
-                else
-                {
-                    // user might have clicked on a malicious link - should be logged
-                    throw new InvalidUrlException("invalid return URL", nameof(Input.ReturnUrl));
-                }
-            }
-
-            await _events.RaiseAsync(new UserLoginFailureEvent(Input.Username, "invalid credentials", clientId: context?.Client.ClientId));
-            ModelState.AddModelError(string.Empty, LoginOptions.InvalidCredentialsErrorMessage);
+            return Redirect("/Account/Login/Password");
         }
 
-        // something went wrong, show form with error
         await BuildModelAsync(Input.ReturnUrl);
 
         return Page();
+    }
+
+    public async Task<JsonResult> OnPostValidateUsernameAsync()
+    {
+        var user = await _userManager.FindByNameAsync(Input.Username);
+        var valid = user is not null;
+
+        return new JsonResult(valid);
     }
 
     private async Task BuildModelAsync(string returnUrl)
@@ -196,41 +126,12 @@ public class Index : PageModel
         };
     }
 
-    private async Task<List<ExternalProvider>> GetExternalProvidersAsync()
+    private async Task<IEnumerable<ExternalProvider>> GetExternalProvidersAsync()
     {
         var schemes = await _schemeProvider.GetAllSchemesAsync();
         var identityProviderNames = await _identityProviderStore.GetAllSchemeNamesAsync();
 
-        var providers = GetExternalProviders(schemes);
-        var identityProviders = GetExternalProviders(identityProviderNames);
-
-        providers.AddRange(identityProviders);
-
-        return providers;
-    }
-
-    private static List<ExternalProvider> GetExternalProviders(IEnumerable<AuthenticationScheme> schemes)
-    {
-        var providers = schemes
-            .Where(x => x.DisplayName != null)
-            .Select(x => new ExternalProvider
-            {
-                DisplayName = x.DisplayName ?? x.Name,
-                AuthenticationScheme = x.Name
-            }).ToList();
-
-        return providers;
-    }
-
-    private static IEnumerable<ExternalProvider> GetExternalProviders(IEnumerable<IdentityProviderName> identityProviderNames)
-    {
-        var providers = identityProviderNames
-            .Where(x => x.Enabled)
-            .Select(x => new ExternalProvider
-            {
-                AuthenticationScheme = x.Scheme,
-                DisplayName = x.DisplayName
-            });
+        var providers = ExternalProvider.GetExternalProviders(schemes, identityProviderNames);
 
         return providers;
     }
