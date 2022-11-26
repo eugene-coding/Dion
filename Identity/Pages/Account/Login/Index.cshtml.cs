@@ -57,7 +57,7 @@ public class Index : PageModel
 
         if (context?.IdP is not null && await _schemeProvider.GetSchemeAsync(context.IdP) is not null)
         {
-            return BuildViewModelFromIdP(context, returnUrl);
+            return BuildViewModelFromIdP(context);
         }
 
         return await BuildViewModel(context);
@@ -78,7 +78,7 @@ public class Index : PageModel
         return Redirect("/Account/Login/Password" + query);
     }
 
-    private IActionResult BuildViewModelFromIdP(AuthorizationRequest context, string returnUrl)
+    private IActionResult BuildViewModelFromIdP(AuthorizationRequest context)
     {
         var local = context.IdP == IdentityServerConstants.LocalIdentityProvider;
 
