@@ -1,3 +1,5 @@
+using Duende.IdentityServer;
+using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 using Duende.IdentityServer.Stores;
 
@@ -21,7 +23,8 @@ public class Index : PageModel
     private readonly IAuthenticationSchemeProvider _schemeProvider;
     private readonly IIdentityProviderStore _identityProviderStore;
 
-    public ViewModel View { get; set; }
+    public string SubmitButtonId => "submit";
+    public ViewModel View { get; set; } = new();
     public IStringLocalizer<Index> Text { get; private init; }
 
     [BindProperty]
@@ -33,6 +36,7 @@ public class Index : PageModel
         IIdentityProviderStore identityProviderStore,
         IStringLocalizer<Index> text,
         UserManager<ApplicationUser> userManager)
+
     {
         _userManager = userManager;
         _interaction = interaction;
@@ -44,86 +48,72 @@ public class Index : PageModel
 
     public async Task<IActionResult> OnGet(string returnUrl)
     {
-        await BuildModelAsync(returnUrl);
-
-        if (View.IsExternalLoginOnly)
-        {
-            return RedirectToPage("/ExternalLogin/Challenge", new { scheme = View.ExternalLoginScheme, returnUrl });
-        }
-
-        return Page();
-    }
-
-    public async Task<IActionResult> OnPost()
-    {
-        if (ModelState.IsValid)
-        {
-            return Redirect("/Account/Login/Password");
-        }
-
-        await BuildModelAsync(Input.ReturnUrl);
-
-        return Page();
-    }
-
-    public async Task<JsonResult> OnPostValidateUsernameAsync()
-    {
-        var user = await _userManager.FindByNameAsync(Input.Username);
-        var valid = user is not null;
-
-        return new JsonResult(valid);
-    }
-
-    private async Task BuildModelAsync(string returnUrl)
-    {
-        Input = new InputModel
+        Input = new()
         {
             ReturnUrl = returnUrl
         };
 
         var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
 
-        if (context?.IdP != null && await _schemeProvider.GetSchemeAsync(context.IdP) != null)
+        if (context?.IdP is not null && await _schemeProvider.GetSchemeAsync(context.IdP) is not null)
         {
-            var local = context.IdP == Duende.IdentityServer.IdentityServerConstants.LocalIdentityProvider;
-
-            // this is meant to short circuit the UI and only trigger the one external IdP
-            View = new ViewModel
-            {
-                EnableLocalLogin = local,
-            };
-
-            Input.Username = context?.LoginHint;
-
-            if (!local)
-            {
-                View.ExternalProviders = new[] { new ExternalProvider { AuthenticationScheme = context.IdP } };
-            }
-
-            return;
+            return BuildViewModelFromIdP(context, returnUrl);
         }
 
+        return await BuildViewModel(context);
+    }
+
+    public async Task<JsonResult> OnPostValidateUsernameAsync()
+    {
+        var trimmedUsername = Input.Username.Trim();
+
+        var user = await _userManager.FindByNameAsync(trimmedUsername);
+        var valid = user is not null;
+
+        return new JsonResult(valid);
+    }
+
+    public IActionResult OnGetSuccess(string query)
+    {
+        return Redirect("/Account/Login/Password" + query);
+    }
+
+    private IActionResult BuildViewModelFromIdP(AuthorizationRequest context, string returnUrl)
+    {
+        var local = context.IdP == IdentityServerConstants.LocalIdentityProvider;
+
+        View = new();
+
+        Input.Username = context?.LoginHint;
+
+        if (!local)
+        {
+            View.ExternalProviders = new[] { new ExternalProvider { AuthenticationScheme = context.IdP } };
+        }
+
+        return Page();
+    }
+
+    private async Task<IActionResult> BuildViewModel(AuthorizationRequest context)
+    {
         var providers = await GetExternalProvidersAsync();
 
-        var allowLocal = true;
         var client = context?.Client;
 
-        if (client != null)
+        if (client is not null)
         {
-            allowLocal = client.EnableLocalLogin;
-
-            if (client.IdentityProviderRestrictions != null && client.IdentityProviderRestrictions.Any())
+            if (client.IdentityProviderRestrictions is not null && client.IdentityProviderRestrictions.Any())
             {
                 providers = providers.Where(provider => client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme)).ToList();
             }
         }
 
-        View = new ViewModel
+        View = new()
         {
-            AllowRememberLogin = LoginOptions.AllowRememberLogin,
-            EnableLocalLogin = allowLocal && LoginOptions.AllowLocalLogin,
             ExternalProviders = providers.ToArray()
         };
+
+        return Page();
     }
 
     private async Task<IEnumerable<ExternalProvider>> GetExternalProvidersAsync()
