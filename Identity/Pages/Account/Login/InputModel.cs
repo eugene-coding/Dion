@@ -11,6 +11,4 @@ public class InputModel
     [Display(Name = nameof(Username))]
     [PageRemote(ErrorMessage = "Username doesn`t exist", HttpMethod = WebRequestMethods.Http.Post, PageHandler = "ValidateUsername")]
     public string Username { get; set; }
-
-    public string ReturnUrl { get; set; }
 }

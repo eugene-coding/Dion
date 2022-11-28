@@ -18,41 +18,38 @@ namespace Identity.Pages.Login;
 [AllowAnonymous]
 public class Index : PageModel
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IIdentityServerInteractionService _interaction;
     private readonly IAuthenticationSchemeProvider _schemeProvider;
     private readonly IIdentityProviderStore _identityProviderStore;
-
-    public string SubmitButtonId => "submit";
-    public ViewModel View { get; set; } = new();
-    public IStringLocalizer<Index> Text { get; private init; }
-
-    [BindProperty]
-    public InputModel Input { get; set; }
+    private readonly IIdentityServerInteractionService _interaction;
+    private readonly UserManager<ApplicationUser> _userManager;
 
     public Index(
-        IIdentityServerInteractionService interaction,
         IAuthenticationSchemeProvider schemeProvider,
         IIdentityProviderStore identityProviderStore,
+        IIdentityServerInteractionService interaction,
         IStringLocalizer<Index> text,
         UserManager<ApplicationUser> userManager)
-
     {
-        _userManager = userManager;
-        _interaction = interaction;
         _schemeProvider = schemeProvider;
         _identityProviderStore = identityProviderStore;
+        _interaction = interaction;
+        _userManager = userManager;
 
         Text = text;
     }
 
+    [BindProperty(SupportsGet = true)]
+    public string ReturnUrl { get; init; }
+
+    [BindProperty]
+    public InputModel Input { get; init; } = new();
+
+    public string SubmitButtonId => "submit";
+    public IStringLocalizer<Index> Text { get; private init; }
+    public ViewModel View { get; private init; } = new();
+
     public async Task<IActionResult> OnGet(string returnUrl)
     {
-        Input = new()
-        {
-            ReturnUrl = returnUrl
-        };
-
         var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
 
         if (context?.IdP is not null && await _schemeProvider.GetSchemeAsync(context.IdP) is not null)
@@ -82,8 +79,6 @@ public class Index : PageModel
     {
         var local = context.IdP == IdentityServerConstants.LocalIdentityProvider;
 
-        View = new();
-
         Input.Username = context?.LoginHint;
 
         if (!local)
@@ -108,10 +103,7 @@ public class Index : PageModel
             }
         }
 
-        View = new()
-        {
-            ExternalProviders = providers.ToArray()
-        };
+        View.ExternalProviders = providers.ToArray();
 
         return Page();
     }

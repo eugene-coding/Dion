@@ -4,8 +4,6 @@
 <h1 class="mb-3">@Model.Text["HeadingTitle"]</h1>
 
 <form class="mb-3" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="success">
-    <input type="hidden" asp-for="Input.ReturnUrl" />
-
     <div class="form-floating mb-3">
         <input class="form-control" data-val-remote-additionalfields="__RequestVerificationToken"
                placeholder="@Model.Text[nameof(@Model.Input.Username)]" asp-for="Input.Username" autofocus />
@@ -25,7 +23,7 @@
                 <a class="btn btn-secondary"
            asp-page="/ExternalLogin/Challenge"
            asp-route-scheme="@provider.AuthenticationScheme"
-           asp-route-returnUrl="@Model.Input.ReturnUrl">
+           asp-route-returnUrl="@Model.ReturnUrl">
                     @provider.DisplayName
                 </a>
             </li>
