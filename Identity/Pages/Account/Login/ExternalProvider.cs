@@ -11,10 +11,10 @@ public sealed class ExternalProvider
 
     public static IEnumerable<ExternalProvider> GetExternalProviders(IEnumerable<AuthenticationScheme> schemes, IEnumerable<IdentityProviderName> identityProviderNames)
     {
-        var providers = GetExternalProviders(schemes).ToList();
+        var schemesProviders = GetExternalProviders(schemes);
         var identityProviders = GetExternalProviders(identityProviderNames);
 
-        providers.AddRange(identityProviders);
+        var providers = schemesProviders.Concat(identityProviders);
 
         return providers;
     }
