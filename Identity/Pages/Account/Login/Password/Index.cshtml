@@ -23,14 +23,7 @@
 </form>
 
 @section Scripts {
-    <partial name="_Validation" />
-
     <script>
-        $.validator.setDefaults({
-            onkeyup: false,
-            onfocusout: false
-        });
-
         success = () => {
             window.location = '/Account/Login?handler=Success&query=' + window.location.search;
         }

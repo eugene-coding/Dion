@@ -12,5 +12,14 @@
 </main>
 
 @section Scripts {
+    <partial name="_Validation" />
+
+    <script>
+        $.validator.setDefaults({
+            onkeyup: false,
+            onfocusout: false
+        });
+    </script>
+
     @RenderSection("scripts", required: false)
 }
