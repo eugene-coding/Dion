@@ -175,7 +175,8 @@ internal static class Program
     {
         app.Use(async (context, next) =>
         {
-            context.Response.Headers.Append("content-security-policy", "script-src 'self' 'unsafe-eval' 'sha256-0KnbD5oz092bv32PTW+Sx0izSZP5x4YY9WEEtTzbrHw='");
+            // 'unsafe-inline' only for development
+            context.Response.Headers.Append("content-security-policy", "script-src 'self' 'unsafe-eval' 'unsafe-inline'");
             await next.Invoke();
         });
     }
