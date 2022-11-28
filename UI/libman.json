@@ -3,15 +3,6 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "provider": "cdnjs",
-      "library": "jquery@3.6.1",
-      "destination": "wwwroot/lib/jquery/",
-      "files": [
-        "jquery.min.js"
-      ]
-    },
-    {
-      "provider": "cdnjs",
       "library": "bootstrap@5.2.3",
       "destination": "wwwroot/lib/bootstrap/",
       "files": [
@@ -20,25 +11,24 @@
       ]
     },
     {
-      "provider": "cdnjs",
       "library": "bootstrap-icons@1.10.2",
       "destination": "wwwroot/lib/bootstrap-icons/",
       "files": [
-        "font/bootstrap-icons.min.css"
-      ]
-    },
-    {
-      "provider": "cdnjs",
-      "library": "bootstrap-icons@1.10.2",
-      "destination": "wwwroot/lib/bootstrap-icons/",
-      "files": [
+        "font/bootstrap-icons.min.css",
         "font/fonts/bootstrap-icons.woff",
-        "font/fonts/bootstrap-icons.woff2",
-        "font/bootstrap-icons.min.css"
+        "font/fonts/bootstrap-icons.woff2"
       ]
     },
     {
-      "provider": "unpkg",
+      "provider": "cdnjs",
+      "library": "jquery@3.6.1",
+      "destination": "wwwroot/lib/jquery/",
+      "files": [
+        "jquery.min.js"
+      ]
+    },
+    {
+      "provider": "jsdelivr",
       "library": "jquery-validation@1.19.5",
       "destination": "wwwroot/lib/jquery-validation/",
       "files": [
