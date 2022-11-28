@@ -1,27 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+@{
+    Layout = "_LayoutBase";
+}
 
-    <title>Duende IdentityServer</title>
+@section Head {
+    <link rel="stylesheet" href="/_content/UI/lib/bootstrap-icons/font/bootstrap-icons.min.css">
+    @RenderSection("head", required: false)
+}
 
-    <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
-    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
+<main>
+    @RenderBody()
+</main>
 
-    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="~/Identity.styles.css" />
-    <link rel="stylesheet" href="~/css/default.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <script src="~/lib/jquery/jquery.min.js"></script>
-</head>
-<body>
-    <main class="container-fluid">
-        @RenderBody()
-    </main>
-
+@section Scripts {
     @RenderSection("scripts", required: false)
-</body>
-</html>
+}
