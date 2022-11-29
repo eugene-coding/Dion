@@ -47,7 +47,7 @@ public class Index : PageModel
     }
 
     [BindProperty]
-    public InputModel Input { get; init; } = new();
+    public InputModel Input { get; set; } = new();
 
     public string SubmitButtonId => "submit";
     public IStringLocalizer<Index> Text { get; private init; }
@@ -77,7 +77,10 @@ public class Index : PageModel
 
     public IActionResult OnGetSuccess(string query)
     {
-        return LocalRedirect("/Account/Login/Password" + query);
+        QueryString queryString = new(query);
+        var query2 = queryString.Add("username", Input.Username);
+
+        return RedirectToPage("/Account/Login/Password/Index", query2);
     }
 
     private IActionResult BuildViewModelFromIdP(AuthorizationRequest context)

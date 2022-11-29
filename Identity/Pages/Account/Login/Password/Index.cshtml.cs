@@ -8,11 +8,15 @@ namespace Identity.Pages.Login.Password;
 [AllowAnonymous]
 public class IndexModel : PageModel
 {
+    public string Username { get; private set; }
+
     [BindProperty]
     public InputModel Input { get; set; }
 
-    public void OnGet()
+    public void OnGet(string username)
     {
+        Username = username;
+
         Input = new();
     }
 
