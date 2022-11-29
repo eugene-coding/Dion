@@ -52,6 +52,8 @@ internal static class Program
         builder.Services.AddLocalization();
         builder.Services.ConfigureCors();
         builder.Services.AddRazorPages();
+        builder.Services.AddDistributedMemoryCache();
+        builder.Services.ConfigureSession();
         builder.Services.ConfigureDbContext(contextOptions);
         builder.Services.ConfigureIdentity();
         builder.Services.ConfigureIdentityServer(contextOptions);
@@ -79,11 +81,22 @@ internal static class Program
         app.UseRouting();
         app.UseIdentityServer();
         app.UseAuthorization();
-
+        app.UseSession();
         app.MapRazorPages()
            .RequireAuthorization();
 
         return app;
+    }
+
+    private static void ConfigureSession(this IServiceCollection services)
+    {
+        services.AddSession(options =>
+        {
+            options.IdleTimeout = Shared.Config.SessionTimeout;
+            options.Cookie.HttpOnly = true;
+            options.Cookie.IsEssential = true;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        });
     }
 
     private static void ConfigureDbContext(this IServiceCollection services, DbContextOptions contextOptions)
