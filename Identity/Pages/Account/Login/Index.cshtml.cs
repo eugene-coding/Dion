@@ -48,9 +48,9 @@ public class Index : PageModel
     public IStringLocalizer<Index> Text { get; private init; }
     public ViewModel View { get; private init; } = new();
 
-    public async Task<IActionResult> OnGet(string returnUrl)
+    public async Task<IActionResult> OnGet()
     {
-        var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
+        var context = await _interaction.GetAuthorizationContextAsync(ReturnUrl);
 
         if (context?.IdP is not null && await _schemeProvider.GetSchemeAsync(context.IdP) is not null)
         {
@@ -72,7 +72,7 @@ public class Index : PageModel
 
     public IActionResult OnGetSuccess(string query)
     {
-        return Redirect("/Account/Login/Password" + query);
+        return LocalRedirect("/Account/Login/Password" + query);
     }
 
     private IActionResult BuildViewModelFromIdP(AuthorizationRequest context)
