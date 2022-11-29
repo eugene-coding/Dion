@@ -19,17 +19,17 @@ namespace Identity.Pages.Login;
 public class Index : PageModel
 {
     private readonly string _returnUrl;
+    private readonly UserManager<ApplicationUser> _userManager;
     private readonly IAuthenticationSchemeProvider _schemeProvider;
     private readonly IIdentityProviderStore _identityProviderStore;
     private readonly IIdentityServerInteractionService _interaction;
-    private readonly UserManager<ApplicationUser> _userManager;
 
     public Index(
+        UserManager<ApplicationUser> userManager,
         IAuthenticationSchemeProvider schemeProvider,
         IIdentityProviderStore identityProviderStore,
         IIdentityServerInteractionService interaction,
-        IStringLocalizer<Index> text,
-        UserManager<ApplicationUser> userManager)
+        IStringLocalizer<Index> text)
     {
         _schemeProvider = schemeProvider;
         _identityProviderStore = identityProviderStore;
@@ -40,7 +40,6 @@ public class Index : PageModel
     }
 
     [BindProperty(SupportsGet = true)]
-    public string ReturnUrl { get; init; }
     public string ReturnUrl
     {
         get => _returnUrl;
