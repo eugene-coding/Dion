@@ -18,6 +18,7 @@ namespace Identity.Pages.Login;
 [AllowAnonymous]
 public class Index : PageModel
 {
+    private readonly string _returnUrl;
     private readonly IAuthenticationSchemeProvider _schemeProvider;
     private readonly IIdentityProviderStore _identityProviderStore;
     private readonly IIdentityServerInteractionService _interaction;
@@ -40,6 +41,11 @@ public class Index : PageModel
 
     [BindProperty(SupportsGet = true)]
     public string ReturnUrl { get; init; }
+    public string ReturnUrl
+    {
+        get => _returnUrl;
+        init => _returnUrl = Url.IsLocalUrl(value) ? value : "/";
+    }
 
     [BindProperty]
     public InputModel Input { get; init; } = new();
