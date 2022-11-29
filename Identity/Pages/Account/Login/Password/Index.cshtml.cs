@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -17,14 +16,9 @@ public class IndexModel : PageModel
         Input = new();
     }
 
-    public async Task<JsonResult> OnPostValidateUsernameAsync()
+    public JsonResult OnPostValidateUsername()
     {
-        var trimmedUsername = Input.Username.Trim();
-
-        var user = await _userManager.FindByNameAsync(trimmedUsername);
-        var valid = user is not null;
-
-        return new JsonResult(valid);
+        return new JsonResult(true);
     }
 
     public IActionResult OnGetSuccess(string query)
