@@ -11,11 +11,6 @@ public static class Config
         var signOutUrl = Shared.Config.WebUrl + "/signout-oidc";
         var signOutCallbackUrl = Shared.Config.WebUrl + "/signout-callback-oidc";
 
-        ApiScopes = new List<ApiScope>()
-        {
-            new (Shared.Config.ApiName, "API")
-        };
-
         Clients = new List<Client>()
         {
             new Client
@@ -43,7 +38,7 @@ public static class Config
                 AllowedGrantTypes = GrantTypes.Code,
                 AllowOfflineAccess = true,
 
-                RedirectUris = { signInUrl },
+                RedirectUris = { signInUrl, Shared.Config.IdentityUrl + "/signin-oidc", Shared.Config.IdentityUrl + "/Account/Login/Password" },
                 FrontChannelLogoutUri = signOutUrl,
                 PostLogoutRedirectUris = { signOutCallbackUrl },
 
@@ -56,15 +51,16 @@ public static class Config
                 }
             }
         };
+    }
 
-        IdentityResources = new List<IdentityResource>()
+    public static IEnumerable<ApiScope> ApiScopes => new List<ApiScope>()
+        {
+            new (Shared.Config.ApiName)
+        };
+    public static IEnumerable<Client> Clients { get; private set; }
+    public static IEnumerable<IdentityResource> IdentityResources => new List<IdentityResource>()
         {
             new IdentityResources.OpenId(),
             new IdentityResources.Profile()
         };
-    }
-
-    public static IEnumerable<ApiScope> ApiScopes { get; private set; }
-    public static IEnumerable<Client> Clients { get; private set; }
-    public static IEnumerable<IdentityResource> IdentityResources { get; private set; }
 }

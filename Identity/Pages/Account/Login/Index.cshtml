@@ -5,10 +5,9 @@
 
 <form class="mb-3" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="success">
     <div class="form-floating mb-3">
-        <input class="form-control" data-val-remote-additionalfields="__RequestVerificationToken"
-               placeholder="@Model.Text[nameof(@Model.Input.Username)]" asp-for="Input.Username" autofocus />
-        <label asp-for="Input.Username"></label>
-        <span asp-validation-for="Input.Username"></span>
+        <input class="form-control" placeholder="@Model.Text[nameof(@Model.Username)]" asp-for="Username" autofocus />
+        <label asp-for="Username"></label>
+        <span asp-validation-for="Username"></span>
     </div>
 
     <button class="btn btn-primary" id="@Model.SubmitButtonId">@Model.Text["Login"]</button>
@@ -34,12 +33,12 @@
 @section Scripts {
     <script>
         success = () => {
-            window.location = '/Account/Login?handler=Success&query=' + window.location.search;
+            window.location = window.location.pathname + '?handler=Success&query=' + window.location.search;
         }
     </script>
 
     <script>
-        const inputId = '#@nameof(Model.Input)_@nameof(Model.Input.Username)';
+        const inputId = '#@nameof(Model.Username)';
         const buttonId = '#@Model.SubmitButtonId';
 
         $(function () {

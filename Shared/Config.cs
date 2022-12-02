@@ -2,17 +2,18 @@
 
 public static class Config
 {
-    public const string ApiName = "api";
-    public const string BearerSchemeName = "bearer";
-    public const string CookieSchemeName = "cookies";
-    public const string OidcSchemeName = "oidc";
-    public const string OidcCorsHeader = "authorization";
-    public const string WebClientId = "bff";
-    public const string WebClientSecret = "secret";
-    private const string BaseUrl = "https://localhost";
+    public static string ApiName => "api";
+    public static string BearerSchemeName => "bearer";
+    public static string CookieSchemeName => "cookies";
+    public static string OidcSchemeName => "oidc";
+    public static string OidcCorsHeader => "authorization";
+    public static string WebClientId => "user";
+    public static string WebClientSecret => "secret";
+    private static string BaseUrl => "https://localhost";
+
 
     public static string ApiUrl => $"{BaseUrl}:6001";
     public static string IdentityUrl => $"{BaseUrl}:5001";
     public static string WebUrl => $"{BaseUrl}:5002";
-    public static TimeSpan SessionTimeout => TimeSpan.FromSeconds(1000);
+    public static TimeSpan SessionTimeout => TimeSpan.FromSeconds(100);
 }

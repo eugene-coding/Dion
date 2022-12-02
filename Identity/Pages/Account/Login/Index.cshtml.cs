@@ -14,13 +14,15 @@ using Microsoft.Extensions.Localization;
 
 using Shared;
 
+using System.ComponentModel.DataAnnotations;
+using System.Net;
+
 namespace Identity.Pages.Login;
 
 [SecurityHeaders]
 [AllowAnonymous]
 public class Index : PageModel
 {
-    private readonly string _returnUrl;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IAuthenticationSchemeProvider _schemeProvider;
     private readonly IIdentityProviderStore _identityProviderStore;
@@ -42,14 +44,17 @@ public class Index : PageModel
     }
 
     [BindProperty(SupportsGet = true)]
-    public string ReturnUrl
-    {
-        get => _returnUrl;
-        init => _returnUrl = Url.IsLocalUrl(value) ? value : "/";
-    }
+    public string ReturnUrl { get; init; }
 
+    [Required]
     [BindProperty]
-    public InputModel Input { get; set; } = new();
+    [Display(Name = nameof(Username))]
+    [PageRemote(
+        AdditionalFields = "__RequestVerificationToken",
+        ErrorMessage = "Username doesn`t exist", 
+        HttpMethod = WebRequestMethods.Http.Post, 
+        PageHandler = "ValidateUsername")]
+    public string Username { get; set; }
 
     public string SubmitButtonId => "submit";
     public IStringLocalizer<Index> Text { get; private init; }
@@ -61,7 +66,7 @@ public class Index : PageModel
     {
         if (!string.IsNullOrEmpty(Session.GetString(SessionKeys.Username)))
         {
-            Input.Username = Session.GetString(SessionKeys.Username);
+            Username = Session.GetString(SessionKeys.Username);
         }
 
         var context = await _interaction.GetAuthorizationContextAsync(ReturnUrl);
@@ -76,7 +81,7 @@ public class Index : PageModel
 
     public async Task<JsonResult> OnPostValidateUsernameAsync()
     {
-        var trimmedUsername = Input.Username.Trim();
+        var trimmedUsername = Username.Trim();
 
         var user = await _userManager.FindByNameAsync(trimmedUsername);
         var valid = user is not null;
@@ -91,17 +96,14 @@ public class Index : PageModel
 
     public IActionResult OnGetSuccess(string query)
     {
-        QueryString queryString = new(query);
-        var query2 = queryString.Add("username", Input.Username);
-
-        return RedirectToPage("/Account/Login/Password/Index", query2);
+        return LocalRedirect("~/Account/Login/Password" + query);
     }
 
     private IActionResult BuildViewModelFromIdP(AuthorizationRequest context)
     {
         var local = context.IdP == IdentityServerConstants.LocalIdentityProvider;
 
-        Input.Username = context?.LoginHint;
+        Username = context?.LoginHint;
 
         if (!local)
         {
