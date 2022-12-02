@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
+using Shared;
+
 namespace Identity.Pages.Login.Password;
 
 [SecurityHeaders]
@@ -11,22 +13,25 @@ public class IndexModel : PageModel
     public string Username { get; private set; }
 
     [BindProperty]
-    public InputModel Input { get; set; }
+    public InputModel Input { get; private init; } = new();
 
-    public void OnGet(string username)
+    public string Username { get; private set; }
+
+    private ISession Session => HttpContext.Session;
+
+    public IActionResult OnGet()
     {
-        Username = username;
+        var username = Session.GetString(SessionKeys.Username);
 
-        Input = new();
-    }
+        if (!string.IsNullOrEmpty(username))
+        {
+            Username = username;
+        }
+        else
+        {
+            return LocalRedirect("~/Account/Login" + Request.QueryString);
+        }
 
-    public JsonResult OnPostValidateUsername()
-    {
-        return new JsonResult(true);
-    }
-
-    public IActionResult OnGetSuccess(string query)
-    {
-        return Redirect("/Account/Login/Password" + query);
+        return Page();
     }
 }

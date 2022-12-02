@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Localization;
 
+using Shared;
+
 namespace Identity.Pages.Login;
 
 [SecurityHeaders]
@@ -53,8 +55,15 @@ public class Index : PageModel
     public IStringLocalizer<Index> Text { get; private init; }
     public ViewModel View { get; private init; } = new();
 
+    private ISession Session => HttpContext.Session;
+
     public async Task<IActionResult> OnGet()
     {
+        if (!string.IsNullOrEmpty(Session.GetString(SessionKeys.Username)))
+        {
+            Input.Username = Session.GetString(SessionKeys.Username);
+        }
+
         var context = await _interaction.GetAuthorizationContextAsync(ReturnUrl);
 
         if (context?.IdP is not null && await _schemeProvider.GetSchemeAsync(context.IdP) is not null)
@@ -71,6 +80,11 @@ public class Index : PageModel
 
         var user = await _userManager.FindByNameAsync(trimmedUsername);
         var valid = user is not null;
+
+        if (valid)
+        {
+            Session.SetString(SessionKeys.Username, trimmedUsername);
+        }
 
         return new JsonResult(valid);
     }
