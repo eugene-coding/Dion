@@ -30,6 +30,10 @@
     </ul>
 }
 
+@section Head {
+    <script src="~/js/scripts.js"></script>
+}
+
 @section Scripts {
     <script>
         success = () => {
@@ -38,25 +42,9 @@
     </script>
 
     <script>
-        const inputId = '#@nameof(Model.Username)';
-        const buttonId = '#@Model.SubmitButtonId';
+        const input = document.getElementById("@nameof(Model.Username)");
+        const button = document.getElementById("@Model.SubmitButtonId");
 
-        $(function () {
-            checkEmptyInput();
-
-            $(inputId).on('input', function () {
-                checkEmptyInput();
-            });
-        });
-
-        function checkEmptyInput() {
-            let value = $(inputId).val();
-
-            $(buttonId).prop('disabled', isEmpty(value));
-        }
-
-        function isEmpty(str) {
-            return !str.trim().length;
-        }
+        validateInput(input, button);
     </script>
 }

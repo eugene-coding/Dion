@@ -18,40 +18,28 @@
 
 <a asp-page-handler="OnPostValidatePasswordAsync">sdsd</a>
 
+@section Head {
+    <script src="~/js/scripts.js"></script>
+}
+
 @section Scripts {
-<script>
-    const handlerLeftPart = window.location.pathname + '?handler=';
+    <script>
+        const handlerLeftPart = window.location.pathname + '?handler=';
 
-    success = () => {
-        window.location = handlerLeftPart + 'Success';
-    };
+        success = () => {
+            window.location = handlerLeftPart + 'Success';
+        };
 
-    failed = () => {
-        window.location = handlerLeftPart + 'Failure';
-    }
-</script>
-
-    @*<script>
-        const inputId = '#@nameof(Model.Input)_@nameof(Model.Input.Username)';
-        const buttonId = '#@Model.SubmitButtonId';
-
-        $(function () {
-            checkEmptyInput();
-
-            $(inputId).on('input', function () {
-                checkEmptyInput();
-            });
-        });
-
-        function checkEmptyInput() {
-            let value = $(inputId).val();
-
-            $(buttonId).prop('disabled', isEmpty(value));
+        failed = () => {
+            window.location = handlerLeftPart + 'Failure';
         }
+    </script>
 
-        function isEmpty(str) {
-            return !str.trim().length;
-        }
+   @*<script>
+        const input = document.getElementById("@nameof(Input)_@nameof(Model.Input.Username)");
+        const button = document.getElementById("@Model.SubmitButtonId");
+
+        validateInput(input, button);
     </script>*@
-    }
+}
 
