@@ -1,0 +1,16 @@
+﻿@if (_externalProviders.Any())
+{
+    <ul class="list-inline">
+        @foreach (var provider in _externalProviders)
+        {
+            <li class="list-inline-item">
+                <a class="btn btn-secondary"
+           asp-page="/ExternalLogin/Challenge"
+           asp-route-scheme="@provider.AuthenticationScheme"
+           asp-route-returnUrl="@ReturnUrl">
+                    @provider.DisplayName
+                </a>
+    </li>
+    }
+</ul>
+}

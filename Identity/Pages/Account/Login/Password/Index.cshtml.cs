@@ -55,7 +55,7 @@ public class IndexModel : PageModel
     {
         _context = await _interaction.GetAuthorizationContextAsync(ReturnUrl);
  
-        Response.Headers.Add("Refresh", $"{Shared.Config.SessionTimeout.TotalSeconds};url=/Account/Login/Password?handler=SessionTimeout");
+        Response.Headers.Add("Refresh", $"{CommonValues.SessionTimeout.TotalSeconds};url=/Account/Login/Password?handler=SessionTimeout");
 
         if (string.IsNullOrEmpty(Username))
         {
@@ -75,11 +75,11 @@ public class IndexModel : PageModel
 
             if (_context.IsNativeClient())
             {
-                return this.LoadingPage(Shared.Config.AuthenticationRedirectUrl);
+                return this.LoadingPage(CommonValues.AuthenticationRedirectUrl);
             }
         }
 
-        return Redirect(Shared.Config.AuthenticationRedirectUrl);
+        return Redirect(CommonValues.AuthenticationRedirectUrl);
     }
 
     public async Task<JsonResult> OnPostValidatePasswordAsync()

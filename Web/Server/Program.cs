@@ -63,21 +63,21 @@ internal static class Program
     {
         services.AddAuthentication(options =>
         {
-            options.DefaultScheme = Config.CookieSchemeName;
-            options.DefaultChallengeScheme = Config.OidcSchemeName;
-            options.DefaultSignOutScheme = Config.OidcSchemeName;
+            options.DefaultScheme = CommonValues.CookieSchemeName;
+            options.DefaultChallengeScheme = CommonValues.OidcSchemeName;
+            options.DefaultSignOutScheme = CommonValues.OidcSchemeName;
         })
-            .AddCookie(Config.CookieSchemeName, options =>
+            .AddCookie(CommonValues.CookieSchemeName, options =>
             {
                 options.Cookie.Name = "__Host-blazor";
                 options.Cookie.SameSite = SameSiteMode.Strict;
             })
-            .AddOpenIdConnect(Config.OidcSchemeName, options =>
+            .AddOpenIdConnect(CommonValues.OidcSchemeName, options =>
             {
-                options.Authority = Config.IdentityUrl;
+                options.Authority = CommonValues.IdentityUrl;
                 
-                options.ClientId = Config.WebClientId;
-                options.ClientSecret = Config.WebClientSecret;
+                options.ClientId = CommonValues.WebClientId;
+                options.ClientSecret = CommonValues.WebClientSecret;
                 options.ResponseType = "code";
                 options.ResponseMode = "query";
                 
@@ -85,7 +85,7 @@ internal static class Program
                 options.Scope.Add(IdentityServerConstants.StandardScopes.OpenId);
                 options.Scope.Add(IdentityServerConstants.StandardScopes.Profile);
                 options.Scope.Add(IdentityServerConstants.StandardScopes.OfflineAccess);
-                options.Scope.Add(Config.ApiName);
+                options.Scope.Add(CommonValues.ApiName);
 
                 options.MapInboundClaims = false;
                 options.GetClaimsFromUserInfoEndpoint = true;

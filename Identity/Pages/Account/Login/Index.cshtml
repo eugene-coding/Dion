@@ -1,4 +1,5 @@
 @page
+@using Identity.Pages.Shared;
 @model Identity.Pages.Login.Index
 
 <h1 class="mb-3">@Model.Text["HeadingTitle"]</h1>
@@ -13,22 +14,7 @@
     <button class="btn btn-primary" id="@Model.SubmitButtonId">@Model.Text["Login"]</button>
 </form>
 
-@if (Model.View.VisibleExternalProviders.Any())
-{
-    <ul class="list-inline">
-        @foreach (var provider in Model.View.VisibleExternalProviders)
-        {
-            <li class="list-inline-item">
-                <a class="btn btn-secondary"
-           asp-page="/ExternalLogin/Challenge"
-           asp-route-scheme="@provider.AuthenticationScheme"
-           asp-route-returnUrl="@Model.ReturnUrl">
-                    @provider.DisplayName
-                </a>
-            </li>
-        }
-    </ul>
-}
+<component type="typeof(ExternalProviders)" render-mode="Static" param-returnUrl="@Model.ReturnUrl" />
 
 @section Head {
     <script src="~/js/scripts.js"></script>
