@@ -35,10 +35,10 @@ public class Index : PageModel
         IIdentityServerInteractionService interaction,
         IStringLocalizer<Index> text)
     {
+        _userManager = userManager;
         _schemeProvider = schemeProvider;
         _identityProviderStore = identityProviderStore;
         _interaction = interaction;
-        _userManager = userManager;
 
         Text = text;
     }
@@ -51,10 +51,14 @@ public class Index : PageModel
     [Display(Name = nameof(Username))]
     [PageRemote(
         AdditionalFields = "__RequestVerificationToken",
-        ErrorMessage = "Username doesn`t exist", 
-        HttpMethod = WebRequestMethods.Http.Post, 
+        ErrorMessage = "Username doesn`t exist",
+        HttpMethod = WebRequestMethods.Http.Post,
         PageHandler = "ValidateUsername")]
-    public string Username { get; set; }
+    public string Username
+    {
+        get => Session.GetString(SessionKeys.Username);
+        set => Session.SetString(SessionKeys.Username, value);
+    }
 
     public string SubmitButtonId => "submit";
     public IStringLocalizer<Index> Text { get; private init; }
@@ -64,13 +68,8 @@ public class Index : PageModel
 
     public async Task<IActionResult> OnGet()
     {
-        if (!string.IsNullOrEmpty(Session.GetString(SessionKeys.Username)))
-        {
-            Username = Session.GetString(SessionKeys.Username);
-        }
-
         var context = await _interaction.GetAuthorizationContextAsync(ReturnUrl);
-
+        
         if (context?.IdP is not null && await _schemeProvider.GetSchemeAsync(context.IdP) is not null)
         {
             return BuildViewModelFromIdP(context);
@@ -88,15 +87,10 @@ public class Index : PageModel
 
         if (valid)
         {
-            Session.SetString(SessionKeys.Username, trimmedUsername);
+            Username = trimmedUsername;
         }
 
         return new JsonResult(valid);
-    }
-
-    public IActionResult OnGetSuccess(string query)
-    {
-        return LocalRedirect("~/Account/Login/Password" + query);
     }
 
     private IActionResult BuildViewModelFromIdP(AuthorizationRequest context)

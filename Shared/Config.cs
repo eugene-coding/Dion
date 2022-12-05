@@ -15,5 +15,6 @@ public static class Config
     public static string ApiUrl => $"{BaseUrl}:6001";
     public static string IdentityUrl => $"{BaseUrl}:5001";
     public static string WebUrl => $"{BaseUrl}:5002";
-    public static TimeSpan SessionTimeout => TimeSpan.FromSeconds(100);
+    public static string AuthenticationRedirectUrl => $"{WebUrl}/AuthorizeRedirect";
+    public static TimeSpan SessionTimeout => TimeSpan.FromMinutes(100);
 }

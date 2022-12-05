@@ -1,4 +1,3 @@
-using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 
@@ -22,20 +21,14 @@ namespace Identity.Pages.Login.Password;
 public class IndexModel : PageModel
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IEventService _events;
     private readonly IIdentityServerInteractionService _interaction;
     private AuthorizationRequest _context;
 
     public IndexModel(
         SignInManager<ApplicationUser> signInManager,
-        UserManager<ApplicationUser> userManager,
-        IEventService events,
         IIdentityServerInteractionService interaction)
     {
         _signInManager = signInManager;
-        _userManager = userManager;
-        _events = events;
         _interaction = interaction;
     }
 
@@ -48,7 +41,7 @@ public class IndexModel : PageModel
         HttpMethod = WebRequestMethods.Http.Post,
         PageHandler = "ValidatePassword")]
     public string Password { get; set; }
- 
+
     [BindProperty(SupportsGet = true)]
     public string ReturnUrl { get; init; }
 
@@ -61,7 +54,7 @@ public class IndexModel : PageModel
     public async Task<IActionResult> OnGetAsync()
     {
         _context = await _interaction.GetAuthorizationContextAsync(ReturnUrl);
-
+ 
         Response.Headers.Add("Refresh", $"{Shared.Config.SessionTimeout.TotalSeconds};url=/Account/Login/Password?handler=SessionTimeout");
 
         if (string.IsNullOrEmpty(Username))
@@ -82,13 +75,11 @@ public class IndexModel : PageModel
 
             if (_context.IsNativeClient())
             {
-                return this.LoadingPage(ReturnUrl);
+                return this.LoadingPage(Shared.Config.AuthenticationRedirectUrl);
             }
-
-            return Redirect(ReturnUrl);
         }
 
-        return Redirect($"{Shared.Config.WebUrl}/AuthorizeRedirect");
+        return Redirect(Shared.Config.AuthenticationRedirectUrl);
     }
 
     public async Task<JsonResult> OnPostValidatePasswordAsync()
@@ -98,11 +89,8 @@ public class IndexModel : PageModel
         return new JsonResult(result.Succeeded);
     }
 
-    public async Task<IActionResult> OnGetSuccess()
+    public IActionResult OnGetSuccess()
     {
-        var user = await _userManager.FindByNameAsync(Username);
-        await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName, clientId: _context?.Client.ClientId));
-
         if (_context is not null)
         {
             if (_context.IsNativeClient())
@@ -126,13 +114,5 @@ public class IndexModel : PageModel
             // user might have clicked on a malicious link - should be logged
             throw new InvalidUrlException("invalid return URL", nameof(ReturnUrl));
         }
-    }
-
-    public async Task<IActionResult> OnGetFailure()
-    {
-        var context = await _interaction.GetAuthorizationContextAsync(ReturnUrl);
-        await _events.RaiseAsync(new UserLoginFailureEvent(Username, "invalid credentials", clientId: context?.Client.ClientId));
-
-        return Redirect("https://localhost:5002");
     }
 }
