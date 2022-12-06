@@ -5,78 +5,104 @@ using Duende.IdentityServer.Stores;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Mvc;
+
+using System.Web;
 
 namespace Identity.Pages.Shared;
 
 public sealed partial class ExternalProviders
 {
-    private IEnumerable<ExternalProvider> _externalProviders = Enumerable.Empty<ExternalProvider>();
+    private readonly string _returnUrl;
+    private AuthorizationRequest _context;
+    private IEnumerable<Provider> _providers = Enumerable.Empty<Provider>();
 
     [Inject] private IAuthenticationSchemeProvider SchemeProvider { get; init; }
     [Inject] private IIdentityProviderStore IdentityProviderStore { get; init; }
     [Inject] private IIdentityServerInteractionService Interaction { get; init; }
 
-    [Parameter] public string ReturnUrl { get; set; }
-
-    protected override async Task OnParametersSetAsync()
+    [Parameter]
+    public string ReturnUrl
     {
-        var context = await Interaction.GetAuthorizationContextAsync(ReturnUrl);
+        get => _returnUrl;
+        init => _returnUrl = HttpUtility.UrlEncode(value);
+    }
 
-        if (context?.IdP is not null && await SchemeProvider.GetSchemeAsync(context.IdP) is not null)
+    protected override async Task OnInitializedAsync()
+    {
+        _context = await Interaction.GetAuthorizationContextAsync(ReturnUrl);
+
+        if (_context?.IdP is not null && await SchemeProvider.GetSchemeAsync(_context.IdP) is not null)
         {
-            var local = context.IdP == IdentityServerConstants.LocalIdentityProvider;
-
-            if (!local)
+            if (_context.IdP != IdentityServerConstants.LocalIdentityProvider)
             {
-                _externalProviders = new[] { new ExternalProvider { AuthenticationScheme = context.IdP } };
-            }
+                _providers = GetRequestedProvider();
 
-            return;
+                return;
+            }
         }
 
-        _externalProviders = await GetExternalProviders();
+        _providers = await GetVisibleProviders();
+    }
 
-        var client = context?.Client;
+    private List<Provider> GetRequestedProvider()
+    {
+        return new List<Provider>
+        {
+            new Provider
+            {
+                AuthenticationScheme = _context.IdP
+            }
+        };
+    }
+
+    private async Task<List<Provider>> GetVisibleProviders()
+    {
+        var providers = await GetProviders();
+
+        var client = _context?.Client;
 
         if (client?.IdentityProviderRestrictions is not null && client.IdentityProviderRestrictions.Any())
         {
-            _externalProviders = _externalProviders.Where(provider => client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme)).ToList();
+            providers = providers.Where(provider => client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme));
         }
 
-        _externalProviders = _externalProviders.Where(x => !string.IsNullOrWhiteSpace(x.DisplayName)).ToList();
+        providers = providers.Where(x => !string.IsNullOrWhiteSpace(x.DisplayName));
+
+        return providers.ToList();
     }
 
-    private async Task<List<ExternalProvider>> GetExternalProviders()
+    private async Task<IEnumerable<Provider>> GetProviders()
     {
         var schemes = await SchemeProvider.GetAllSchemesAsync();
         var identityProviderNames = await IdentityProviderStore.GetAllSchemeNamesAsync();
 
-        var providers = GetExternalProviders(schemes);
-        var dynamicSchemes = GetExternalProviders(identityProviderNames);
+        var providers = GetProviders(schemes);
+        var dynamicSchemes = GetProviders(identityProviderNames);
 
-        providers.AddRange(dynamicSchemes);
+        providers = providers.Concat(dynamicSchemes);
 
         return providers;
     }
 
-    private static List<ExternalProvider> GetExternalProviders(IEnumerable<AuthenticationScheme> schemes)
+    private static IEnumerable<Provider> GetProviders(IEnumerable<AuthenticationScheme> schemes)
     {
         var providers = schemes
             .Where(x => x.DisplayName != null)
-            .Select(x => new ExternalProvider
+            .Select(x => new Provider
             {
                 DisplayName = x.DisplayName ?? x.Name,
                 AuthenticationScheme = x.Name
-            }).ToList();
+            });
 
         return providers;
     }
 
-    private static IEnumerable<ExternalProvider> GetExternalProviders(IEnumerable<IdentityProviderName> identityProviderNames)
+    private static IEnumerable<Provider> GetProviders(IEnumerable<IdentityProviderName> identityProviderNames)
     {
         var providers = identityProviderNames
             .Where(x => x.Enabled)
-            .Select(x => new ExternalProvider
+            .Select(x => new Provider
             {
                 AuthenticationScheme = x.Scheme,
                 DisplayName = x.DisplayName
@@ -85,7 +111,7 @@ public sealed partial class ExternalProviders
         return providers;
     }
 
-    private sealed class ExternalProvider
+    private sealed class Provider
     {
         public string DisplayName { get; set; }
         public string AuthenticationScheme { get; set; }

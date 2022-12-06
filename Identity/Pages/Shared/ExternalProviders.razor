@@ -1,16 +1,14 @@
-﻿@if (_externalProviders.Any())
+﻿@if (_providers.Any())
 {
     <ul class="list-inline">
-        @foreach (var provider in _externalProviders)
+        @foreach (var provider in _providers)
         {
             <li class="list-inline-item">
                 <a class="btn btn-secondary"
-           asp-page="/ExternalLogin/Challenge"
-           asp-route-scheme="@provider.AuthenticationScheme"
-           asp-route-returnUrl="@ReturnUrl">
+                href="/ExternalLogin/Challenge?scheme=@provider.AuthenticationScheme&returnUrl=@ReturnUrl">
                     @provider.DisplayName
                 </a>
-    </li>
-    }
-</ul>
+            </li>
+        }
+    </ul>
 }
