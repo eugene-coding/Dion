@@ -56,7 +56,7 @@ public class Index : PageModel
 
     public string SubmitButtonId => "submit";
     public IStringLocalizer<Index> Text { get; private init; }
-
+    
     public async Task<IActionResult> OnGet()
     {
         var context = await _interaction.GetAuthorizationContextAsync(ReturnUrl);
