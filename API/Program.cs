@@ -59,10 +59,10 @@ internal static class Program
     
     private static void ConfigureAuthentication(this IServiceCollection services)
     {
-        services.AddAuthentication(Config.BearerSchemeName)
-                .AddJwtBearer(Config.BearerSchemeName, options =>
+        services.AddAuthentication(CommonValues.BearerSchemeName)
+                .AddJwtBearer(CommonValues.BearerSchemeName, options =>
                 {
-                    options.Authority = Config.IdentityUrl;
+                    options.Authority = CommonValues.IdentityUrl;
                 });
     }
     
@@ -73,7 +73,7 @@ internal static class Program
             options.AddPolicy(AuthorizationPolicyName, policy =>
             {
                 policy.RequireAuthenticatedUser()
-                      .RequireClaim("scope", Config.ApiName);
+                      .RequireClaim("scope", CommonValues.ApiName);
             });
         });
     }
@@ -84,8 +84,8 @@ internal static class Program
         {
             options.AddDefaultPolicy(policy =>
             {
-                policy.WithOrigins(Config.WebUrl)
-                      .WithHeaders(Config.OidcCorsHeader);
+                policy.WithOrigins(CommonValues.WebUrl)
+                      .WithHeaders(CommonValues.OidcCorsHeader);
             });
         });
     }

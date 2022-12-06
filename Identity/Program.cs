@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 
 using Serilog;
 
+using Shared;
+
 internal static class Program
 {
     private static void Main(string[] args)
@@ -92,7 +94,7 @@ internal static class Program
     {
         services.AddSession(options =>
         {
-            options.IdleTimeout = Shared.Config.SessionTimeout;
+            options.IdleTimeout = CommonValues.SessionTimeout;
             options.Cookie.HttpOnly = true;
             options.Cookie.IsEssential = true;
             options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
@@ -121,8 +123,8 @@ internal static class Program
         {
             options.AddDefaultPolicy(policy =>
             {
-                policy.WithOrigins(Shared.Config.WebUrl)
-                      .WithHeaders(Shared.Config.OidcCorsHeader);
+                policy.WithOrigins(CommonValues.WebUrl)
+                      .WithHeaders(CommonValues.OidcCorsHeader);
             });
         });
     }

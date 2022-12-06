@@ -1,15 +1,17 @@
 ﻿using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
 
+using Shared;
+
 namespace Identity;
 
 public static class Config
 {
     static Config()
     {
-        var signInUrl = Shared.Config.WebUrl + "/signin-oidc";
-        var signOutUrl = Shared.Config.WebUrl + "/signout-oidc";
-        var signOutCallbackUrl = Shared.Config.WebUrl + "/signout-callback-oidc";
+        var signInUrl = CommonValues.WebUrl + "/signin-oidc";
+        var signOutUrl = CommonValues.WebUrl + "/signout-oidc";
+        var signOutCallbackUrl = CommonValues.WebUrl + "/signout-callback-oidc";
 
         Clients = new List<Client>()
         {
@@ -23,22 +25,22 @@ public static class Config
                     new Secret("secret".Sha256())
                 },
 
-                AllowedScopes = { Shared.Config.ApiName }
+                AllowedScopes = { CommonValues.ApiName }
             },
 
             new Client
             {
-                ClientId = Shared.Config.WebClientId,
+                ClientId = CommonValues.WebClientId,
 
                 ClientSecrets =
                 {
-                    new Secret(Shared.Config.WebClientSecret.Sha256())
+                    new Secret(CommonValues.WebClientSecret.Sha256())
                 },
 
                 AllowedGrantTypes = GrantTypes.Code,
                 AllowOfflineAccess = true,
 
-                RedirectUris = { signInUrl, Shared.Config.IdentityUrl + "/signin-oidc", Shared.Config.IdentityUrl + "/Account/Login/Password" },
+                RedirectUris = { signInUrl, CommonValues.IdentityUrl + "/signin-oidc", CommonValues.IdentityUrl + "/Account/Login/Password" },
                 FrontChannelLogoutUri = signOutUrl,
                 PostLogoutRedirectUris = { signOutCallbackUrl },
 
@@ -47,7 +49,7 @@ public static class Config
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
                     IdentityServerConstants.StandardScopes.OfflineAccess,
-                    Shared.Config.ApiName
+                    CommonValues.ApiName
                 }
             }
         };
@@ -55,7 +57,7 @@ public static class Config
 
     public static IEnumerable<ApiScope> ApiScopes => new List<ApiScope>()
         {
-            new (Shared.Config.ApiName)
+            new (CommonValues.ApiName)
         };
     public static IEnumerable<Client> Clients { get; private set; }
     public static IEnumerable<IdentityResource> IdentityResources => new List<IdentityResource>()
