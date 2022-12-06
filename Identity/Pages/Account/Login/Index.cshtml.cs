@@ -50,14 +50,12 @@ public class Index : PageModel
         PageHandler = "ValidateUsername")]
     public string Username
     {
-        get => Session.GetString(SessionKeys.Username);
-        set => Session.SetString(SessionKeys.Username, value);
+        get => HttpContext.Session.GetString(SessionKeys.Username);
+        set => HttpContext.Session.SetString(SessionKeys.Username, value);
     }
 
     public string SubmitButtonId => "submit";
     public IStringLocalizer<Index> Text { get; private init; }
-
-    private ISession Session => HttpContext.Session;
 
     public async Task<IActionResult> OnGet()
     {
