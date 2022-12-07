@@ -123,7 +123,7 @@ internal static class Program
         {
             options.AddDefaultPolicy(policy =>
             {
-                policy.WithOrigins(CommonValues.WebUrl)
+                policy.WithOrigins(UrlConfig.WebUrl)
                       .WithHeaders(CommonValues.OidcCorsHeader);
             });
         });

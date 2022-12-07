@@ -62,7 +62,7 @@ internal static class Program
         services.AddAuthentication(CommonValues.BearerSchemeName)
                 .AddJwtBearer(CommonValues.BearerSchemeName, options =>
                 {
-                    options.Authority = CommonValues.IdentityUrl;
+                    options.Authority = UrlConfig.IdentityUrl;
                 });
     }
     
@@ -84,7 +84,7 @@ internal static class Program
         {
             options.AddDefaultPolicy(policy =>
             {
-                policy.WithOrigins(CommonValues.WebUrl)
+                policy.WithOrigins(UrlConfig.WebUrl)
                       .WithHeaders(CommonValues.OidcCorsHeader);
             });
         });

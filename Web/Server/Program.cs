@@ -74,7 +74,7 @@ internal static class Program
             })
             .AddOpenIdConnect(CommonValues.OidcSchemeName, options =>
             {
-                options.Authority = CommonValues.IdentityUrl;
+                options.Authority = UrlConfig.IdentityUrl;
                 
                 options.ClientId = CommonValues.WebClientId;
                 options.ClientSecret = CommonValues.WebClientSecret;

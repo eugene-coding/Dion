@@ -9,9 +9,9 @@ public static class Config
 {
     static Config()
     {
-        var signInUrl = CommonValues.WebUrl + "/signin-oidc";
-        var signOutUrl = CommonValues.WebUrl + "/signout-oidc";
-        var signOutCallbackUrl = CommonValues.WebUrl + "/signout-callback-oidc";
+        var signInUrl = UrlConfig.WebUrl + "/signin-oidc";
+        var signOutUrl = UrlConfig.WebUrl + "/signout-oidc";
+        var signOutCallbackUrl = UrlConfig.WebUrl + "/signout-callback-oidc";
 
         Clients = new List<Client>()
         {
