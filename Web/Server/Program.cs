@@ -74,7 +74,7 @@ internal static class Program
             })
             .AddOpenIdConnect(Config.OidcSchemeName, options =>
             {
-                options.Authority = Config.IdentityUrl;
+                options.Authority = UrlConfig.IdentityUrl;
                 
                 options.ClientId = Config.WebClientId;
                 options.ClientSecret = Config.WebClientSecret;

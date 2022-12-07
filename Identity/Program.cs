@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 
 using Serilog;
 
+using Shared;
+
 internal static class Program
 {
     private static void Main(string[] args)
@@ -106,7 +108,7 @@ internal static class Program
         {
             options.AddDefaultPolicy(policy =>
             {
-                policy.WithOrigins(Shared.Config.WebUrl)
+                policy.WithOrigins(UrlConfig.WebUrl)
                       .WithHeaders(Shared.Config.OidcCorsHeader);
             });
         });

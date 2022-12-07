@@ -1,15 +1,17 @@
 ﻿using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
 
+using Shared;
+
 namespace Identity;
 
 public static class Config
 {
     static Config()
     {
-        var signInUrl = Shared.Config.WebUrl + "/signin-oidc";
-        var signOutUrl = Shared.Config.WebUrl + "/signout-oidc";
-        var signOutCallbackUrl = Shared.Config.WebUrl + "/signout-callback-oidc";
+        var signInUrl = UrlConfig.WebUrl + "/signin-oidc";
+        var signOutUrl = UrlConfig.WebUrl + "/signout-oidc";
+        var signOutCallbackUrl = UrlConfig.WebUrl + "/signout-callback-oidc";
 
         ApiScopes = new List<ApiScope>()
         {
