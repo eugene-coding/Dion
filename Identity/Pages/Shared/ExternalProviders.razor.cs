@@ -5,28 +5,21 @@ using Duende.IdentityServer.Stores;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Mvc;
-
-using System.Web;
 
 namespace Identity.Pages.Shared;
 
 public sealed partial class ExternalProviders
 {
-    private readonly string _returnUrl;
     private AuthorizationRequest _context;
     private IEnumerable<Provider> _providers = Enumerable.Empty<Provider>();
 
+    [Inject] private LinkGenerator LinkGenerator { get; init; }
     [Inject] private IAuthenticationSchemeProvider SchemeProvider { get; init; }
     [Inject] private IIdentityProviderStore IdentityProviderStore { get; init; }
     [Inject] private IIdentityServerInteractionService Interaction { get; init; }
 
     [Parameter]
-    public string ReturnUrl
-    {
-        get => _returnUrl;
-        init => _returnUrl = HttpUtility.UrlEncode(value);
-    }
+    public string ReturnUrl { get; init; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -83,6 +76,14 @@ public sealed partial class ExternalProviders
         providers = providers.Concat(dynamicSchemes);
 
         return providers;
+    }
+
+    private Uri GetProviderLink(string authenticationScheme)
+    {
+        var uriString = LinkGenerator.GetPathByPage("/ExternalLogin/Challenge", values: new { scheme = authenticationScheme, returnUrl = ReturnUrl });
+        var providerLink = new Uri(uriString, UriKind.Relative);
+
+        return providerLink;
     }
 
     private static IEnumerable<Provider> GetProviders(IEnumerable<AuthenticationScheme> schemes)
