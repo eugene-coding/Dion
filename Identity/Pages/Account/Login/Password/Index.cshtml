@@ -11,10 +11,12 @@
     </div>
 
     <div>
-        <a class="btn btn-secondary">Назад</a>
+        <a class="btn btn-secondary" href="@("/Account/Login" + Request.QueryString)">Назад</a>
         <button type="submit" class="btn btn-primary">Войти</button>
     </div>
 </form>
+
+<component type="typeof(ExternalProviders)" render-mode="Static" param-returnUrl="@Model.ReturnUrl" />
 
 @section Head {
     <script src="~/js/scripts.js"></script>

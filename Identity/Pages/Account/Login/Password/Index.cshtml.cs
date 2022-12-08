@@ -75,11 +75,11 @@ public class IndexModel : PageModel
 
             if (_context.IsNativeClient())
             {
-                return this.LoadingPage(CommonValues.AuthenticationRedirectUrl);
+                return this.LoadingPage(UrlConfig.AuthenticationRedirectUrl);
             }
         }
 
-        return Redirect(CommonValues.AuthenticationRedirectUrl);
+        return Redirect(UrlConfig.AuthenticationRedirectUrl);
     }
 
     public async Task<JsonResult> OnPostValidatePasswordAsync()
@@ -88,7 +88,7 @@ public class IndexModel : PageModel
 
         return new JsonResult(result.Succeeded);
     }
-
+    
     public IActionResult OnGetSuccess()
     {
         if (_context is not null)

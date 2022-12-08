@@ -40,7 +40,7 @@ public static class Config
                 AllowedGrantTypes = GrantTypes.Code,
                 AllowOfflineAccess = true,
 
-                RedirectUris = { signInUrl, CommonValues.IdentityUrl + "/signin-oidc", CommonValues.IdentityUrl + "/Account/Login/Password" },
+                RedirectUris = { signInUrl, UrlConfig.IdentityUrl + "/signin-oidc", UrlConfig.IdentityUrl + "/Account/Login/Password" },
                 FrontChannelLogoutUri = signOutUrl,
                 PostLogoutRedirectUris = { signOutCallbackUrl },
 
