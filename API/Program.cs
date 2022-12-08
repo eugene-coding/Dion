@@ -1,6 +1,7 @@
 using API.Data;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 
 using Shared;
 
@@ -85,7 +86,7 @@ internal static class Program
             options.AddDefaultPolicy(policy =>
             {
                 policy.WithOrigins(UrlConfig.WebUrl)
-                      .WithHeaders(CommonValues.OidcCorsHeader);
+                      .WithHeaders(HeaderNames.Authorization);
             });
         });
     }
