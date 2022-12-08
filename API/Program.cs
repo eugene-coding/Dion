@@ -13,7 +13,7 @@ internal static class Program
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.ConfigureServices();
-        
+
         var app = builder.Build();
         app.ConfigurePipeline();
         app.Run();
@@ -57,16 +57,18 @@ internal static class Program
             });
         });
     }
-    
+
     private static void ConfigureAuthentication(this IServiceCollection services)
     {
-        services.AddAuthentication(CommonValues.BearerSchemeName)
-                .AddJwtBearer(CommonValues.BearerSchemeName, options =>
+        const string bearer = "bearer";
+
+        services.AddAuthentication(bearer)
+                .AddJwtBearer(bearer, options =>
                 {
                     options.Authority = UrlConfig.IdentityUrl;
                 });
     }
-    
+
     private static void ConfigureAuthorization(this IServiceCollection services)
     {
         services.AddAuthorization(options =>
@@ -78,7 +80,7 @@ internal static class Program
             });
         });
     }
-    
+
     private static void ConfigureCors(this IServiceCollection services)
     {
         services.AddCors(options =>
