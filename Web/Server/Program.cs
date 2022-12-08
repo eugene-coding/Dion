@@ -50,11 +50,12 @@ internal static class Program
         app.UseAuthorization();
 
         app.MapBffManagementEndpoints();
-        app.MapRazorPages().RequireAuthorization();
+        app.MapRazorPages()
+           .RequireAuthorization();
 
         app.MapControllers()
-        .RequireAuthorization()
-        .AsBffApiEndpoint();
+           .RequireAuthorization()
+           .AsBffApiEndpoint();
 
         app.MapFallbackToFile("index.html");
     }
@@ -77,10 +78,10 @@ internal static class Program
         })
         .AddOpenIdConnect(oidc, options =>
         {
-            options.Authority = UrlConfig.IdentityUrl;
+            options.Authority = Urls.Identity.ToString();
 
-            options.ClientId = CommonValues.WebClientId;
-            options.ClientSecret = CommonValues.WebClientSecret;
+            options.ClientId = Credentials.Web.Id;
+            options.ClientSecret = Credentials.Web.Secret;
             options.ResponseType = "code";
             options.ResponseMode = "query";
 
@@ -88,7 +89,7 @@ internal static class Program
             options.Scope.Add(IdentityServerConstants.StandardScopes.OpenId);
             options.Scope.Add(IdentityServerConstants.StandardScopes.Profile);
             options.Scope.Add(IdentityServerConstants.StandardScopes.OfflineAccess);
-            options.Scope.Add(CommonValues.ApiName);
+            options.Scope.Add(ScopeNames.Api);
 
             options.MapInboundClaims = false;
             options.GetClaimsFromUserInfoEndpoint = true;

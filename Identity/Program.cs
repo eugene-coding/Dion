@@ -95,7 +95,7 @@ internal static class Program
     {
         services.AddSession(options =>
         {
-            options.IdleTimeout = CommonValues.SessionTimeout;
+            options.IdleTimeout = Session.Timeout;
             options.Cookie.HttpOnly = true;
             options.Cookie.IsEssential = true;
             options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
@@ -124,7 +124,7 @@ internal static class Program
         {
             options.AddDefaultPolicy(policy =>
             {
-                policy.WithOrigins(UrlConfig.WebUrl)
+                policy.WithOrigins(Urls.Web.ToString())
                       .WithHeaders(HeaderNames.Authorization);
             });
         });

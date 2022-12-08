@@ -45,6 +45,8 @@ public class IndexModel : PageModel
     [BindProperty(SupportsGet = true)]
     public string ReturnUrl { get; init; }
 
+    public Uri BackUrl => new("/Account/Login" + Request.QueryString.Value, UriKind.Relative);
+
     private string Username
     {
         get => HttpContext.Session.GetString(SessionKeys.Username);
@@ -54,8 +56,8 @@ public class IndexModel : PageModel
     public async Task<IActionResult> OnGetAsync()
     {
         _context = await _interaction.GetAuthorizationContextAsync(ReturnUrl);
- 
-        Response.Headers.Add("Refresh", $"{CommonValues.SessionTimeout.TotalSeconds};url=/Account/Login/Password?handler=SessionTimeout");
+
+        Response.Headers.Add("Refresh", $"{Session.Timeout.TotalSeconds};url=/Account/Login/Password?handler=SessionTimeout");
 
         if (string.IsNullOrEmpty(Username))
         {
@@ -67,6 +69,8 @@ public class IndexModel : PageModel
 
     public async Task<IActionResult> OnGetSessionTimeoutAsync()
     {
+        var redirectUrl = new Uri(Urls.Web, "AuthorizeRedirect").ToString();
+
         HttpContext.Session.Clear();
 
         if (_context is not null)
@@ -75,11 +79,11 @@ public class IndexModel : PageModel
 
             if (_context.IsNativeClient())
             {
-                return this.LoadingPage(UrlConfig.AuthenticationRedirectUrl);
+                return this.LoadingPage(redirectUrl);
             }
         }
 
-        return Redirect(UrlConfig.AuthenticationRedirectUrl);
+        return Redirect(redirectUrl);
     }
 
     public async Task<JsonResult> OnPostValidatePasswordAsync()
@@ -88,7 +92,7 @@ public class IndexModel : PageModel
 
         return new JsonResult(result.Succeeded);
     }
-    
+
     public IActionResult OnGetSuccess()
     {
         if (_context is not null)
