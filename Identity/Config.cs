@@ -9,64 +9,52 @@ public static class Config
 {
     static Config()
     {
-        var signInUrl = UrlConfig.WebUrl + "/signin-oidc";
-        var signOutUrl = UrlConfig.WebUrl + "/signout-oidc";
-        var signOutCallbackUrl = UrlConfig.WebUrl + "/signout-callback-oidc";
-
-        ApiScopes = new List<ApiScope>()
-        {
-            new (Shared.Config.ApiName, "API")
-        };
+        var signIn = new Uri(Urls.Web, "signin-oidc").ToString();
+        var signOut = new Uri(Urls.Web, "signout-oidc").ToString();
+        var signOutCallback = new Uri(Urls.Web, "signout-callback-oidc").ToString();
 
         Clients = new List<Client>()
         {
             new Client
             {
-                ClientId = "client",
+                ClientId = Credentials.Client.Id,
+                ClientSecrets = { new Secret(Credentials.Client.Secret.Sha256()) },
+
                 AllowedGrantTypes = GrantTypes.ClientCredentials,
-
-                ClientSecrets =
-                {
-                    new Secret("secret".Sha256())
-                },
-
-                AllowedScopes = { Shared.Config.ApiName }
+                AllowedScopes = { ScopeNames.Api }
             },
 
             new Client
             {
-                ClientId = Shared.Config.WebClientId,
-
-                ClientSecrets =
-                {
-                    new Secret(Shared.Config.WebClientSecret.Sha256())
-                },
+                ClientId = Credentials.Web.Id,
+                ClientSecrets = { new Secret(Credentials.Web.Secret.Sha256()) },
 
                 AllowedGrantTypes = GrantTypes.Code,
                 AllowOfflineAccess = true,
 
-                RedirectUris = { signInUrl },
-                FrontChannelLogoutUri = signOutUrl,
-                PostLogoutRedirectUris = { signOutCallbackUrl },
+                RedirectUris = { signIn },
+                FrontChannelLogoutUri = signOut,
+                PostLogoutRedirectUris = { signOutCallback },
 
                 AllowedScopes = new List<string>
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
                     IdentityServerConstants.StandardScopes.OfflineAccess,
-                    Shared.Config.ApiName
+                    ScopeNames.Api
                 }
             }
         };
-
-        IdentityResources = new List<IdentityResource>()
-        {
-            new IdentityResources.OpenId(),
-            new IdentityResources.Profile()
-        };
     }
 
-    public static IEnumerable<ApiScope> ApiScopes { get; private set; }
+    public static IEnumerable<ApiScope> ApiScopes => new List<ApiScope>()
+    {
+        new (ScopeNames.Api)
+    };
     public static IEnumerable<Client> Clients { get; private set; }
-    public static IEnumerable<IdentityResource> IdentityResources { get; private set; }
+    public static IEnumerable<IdentityResource> IdentityResources => new List<IdentityResource>()
+    {
+        new IdentityResources.OpenId(),
+        new IdentityResources.Profile()
+    };
 }

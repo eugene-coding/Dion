@@ -120,12 +120,6 @@
   <data name="HeadingTitle" xml:space="preserve">
     <value>Войти</value>
   </data>
-  <data name="InvalidLoginDescription" xml:space="preserve">
-    <value>Для этого запроса не настроены схемы входа.</value>
-  </data>
-  <data name="InvalidLoginTitle" xml:space="preserve">
-    <value>Неверный запрос на вход</value>
-  </data>
   <data name="Login" xml:space="preserve">
     <value>Войти</value>
   </data>
@@ -134,9 +128,6 @@
   </data>
   <data name="RememberLogin" xml:space="preserve">
     <value>Запомнить меня</value>
-  </data>
-  <data name="SuggestExternalLogin" xml:space="preserve">
-    <value>... или войти с помощью</value>
   </data>
   <data name="Username" xml:space="preserve">
     <value>Имя пользователя</value>

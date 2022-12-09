@@ -1,0 +1,38 @@
+﻿@page
+@model Identity.Pages.Login.Password.IndexModel
+
+<h1 class="mb-3">Ура, мы на втором этапе</h1>
+
+<form class="mb-3" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="success">
+    <div class="form-floating mb-3">
+        <input class="form-control" placeholder="@nameof(Model.Password)" asp-for="Password" autofocus />
+        <label asp-for="Password"></label>
+        <span asp-validation-for="Password"></span>
+    </div>
+
+    <div>
+        <a class="btn btn-secondary" href="@Model.BackUrl">Назад</a>
+        <button class="btn btn-primary" id="@Model.SubmitButtonId">Войти</button>
+    </div>
+</form>
+
+<component type="typeof(ExternalProviders)" render-mode="Static" param-returnUrl="@Model.ReturnUrl" />
+
+@section Head {
+    <script src="~/js/scripts.js"></script>
+}
+
+@section Scripts {
+    <script>
+        success = () => {
+            location = location.pathname + '?handler=Success';
+        };
+    </script>
+
+   <script>
+        const input = document.getElementById("@nameof(Model.Password)");
+        const button = document.getElementById("@Model.SubmitButtonId");
+
+        validateInput(input, button);
+    </script>
+}

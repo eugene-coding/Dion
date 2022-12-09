@@ -13,7 +13,7 @@ internal static class Program
 
         var app = builder.Build();
         app.ConfigurePipeline();
-        
+
         app.Run();
     }
 
@@ -50,7 +50,8 @@ internal static class Program
         app.UseAuthorization();
 
         app.MapBffManagementEndpoints();
-        app.MapRazorPages().RequireAuthorization();
+        app.MapRazorPages()
+           .RequireAuthorization();
 
         app.MapControllers()
            .RequireAuthorization()
@@ -61,36 +62,39 @@ internal static class Program
 
     private static void ConfigureAuthentication(this IServiceCollection services)
     {
+        const string oidc = "oidc";
+        const string cookie = "cookie";
+
         services.AddAuthentication(options =>
         {
-            options.DefaultScheme = Config.CookieSchemeName;
-            options.DefaultChallengeScheme = Config.OidcSchemeName;
-            options.DefaultSignOutScheme = Config.OidcSchemeName;
+            options.DefaultScheme = cookie;
+            options.DefaultChallengeScheme = oidc;
+            options.DefaultSignOutScheme = oidc;
         })
-            .AddCookie(Config.CookieSchemeName, options =>
-            {
-                options.Cookie.Name = "__Host-blazor";
-                options.Cookie.SameSite = SameSiteMode.Strict;
-            })
-            .AddOpenIdConnect(Config.OidcSchemeName, options =>
-            {
-                options.Authority = UrlConfig.IdentityUrl;
-                
-                options.ClientId = Config.WebClientId;
-                options.ClientSecret = Config.WebClientSecret;
-                options.ResponseType = "code";
-                options.ResponseMode = "query";
-                
-                options.Scope.Clear();
-                options.Scope.Add(IdentityServerConstants.StandardScopes.OpenId);
-                options.Scope.Add(IdentityServerConstants.StandardScopes.Profile);
-                options.Scope.Add(IdentityServerConstants.StandardScopes.OfflineAccess);
-                options.Scope.Add(Config.ApiName);
+        .AddCookie(cookie, options =>
+        {
+            options.Cookie.Name = "__Host-blazor";
+            options.Cookie.SameSite = SameSiteMode.Strict;
+        })
+        .AddOpenIdConnect(oidc, options =>
+        {
+            options.Authority = Urls.Identity.ToString();
 
-                options.MapInboundClaims = false;
-                options.GetClaimsFromUserInfoEndpoint = true;
+            options.ClientId = Credentials.Web.Id;
+            options.ClientSecret = Credentials.Web.Secret;
+            options.ResponseType = "code";
+            options.ResponseMode = "query";
 
-                options.SaveTokens = true;
-            });
+            options.Scope.Clear();
+            options.Scope.Add(IdentityServerConstants.StandardScopes.OpenId);
+            options.Scope.Add(IdentityServerConstants.StandardScopes.Profile);
+            options.Scope.Add(IdentityServerConstants.StandardScopes.OfflineAccess);
+            options.Scope.Add(ScopeNames.Api);
+
+            options.MapInboundClaims = false;
+            options.GetClaimsFromUserInfoEndpoint = true;
+
+            options.SaveTokens = true;
+        });
     }
 }

@@ -1,27 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+@{
+    Layout = "_LayoutBase";
+}
 
-    <title>Duende IdentityServer</title>
-
-    <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
-    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
-
-    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/Identity.styles.css" />
+@section Head {
     <link rel="stylesheet" href="~/css/site.css" />
-</head>
-<body>
-    <main class="container-fluid">
-        @RenderBody()
-    </main>
+    @RenderSection("head", required: false)
+}
 
-    <script src="~/lib/jquery/jquery.slim.min.js"></script>
-    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+<main class="container-fluid">
+    @RenderBody()
+</main>
+
+@section Scripts {
+    <partial name="_Validation" />
+
+    <script>
+        $.validator.setDefaults({
+            onkeyup: false,
+            onfocusout: false
+        });
+    </script>
 
     @RenderSection("scripts", required: false)
-</body>
-</html>
+}

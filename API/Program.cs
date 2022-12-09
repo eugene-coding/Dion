@@ -1,6 +1,7 @@
 using API.Data;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 
 using Shared;
 
@@ -12,7 +13,7 @@ internal static class Program
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.ConfigureServices();
-        
+
         var app = builder.Build();
         app.ConfigurePipeline();
         app.Run();
@@ -56,16 +57,18 @@ internal static class Program
             });
         });
     }
-    
+
     private static void ConfigureAuthentication(this IServiceCollection services)
     {
-        services.AddAuthentication(Config.BearerSchemeName)
-                .AddJwtBearer(Config.BearerSchemeName, options =>
+        const string bearer = "bearer";
+
+        services.AddAuthentication(bearer)
+                .AddJwtBearer(bearer, options =>
                 {
-                    options.Authority = UrlConfig.IdentityUrl;
+                    options.Authority = Urls.Identity.ToString();
                 });
     }
-    
+
     private static void ConfigureAuthorization(this IServiceCollection services)
     {
         services.AddAuthorization(options =>
@@ -73,19 +76,19 @@ internal static class Program
             options.AddPolicy(AuthorizationPolicyName, policy =>
             {
                 policy.RequireAuthenticatedUser()
-                      .RequireClaim("scope", Config.ApiName);
+                      .RequireClaim("scope", ScopeNames.Api);
             });
         });
     }
-    
+
     private static void ConfigureCors(this IServiceCollection services)
     {
         services.AddCors(options =>
         {
             options.AddDefaultPolicy(policy =>
             {
-                policy.WithOrigins(UrlConfig.WebUrl)
-                      .WithHeaders(Config.OidcCorsHeader);
+                policy.WithOrigins(Urls.Web.ToString())
+                      .WithHeaders(HeaderNames.Authorization);
             });
         });
     }

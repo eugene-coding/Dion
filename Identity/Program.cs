@@ -7,6 +7,7 @@ using Identity.Models;
 using Microsoft.AspNetCore.Identity;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 
 using Serilog;
 
@@ -54,6 +55,8 @@ internal static class Program
         builder.Services.AddLocalization();
         builder.Services.ConfigureCors();
         builder.Services.AddRazorPages();
+        builder.Services.AddDistributedMemoryCache();
+        builder.Services.ConfigureSession();
         builder.Services.ConfigureDbContext(contextOptions);
         builder.Services.ConfigureIdentity();
         builder.Services.ConfigureIdentityServer(contextOptions);
@@ -75,15 +78,28 @@ internal static class Program
             SeedData.InitializeIdentityServer(serviceProvider);
         }
 
+        app.ConfigureHeaders();
+
         app.UseStaticFiles();
         app.UseRouting();
         app.UseIdentityServer();
         app.UseAuthorization();
-
+        app.UseSession();
         app.MapRazorPages()
            .RequireAuthorization();
 
         return app;
+    }
+
+    private static void ConfigureSession(this IServiceCollection services)
+    {
+        services.AddSession(options =>
+        {
+            options.IdleTimeout = Session.Timeout;
+            options.Cookie.HttpOnly = true;
+            options.Cookie.IsEssential = true;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        });
     }
 
     private static void ConfigureDbContext(this IServiceCollection services, DbContextOptions contextOptions)
@@ -108,8 +124,8 @@ internal static class Program
         {
             options.AddDefaultPolicy(policy =>
             {
-                policy.WithOrigins(UrlConfig.WebUrl)
-                      .WithHeaders(Shared.Config.OidcCorsHeader);
+                policy.WithOrigins(Urls.Web.ToString())
+                      .WithHeaders(HeaderNames.Authorization);
             });
         });
     }
@@ -168,6 +184,16 @@ internal static class Program
             options.MigrationsAssembly(contextOptions.AssemblyName);
             options.EnableRetryOnFailure();
             options.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+        });
+    }
+
+    private static void ConfigureHeaders(this WebApplication app)
+    {
+        app.Use(async (context, next) =>
+        {
+            // 'unsafe-inline' only for development
+            context.Response.Headers.Append("content-security-policy", "script-src 'self' 'unsafe-eval' 'unsafe-inline'");
+            await next.Invoke();
         });
     }
 
