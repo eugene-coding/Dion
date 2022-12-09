@@ -7,11 +7,12 @@ using Identity.Models;
 using Microsoft.AspNetCore.Identity;
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Net.Http.Headers;
 
 using Serilog;
 
 using Shared;
+
+using HeaderNames = Microsoft.Net.Http.Headers.HeaderNames;
 
 internal static class Program
 {
