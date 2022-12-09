@@ -36,7 +36,7 @@ public class IndexModel : PageModel
     [BindProperty]
     [DataType(DataType.Password)]
     [PageRemote(
-        AdditionalFields = "__RequestVerificationToken",
+        AdditionalFields = FieldNames.RequestVerificationToken,
         ErrorMessage = "Can`t sign in",
         HttpMethod = WebRequestMethods.Http.Post,
         PageHandler = "ValidatePassword")]
@@ -57,7 +57,8 @@ public class IndexModel : PageModel
     {
         _context = await _interaction.GetAuthorizationContextAsync(ReturnUrl);
 
-        Response.Headers.Add("Refresh", $"{Session.Timeout.TotalSeconds};url=/Account/Login/Password?handler=SessionTimeout");
+        var redirectUrl = new Uri("/Account/Login/Password?handler=SessionTimeout", UriKind.Relative);
+        Response.Headers.Add(HeaderNames.Refresh, $"{Session.Timeout.TotalSeconds};url={redirectUrl}");
 
         if (string.IsNullOrEmpty(Username))
         {

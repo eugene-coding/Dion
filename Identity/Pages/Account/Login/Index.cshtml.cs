@@ -44,7 +44,7 @@ public class Index : PageModel
     [BindProperty]
     [Display(Name = nameof(Username))]
     [PageRemote(
-        AdditionalFields = "__RequestVerificationToken",
+        AdditionalFields = FieldNames.RequestVerificationToken,
         ErrorMessage = "Username doesn`t exist",
         HttpMethod = WebRequestMethods.Http.Post,
         PageHandler = "ValidateUsername")]
