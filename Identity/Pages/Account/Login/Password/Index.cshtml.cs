@@ -45,6 +45,7 @@ public class IndexModel : PageModel
     [BindProperty(SupportsGet = true)]
     public string ReturnUrl { get; init; }
 
+    public string SubmitButtonId => "submit";
     public Uri BackUrl => new("/Account/Login" + Request.QueryString.Value, UriKind.Relative);
 
     private string Username
