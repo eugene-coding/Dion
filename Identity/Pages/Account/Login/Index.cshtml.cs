@@ -9,8 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Localization;
 
-using Shared;
-
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 
@@ -18,7 +16,7 @@ namespace Identity.Pages.Login;
 
 [SecurityHeaders]
 [AllowAnonymous]
-public class Index : PageModel
+public sealed class Index : PageModel
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IAuthenticationSchemeProvider _schemeProvider;
@@ -28,13 +26,13 @@ public class Index : PageModel
         UserManager<ApplicationUser> userManager,
         IAuthenticationSchemeProvider schemeProvider,
         IIdentityServerInteractionService interaction,
-        IStringLocalizer<Index> text)
+        IStringLocalizer<Index> localizer)
     {
         _userManager = userManager;
         _schemeProvider = schemeProvider;
         _interaction = interaction;
 
-        Text = text;
+        Localizer = localizer;
     }
 
     [BindProperty(SupportsGet = true)]
@@ -55,9 +53,9 @@ public class Index : PageModel
     }
 
     public string SubmitButtonId => "submit";
-    public IStringLocalizer<Index> Text { get; private init; }
+    public IStringLocalizer<Index> Localizer { get; private init; }
     
-    public async Task<IActionResult> OnGet()
+    public async Task OnGetAsync()
     {
         var context = await _interaction.GetAuthorizationContextAsync(ReturnUrl);
         
@@ -65,8 +63,6 @@ public class Index : PageModel
         {
             Username = context?.LoginHint;
         }
-
-        return Page();
     }
 
     public async Task<JsonResult> OnPostValidateUsernameAsync()
