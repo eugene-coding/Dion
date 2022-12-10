@@ -1,8 +1,7 @@
-// Copyright (c) Duende Software. All rights reserved.
-// See LICENSE in the project root for license information.
-
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+
+using Shared;
 
 namespace Identity.Pages;
 
@@ -11,43 +10,40 @@ public sealed class SecurityHeadersAttribute : ActionFilterAttribute
     public override void OnResultExecuting(ResultExecutingContext context)
     {
         var result = context.Result;
+
         if (result is PageResult)
         {
-            // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
-            if (!context.HttpContext.Response.Headers.ContainsKey("X-Content-Type-Options"))
+            var headers = context.HttpContext.Response.Headers;
+
+            if (!headers.ContainsKey(HeaderNames.XContentTypeOptions))
             {
-                context.HttpContext.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                headers.Add(HeaderNames.XContentTypeOptions, "nosniff");
             }
 
-            // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
-            if (!context.HttpContext.Response.Headers.ContainsKey("X-Frame-Options"))
+            if (!headers.ContainsKey(HeaderNames.XFrameOptions))
             {
-                context.HttpContext.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
+                headers.Add(HeaderNames.XFrameOptions, "SAMEORIGIN");
             }
 
-            // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
             var csp = "default-src 'self'; object-src 'none'; frame-ancestors 'none'; sandbox allow-forms allow-same-origin allow-scripts; base-uri 'self';";
             // also consider adding upgrade-insecure-requests once you have HTTPS in place for production
             //csp += "upgrade-insecure-requests;";
             // also an example if you need client images to be displayed from twitter
             // csp += "img-src 'self' https://pbs.twimg.com;";
 
-            // once for standards compliant browsers
-            if (!context.HttpContext.Response.Headers.ContainsKey("Content-Security-Policy"))
+            if (!headers.ContainsKey(HeaderNames.ContentSecurityPolicy))
             {
-                context.HttpContext.Response.Headers.Add("Content-Security-Policy", csp);
-            }
-            // and once again for IE
-            if (!context.HttpContext.Response.Headers.ContainsKey("X-Content-Security-Policy"))
-            {
-                context.HttpContext.Response.Headers.Add("X-Content-Security-Policy", csp);
+                headers.Add(HeaderNames.ContentSecurityPolicy, csp);
             }
 
-            // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
-            var referrer_policy = "no-referrer";
-            if (!context.HttpContext.Response.Headers.ContainsKey("Referrer-Policy"))
+            if (!headers.ContainsKey(HeaderNames.XContentSecurityPolicy))
             {
-                context.HttpContext.Response.Headers.Add("Referrer-Policy", referrer_policy);
+                headers.Add(HeaderNames.XContentSecurityPolicy, csp);
+            }
+
+            if (!headers.ContainsKey(HeaderNames.ReferrerPolicy))
+            {
+                headers.Add(HeaderNames.ReferrerPolicy, "no-referrer");
             }
         }
     }
