@@ -1,9 +1,10 @@
 using API.Data;
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Net.Http.Headers;
 
 using Shared;
+
+using HeaderNames = Microsoft.Net.Http.Headers.HeaderNames;
 
 internal static class Program
 {

@@ -1,4 +1,4 @@
-﻿namespace Identity;
+﻿namespace Shared;
 
 /// <summary>
 /// Defines constants for well-known HTTP headers
@@ -8,4 +8,7 @@ public static class HeaderNames
 {
     /// <summary>Gets the <c>Refresh</c> HTTP header name.</summary>
     public const string Refresh = "Refresh";
+
+    /// <summary>Gets the <c>X-CSRF</c> HTTP header name.</summary>
+    public const string XCSRF = "X-CSRF";
 }
