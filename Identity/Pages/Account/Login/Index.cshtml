@@ -15,6 +15,11 @@
 
 <component type="typeof(ExternalProviders)" render-mode="Static" param-returnUrl="@Model.ReturnUrl" />
 
+<component type="typeof(Prompt)" render-mode="Static"
+           param-text="@("Нет учётной записи?")"
+           param-buttonText="@("Создать")"
+           param-url="@(new Uri("/", UriKind.Relative))" />
+
 @section Head {
     <script src="~/js/scripts.js"></script>
 }
