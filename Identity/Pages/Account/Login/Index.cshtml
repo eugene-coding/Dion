@@ -1,16 +1,16 @@
 @page
 @model Identity.Pages.Login.Index
 
-<h1 class="mb-3">@Model.Text["HeadingTitle"]</h1>
+<h1 class="mb-3">@Model.Localizer["HeadingTitle"]</h1>
 
 <form class="mb-3" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="success">
     <div class="form-floating mb-3">
-        <input class="form-control" placeholder="@Model.Text[nameof(@Model.Username)]" asp-for="Username" autofocus />
+        <input class="form-control" placeholder="@Model.Localizer[nameof(@Model.Username)]" asp-for="Username" autofocus />
         <label asp-for="Username"></label>
         <span asp-validation-for="Username"></span>
     </div>
 
-    <button class="btn btn-primary" id="@Model.SubmitButtonId">@Model.Text["Login"]</button>
+    <button class="btn btn-primary" id="@Model.SubmitButtonId">@Model.Localizer["Login"]</button>
 </form>
 
 <component type="typeof(ExternalProviders)" render-mode="Static" param-returnUrl="@Model.ReturnUrl" />

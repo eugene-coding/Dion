@@ -3,16 +3,12 @@ using Microsoft.Extensions.Localization;
 
 namespace Identity.Pages.Account;
 
-public class AccessDeniedModel : PageModel
+public sealed class AccessDeniedModel : PageModel
 {
-    public AccessDeniedModel(IStringLocalizer<AccessDeniedModel> text)
+    public AccessDeniedModel(IStringLocalizer<AccessDeniedModel> localizer)
     {
-        Text = text;
+        Localizer = localizer;
     }
 
-    public IStringLocalizer<AccessDeniedModel> Text { get; private init; }
-
-    public void OnGet()
-    {
-    }
+    public IStringLocalizer<AccessDeniedModel> Localizer { get; private init; }
 }

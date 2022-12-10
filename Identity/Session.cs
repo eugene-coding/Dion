@@ -1,5 +1,6 @@
 ﻿namespace Identity;
 
+/// <summary>Specifies session settings.</summary>
 public static class Session
 {
     /// <summary>
