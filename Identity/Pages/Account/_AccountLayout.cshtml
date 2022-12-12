@@ -1,5 +1,5 @@
 @{
-    Layout = "_LayoutBase";
+    Layout = "_LayoutBase"; 
 }
 
 @section Head {
@@ -7,9 +7,24 @@
     @RenderSection("head", required: false)
 }
 
-<main class="container-fluid">
-    @RenderBody()
-</main>
+<div class="outer-wrapper container-fluid">
+    <main class="wrapper">
+        @RenderBody()
+    </main>
+
+    <footer class="footer">
+        <nav>
+            <ul class="navigation">
+                <li class="navigation-item">
+                    <a asp-host="https://localhost:5002">Политика конфиденциальности</a>
+                </li>
+                <li>
+                    <a asp-host="https://localhost:5002">Контакты</a>
+                </li>
+            </ul>
+        </nav> 
+    </footer>
+</div>
 
 @section Scripts {
     <partial name="_Validation" />
