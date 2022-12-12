@@ -1,4 +1,4 @@
-﻿namespace Shared;
+﻿namespace Common;
 
 /// <summary>Provides the URL of the projects in the solution.</summary>
 public static class Urls

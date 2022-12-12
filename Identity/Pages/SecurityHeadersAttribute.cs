@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
-using Shared;
+using Microsoft.Net.Http.Headers;
 
 namespace Identity.Pages;
 
@@ -36,14 +35,14 @@ public sealed class SecurityHeadersAttribute : ActionFilterAttribute
                 headers.Add(HeaderNames.ContentSecurityPolicy, csp);
             }
 
-            if (!headers.ContainsKey(HeaderNames.XContentSecurityPolicy))
+            if (!headers.ContainsKey(Common.HeaderNames.XContentSecurityPolicy))
             {
-                headers.Add(HeaderNames.XContentSecurityPolicy, csp);
+                headers.Add(Common.HeaderNames.XContentSecurityPolicy, csp);
             }
 
-            if (!headers.ContainsKey(HeaderNames.ReferrerPolicy))
+            if (!headers.ContainsKey(Common.HeaderNames.ReferrerPolicy))
             {
-                headers.Add(HeaderNames.ReferrerPolicy, "no-referrer");
+                headers.Add(Common.HeaderNames.ReferrerPolicy, "no-referrer");
             }
         }
     }

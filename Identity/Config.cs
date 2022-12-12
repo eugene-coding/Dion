@@ -1,7 +1,7 @@
 ﻿using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
 
-using Shared;
+using Common;
 
 namespace Identity;
 

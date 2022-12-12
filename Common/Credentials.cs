@@ -1,4 +1,4 @@
-﻿namespace Shared;
+﻿namespace Common;
 
 /// <summary>Specifies the client credentials used by the application.</summary>
 public static class Credentials
