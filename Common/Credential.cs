@@ -1,6 +1,6 @@
 ﻿namespace Common;
 
-public class Credential
+public sealed class Credential
 {
     public Credential(string id, string secret)
     {
