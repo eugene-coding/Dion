@@ -1,14 +1,17 @@
 ﻿@if (_providers.Any())
 {
-    <ul class="list-inline">
-        @foreach (var provider in _providers)
-        {
-            <li class="list-inline-item">
-                <a class="btn btn-secondary"
-                href="@GetProviderLink(provider.AuthenticationScheme)">
-                    @provider.DisplayName
-                </a>
-            </li>
-        }
-    </ul>
+    <section>
+        <h2 class="title">@Localizer["Sign in using"]</h2>
+
+        <ul class="row list-inline">
+            @foreach (var provider in _providers)
+            {
+                <li class="col-4 list-inline-item">
+                    <a href="@GetProviderLink(provider.AuthenticationScheme)">
+                        <img src="@GetIconPath(provider.AuthenticationScheme)" alt="@provider.DisplayName" />
+                    </a>
+                </li>
+            }
+        </ul>
+    </section>
 }

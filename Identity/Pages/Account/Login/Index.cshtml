@@ -13,7 +13,8 @@
     <button class="btn btn-primary" id="@Model.SubmitButtonId">@Model.Localizer["Login"]</button>
 </form>
 
-<component type="typeof(ExternalProviders)" render-mode="Static" param-returnUrl="@Model.ReturnUrl" />
+<component type="typeof(ExternalProviders)" render-mode="Static"
+           param-returnUrl="@Model.ReturnUrl" />
 
 <component type="typeof(Prompt)" render-mode="Static"
            param-text="@("Нет учётной записи?")"
