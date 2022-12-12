@@ -2,7 +2,7 @@ using Duende.IdentityServer;
 
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
-using Shared;
+using Common;
 
 internal static class Program
 {

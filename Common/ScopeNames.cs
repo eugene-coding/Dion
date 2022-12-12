@@ -1,4 +1,4 @@
-﻿namespace Shared;
+﻿namespace Common;
 
 /// <summary>Defines constants for scope names.</summary>
 public static class ScopeNames

@@ -1,4 +1,4 @@
-﻿namespace Shared;
+﻿namespace Common;
 
 /// <summary>
 /// Defines constants for well-known HTTP headers
@@ -6,9 +6,6 @@
 /// </summary>
 public static class HeaderNames
 {
-    /// <summary>Gets the <c>Content-Security-Policy</c> HTTP header name.</summary>
-    public const string ContentSecurityPolicy = "Content-Security-Policy";
-
     /// <summary>Gets the <c>Referrer-Policy</c> HTTP header name.</summary>
     public const string ReferrerPolicy = "Referrer-Policy";
 
@@ -17,12 +14,6 @@ public static class HeaderNames
 
     /// <summary>Gets the <c>X-Content-Security-Policy</c> HTTP header name.</summary>
     public const string XContentSecurityPolicy = "X-Content-Security-Policy";
-
-    /// <summary>Gets the <c>X-Content-Type-Options</c> HTTP header name.</summary>
-    public const string XContentTypeOptions = "X-Content-Type-Options";
-
-    /// <summary>Gets the <c>X-Frame-Options</c> HTTP header name.</summary>
-    public const string XFrameOptions = "X-Frame-Options";
 
     /// <summary>Gets the <c>X-CSRF</c> HTTP header name.</summary>
     public const string XCSRF = "X-CSRF";

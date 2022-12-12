@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 using Serilog;
 
-using Shared;
+using Common;
 
 using HeaderNames = Microsoft.Net.Http.Headers.HeaderNames;
 

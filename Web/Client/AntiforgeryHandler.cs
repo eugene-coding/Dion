@@ -1,4 +1,4 @@
-﻿using Shared;
+﻿using Common;
 
 namespace Web.Client;
 
