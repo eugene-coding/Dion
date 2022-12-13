@@ -5,12 +5,14 @@
 
 <form class="mb-3" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="success">
     <div class="form-floating mb-3">
-        <input class="form-control" placeholder="@Model.Localizer[nameof(@Model.Username)]" asp-for="Username" autofocus />
+        <input asp-for="Username" class="form-control" autofocus
+               placeholder="@Model.Localizer[nameof(@Model.Username)]" />
+
         <label asp-for="Username"></label>
         <span asp-validation-for="Username"></span>
     </div>
 
-    <button class="btn btn-primary" id="@Model.SubmitButtonId">@Model.Localizer["Login"]</button>
+    <button class="btn btn-primary" type="submit">@Model.Localizer["Login"]</button>
 </form>
 
 <component type="typeof(ExternalProviders)" render-mode="Static"
@@ -34,7 +36,7 @@
 
     <script>
         const input = document.getElementById("@nameof(Model.Username)");
-        const button = document.getElementById("@Model.SubmitButtonId");
+        const button = input.closest(':submit');
 
         validateInput(input, button);
     </script>
