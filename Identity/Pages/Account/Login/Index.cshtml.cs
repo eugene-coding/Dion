@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Localization;
 
@@ -34,14 +35,13 @@ public sealed class IndexModel : PageModel
         _userManager = userManager;
         _schemeProvider = schemeProvider;
         _interaction = interaction;
-
         Localizer = localizer;
     }
 
     /// <summary>Gets or initializes the return URL.</summary>
     /// <value>
     /// The URL to which the user will be redirected 
-    /// after the authorization process is completed
+    /// after the authorization process is completed.
     /// </value>
     [FromQuery]
     [BindProperty(SupportsGet = true)]
@@ -52,9 +52,8 @@ public sealed class IndexModel : PageModel
     /// The username stored in the session.
     /// When setting, the value is trimmed.
     /// </remarks>
-    [Required]
-    [FromForm]
-    [BindProperty]
+    [Required, FromForm]
+    [BindProperty, BindRequired]
     [Display(Name = nameof(Username))]
     [PageRemote(
         AdditionalFields = FieldNames.RequestVerificationToken,
@@ -67,7 +66,7 @@ public sealed class IndexModel : PageModel
         set => HttpContext.Session.SetString(SessionKeys.Username, value.Trim());
     }
 
-    /// <inheritdoc cref="IStringLocalizer" />
+    /// <inheritdoc cref="IStringLocalizer"/>
     public IStringLocalizer<IndexModel> Localizer { get; private init; }
 
     public async Task OnGetAsync()
@@ -76,13 +75,13 @@ public sealed class IndexModel : PageModel
 
         if (hint is not null)
         {
-           Username = hint;
+            Username = hint;
         }
     }
 
     /// <summary>Checks if there is an entry with the username entered.</summary>
     /// <returns>
-    /// Returns the <see cref="Task"/> that contains <see cref="JsonResult"/> 
+    /// Returns the <see cref="Task"/> containing the <see cref="JsonResult"/> 
     /// with <see langword="true"/> if a record with the entered username is found, 
     /// otherwise - <see langword="false"/>.
     /// </returns>
