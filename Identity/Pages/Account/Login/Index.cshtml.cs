@@ -16,17 +16,20 @@ namespace Identity.Pages.Login;
 
 [SecurityHeaders]
 [AllowAnonymous]
-public sealed class Index : PageModel
+public sealed class IndexModel : PageModel
 {
+    /// <summary>ID of the form submit button.</summary>
+    public const string SubmitButtonId = "submit";
+
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IAuthenticationSchemeProvider _schemeProvider;
     private readonly IIdentityServerInteractionService _interaction;
 
-    public Index(
+    public IndexModel(
         UserManager<ApplicationUser> userManager,
         IAuthenticationSchemeProvider schemeProvider,
         IIdentityServerInteractionService interaction,
-        IStringLocalizer<Index> localizer)
+        IStringLocalizer<IndexModel> localizer)
     {
         _userManager = userManager;
         _schemeProvider = schemeProvider;
@@ -65,7 +68,7 @@ public sealed class Index : PageModel
     }
 
     /// <inheritdoc cref="IStringLocalizer" />
-    public IStringLocalizer<Index> Localizer { get; private init; }
+    public IStringLocalizer<IndexModel> Localizer { get; private init; }
 
     public async Task OnGetAsync()
     {

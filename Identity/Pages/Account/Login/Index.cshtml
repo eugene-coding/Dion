@@ -1,5 +1,6 @@
 @page
-@model Identity.Pages.Login.Index
+@model Identity.Pages.Login.IndexModel
+@using Identity.Pages.Login
 
 <h1 class="mb-3">@Model.Localizer["Sign in"]</h1>
 
@@ -12,7 +13,7 @@
         <span asp-validation-for="Username"></span>
     </div>
 
-    <button class="btn btn-primary" type="submit">@Model.Localizer["Sign in"]</button>
+    <button id="@IndexModel.SubmitButtonId" class="btn btn-primary" type="submit">@Model.Localizer["Sign in"]</button>
 </form>
 
 <component type="typeof(ExternalProviders)" render-mode="Static"
@@ -23,10 +24,6 @@
            param-buttonText="@Model.Localizer["Create"].Value"
            param-url="@(new Uri("/", UriKind.Relative))" />
 
-@section Head {
-    <script src="~/js/scripts.js"></script>
-}
-
 @section Scripts {
     <script>
         success = () => {
@@ -36,7 +33,7 @@
 
     <script>
         const input = document.getElementById("@nameof(Model.Username)");
-        const button = input.closest(':submit');
+        const button = document.getElementById("@IndexModel.SubmitButtonId");
 
         validateInput(input, button);
     </script>
