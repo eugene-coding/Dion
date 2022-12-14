@@ -66,7 +66,7 @@ internal static class Program
         services.AddAuthentication(bearer)
                 .AddJwtBearer(bearer, options =>
                 {
-                    options.Authority = Urls.Identity.ToString();
+                    options.Authority = Urls.Identity.AbsoluteUri;
                 });
     }
 
@@ -88,7 +88,7 @@ internal static class Program
         {
             options.AddDefaultPolicy(policy =>
             {
-                policy.WithOrigins(Urls.Web.ToString())
+                policy.WithOrigins(Urls.Web.AbsoluteUri)
                       .WithHeaders(HeaderNames.Authorization);
             });
         });
