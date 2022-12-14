@@ -40,6 +40,7 @@ public sealed class Index : PageModel
     /// The URL to which the user will be redirected 
     /// after the authorization process is completed
     /// </value>
+    [FromQuery]
     [BindProperty(SupportsGet = true)]
     public string ReturnUrl { get; init; }
 
@@ -49,6 +50,7 @@ public sealed class Index : PageModel
     /// When setting, the value is trimmed.
     /// </remarks>
     [Required]
+    [FromForm]
     [BindProperty]
     [Display(Name = nameof(Username))]
     [PageRemote(
