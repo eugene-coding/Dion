@@ -90,7 +90,8 @@ public class IndexModel : PageModel
 
     public async Task<JsonResult> OnPostValidatePasswordAsync()
     {
-        var result = await _signInManager.PasswordSignInAsync(Username, Password, false, lockoutOnFailure: true);
+        var result = await _signInManager.PasswordSignInAsync(
+            Username, Input.Password, false, false);
 
         return new JsonResult(result.Succeeded);
     }
