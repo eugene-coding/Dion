@@ -19,8 +19,8 @@
            param-returnUrl="@Model.ReturnUrl" />
 
 <component type="typeof(Prompt)" render-mode="Static"
-           param-text="@("Нет учётной записи?")"
-           param-buttonText="@("Создать")"
+           param-text="@Model.Localizer["Don't have an account?"].Value"
+           param-buttonText="@Model.Localizer["Create"].Value"
            param-url="@(new Uri("/", UriKind.Relative))" />
 
 @section Head {
