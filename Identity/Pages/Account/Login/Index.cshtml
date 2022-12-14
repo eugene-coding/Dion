@@ -1,7 +1,7 @@
 @page
 @model Identity.Pages.Login.Index
 
-<h1 class="mb-3">@Model.Localizer["HeadingTitle"]</h1>
+<h1 class="mb-3">@Model.Localizer["Sign in"]</h1>
 
 <form class="mb-3" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="success">
     <div class="form-floating mb-3">
@@ -12,7 +12,7 @@
         <span asp-validation-for="Username"></span>
     </div>
 
-    <button class="btn btn-primary" type="submit">@Model.Localizer["Login"]</button>
+    <button class="btn btn-primary" type="submit">@Model.Localizer["Sign in"]</button>
 </form>
 
 <component type="typeof(ExternalProviders)" render-mode="Static"
