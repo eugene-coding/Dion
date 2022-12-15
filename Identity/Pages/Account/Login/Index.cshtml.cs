@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Localization;
 
@@ -26,6 +25,13 @@ public sealed class IndexModel : PageModel
     private readonly IAuthenticationSchemeProvider _schemeProvider;
     private readonly IIdentityServerInteractionService _interaction;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="userManager">The <see cref="UserManager{TUser}"/>.</param>
+    /// <param name="schemeProvider">The <see cref="IAuthenticationSchemeProvider"/>.</param>
+    /// <param name="interaction">The <see cref="IIdentityServerInteractionService"/>.</param>
+    /// <param name="localizer">The <see cref="IStringLocalizer{T}"/>.</param>
     public IndexModel(
         UserManager<ApplicationUser> userManager,
         IAuthenticationSchemeProvider schemeProvider,
@@ -53,7 +59,7 @@ public sealed class IndexModel : PageModel
     /// When setting, the value is trimmed.
     /// </remarks>
     [Required, FromForm]
-    [BindProperty, BindRequired]
+    [BindProperty]
     [Display(Name = nameof(Username))]
     [PageRemote(
         AdditionalFields = FieldNames.RequestVerificationToken,

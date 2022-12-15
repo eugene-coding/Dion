@@ -33,8 +33,8 @@ internal static class Program
             var app = builder.Build();
             app.ConfigurePipeline();
 
-            Log.Information("Seeding database...");
-            SeedData.InitializeAspIdentity(app);
+            //Log.Information("Seeding database...");
+            //SeedData.InitializeAspIdentity(app);
 
             app.Run();
         }
