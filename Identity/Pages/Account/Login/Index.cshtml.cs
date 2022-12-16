@@ -21,24 +21,20 @@ public sealed class IndexModel : PageModel
     /// <summary>ID of the form submit button.</summary>
     public const string SubmitButtonId = "submit";
 
-    private readonly UserManager<ApplicationUser> _userManager;
     private readonly IAuthenticationSchemeProvider _schemeProvider;
     private readonly IIdentityServerInteractionService _interaction;
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="userManager">The <see cref="UserManager{TUser}"/>.</param>
     /// <param name="schemeProvider">The <see cref="IAuthenticationSchemeProvider"/>.</param>
     /// <param name="interaction">The <see cref="IIdentityServerInteractionService"/>.</param>
     /// <param name="localizer">The <see cref="IStringLocalizer{T}"/>.</param>
     public IndexModel(
-        UserManager<ApplicationUser> userManager,
         IAuthenticationSchemeProvider schemeProvider,
         IIdentityServerInteractionService interaction,
         IStringLocalizer<IndexModel> localizer)
     {
-        _userManager = userManager;
         _schemeProvider = schemeProvider;
         _interaction = interaction;
         Localizer = localizer;
@@ -91,10 +87,10 @@ public sealed class IndexModel : PageModel
     /// with <see langword="true"/> if a record with the entered username is found, 
     /// otherwise - <see langword="false"/>.
     /// </returns>
-    public async Task<JsonResult> OnPostValidateUsernameAsync()
+    public async Task<JsonResult> OnPostValidateUsernameAsync([FromServices] UserManager<ApplicationUser> userManager)
     {
-        var user = await _userManager.FindByNameAsync(Username);
-
+        var user = await userManager.FindByNameAsync(Username);
+        
         return new JsonResult(user is not null);
     }
 
