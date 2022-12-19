@@ -98,6 +98,11 @@ public sealed class IndexModel : PageModel
         return new JsonResult(user is not null);
     }
 
+    public IActionResult OnGetSuccess()
+    {
+        return RedirectToPage("/Account/Login/Password/Index", new { ReturnUrl });
+    }
+
     private async Task<string> GetLoginHint()
     {
         var context = await _interaction.GetAuthorizationContextAsync(ReturnUrl);
