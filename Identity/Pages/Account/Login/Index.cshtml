@@ -6,10 +6,7 @@
 
 <form class="mb-3" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="success">
     <div class="form-floating mb-3">
-        <input asp-for="Username" class="form-control" autofocus
-               placeholder="@Model.Localizer[nameof(@Model.Username)]"
-               autocomplete="username" />
-
+        <input asp-for="Username" class="form-control" autocomplete="username" autofocus />
         <label asp-for="Username"></label>
         <span asp-validation-for="Username"></span>
     </div>

@@ -51,7 +51,7 @@ public sealed class IndexModel : PageModel
     /// <remarks>The username stored in the session. When setting, the value is trimmed.</remarks>
     [Required]
     [BindProperty]
-    [Display(Name = nameof(Username))]
+    [Display(Name = nameof(Username), Prompt = nameof(Username))]
     [PageRemote(
         AdditionalFields = FieldNames.RequestVerificationToken,
         ErrorMessage = "Username doesn`t exist",
