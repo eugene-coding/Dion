@@ -9,9 +9,9 @@ public static class Config
 {
     static Config()
     {
-        var signIn = new Uri(Urls.Web, "signin-oidc").ToString();
-        var signOut = new Uri(Urls.Web, "signout-oidc").ToString();
-        var signOutCallback = new Uri(Urls.Web, "signout-callback-oidc").ToString();
+        var signIn = new Uri(Urls.Web, "signin-oidc").AbsoluteUri;
+        var signOut = new Uri(Urls.Web, "signout-oidc").AbsoluteUri;
+        var signOutCallback = new Uri(Urls.Web, "signout-callback-oidc").AbsoluteUri;
 
         Clients = new List<Client>()
         {

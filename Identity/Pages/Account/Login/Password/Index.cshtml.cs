@@ -24,11 +24,15 @@ public class IndexModel : PageModel
     /// <inheritdoc cref="Login.IndexModel.SubmitButtonId"/>
     public const string SubmitButtonId = "submit";
 
+    private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly IIdentityServerInteractionService _interaction;
     private AuthorizationRequest _context;
 
-    public IndexModel(IIdentityServerInteractionService interaction)
+    public IndexModel(
+        SignInManager<ApplicationUser> signInManager,
+        IIdentityServerInteractionService interaction)
     {
+        _signInManager = signInManager;
         _interaction = interaction;
     }
 
@@ -43,7 +47,7 @@ public class IndexModel : PageModel
         AdditionalFields = FieldNames.RequestVerificationToken,
         ErrorMessage = "Can`t sign in",
         HttpMethod = WebRequestMethods.Http.Post,
-        PageHandler = "TryToSignIn")]
+        PageHandler = "CheckPassword")]
     public string Password { get; set; }
 
     /// <inheritdoc cref="Login.IndexModel.ReturnUrl"/>
@@ -91,18 +95,26 @@ public class IndexModel : PageModel
     /// Attempts to sign in the entered <see cref="Password">password</see> 
     /// and <see cref="Username">username</see>.
     /// </summary>
-    /// <param name="signInManager">The <see cref="SignInManager{TUser}"/> from the DI container.</param>
+    /// <param name="userManager">The <see cref="UserManager{TUser}"/> from the services.</param>
     /// <returns>
     /// Returns the <see cref="Task"/> containing the <see cref="JsonResult"/> 
     /// with <see langword="true"/> if the attempt is successfull, 
     /// otherwise - <see langword="false"/>.
     /// </returns>
-    public async Task<JsonResult> OnPostTryToSignInAsync([FromServices] SignInManager<ApplicationUser> signInManager)
+    public async Task<JsonResult> OnPostCheckPasswordAsync(
+        [FromServices] UserManager<ApplicationUser> userManager)
     {
-        var result = await signInManager.PasswordSignInAsync(
-            Username, Password, false, false);
+        var user = await userManager.FindByNameAsync(Username);
 
-        return new JsonResult(result.Succeeded);
+        if (user is not null)
+        {
+            var result = await _signInManager.CheckPasswordSignInAsync(
+                user, Password, false);
+
+            return new JsonResult(result.Succeeded);
+        }
+
+        return new JsonResult(false);
     }
 
     private IActionResult OnGetSuccess()

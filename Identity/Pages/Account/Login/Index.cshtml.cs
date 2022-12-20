@@ -14,6 +14,7 @@ using System.Net;
 
 namespace Identity.Pages.Login;
 
+/// <summary>The <see cref="PageModel">model</see> for the login page.</summary>
 [SecurityHeaders]
 [AllowAnonymous]
 public sealed class IndexModel : PageModel
@@ -24,9 +25,7 @@ public sealed class IndexModel : PageModel
     private readonly IAuthenticationSchemeProvider _schemeProvider;
     private readonly IIdentityServerInteractionService _interaction;
 
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <summary>Creates the <see cref="IndexModel"/> instance.</summary>
     /// <param name="schemeProvider">The <see cref="IAuthenticationSchemeProvider"/>.</param>
     /// <param name="interaction">The <see cref="IIdentityServerInteractionService"/>.</param>
     /// <param name="localizer">The <see cref="IStringLocalizer{T}"/>.</param>
@@ -41,20 +40,13 @@ public sealed class IndexModel : PageModel
     }
 
     /// <summary>Gets or initializes the return URL.</summary>
-    /// <value>
-    /// The URL to which the user will be redirected 
-    /// after the authorization process is completed.
-    /// </value>
-    [FromQuery]
+    /// <value>The URL to which the user will be redirected after the authorization process is completed.</value>
     [BindProperty(SupportsGet = true)]
     public string ReturnUrl { get; init; }
 
     /// <summary>Gets or sets the username.</summary>
-    /// <remarks>
-    /// The username stored in the session.
-    /// When setting, the value is trimmed.
-    /// </remarks>
-    [Required, FromForm]
+    /// <remarks>The username stored in the session. When setting, the value is trimmed.</remarks>
+    [Required]
     [BindProperty]
     [Display(Name = nameof(Username))]
     [PageRemote(
@@ -71,6 +63,12 @@ public sealed class IndexModel : PageModel
     /// <inheritdoc cref="IStringLocalizer"/>
     public IStringLocalizer<IndexModel> Localizer { get; private init; }
 
+    /// <summary>Executed on <c>GET</c> request.</summary>
+    /// <remarks>
+    /// Sets the <see cref="Duende.IdentityServer.Models.AuthorizationRequest.LoginHint">login hint</see>, 
+    /// if it exists, as the <see cref="Username">username</see> and loads the page.
+    /// </remarks>
+    /// <returns></returns>
     public async Task OnGetAsync()
     {
         var hint = await GetLoginHint();
@@ -90,8 +88,16 @@ public sealed class IndexModel : PageModel
     public async Task<JsonResult> OnPostValidateUsernameAsync([FromServices] UserManager<ApplicationUser> userManager)
     {
         var user = await userManager.FindByNameAsync(Username);
-        
+
         return new JsonResult(user is not null);
+    }
+
+    /// <summary>Executed when the form is successfully validated.</summary>
+    /// <remarks>Redirects to the password entry page.</remarks>
+    /// <returns>The <see cref="RedirectToPageResult"/>.</returns>
+    public RedirectToPageResult OnGetSuccess()
+    {
+        return RedirectToPage("/Account/Login/Password/Index", new { ReturnUrl });
     }
 
     private async Task<string> GetLoginHint()
