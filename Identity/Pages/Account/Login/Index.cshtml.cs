@@ -40,7 +40,10 @@ public sealed class IndexModel : PageModel
     }
 
     /// <summary>Gets or initializes the return URL.</summary>
-    /// <value>The URL to which the user will be redirected after the authorization process is completed.</value>
+    /// <value>
+    /// The URL to which the user will be redirected 
+    /// after the authorization process is completed.
+    /// </value>
     [BindProperty(SupportsGet = true)]
     public string ReturnUrl { get; init; }
 
@@ -68,7 +71,7 @@ public sealed class IndexModel : PageModel
     /// Sets the <see cref="Duende.IdentityServer.Models.AuthorizationRequest.LoginHint">login hint</see>, 
     /// if it exists, as the <see cref="Username">username</see> and loads the page.
     /// </remarks>
-    /// <returns></returns>
+    /// <returns>Returns the <see cref="Task"/> that loads the page.</returns>
     public async Task OnGetAsync()
     {
         var hint = await GetLoginHint();
