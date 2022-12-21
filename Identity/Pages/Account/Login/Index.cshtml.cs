@@ -83,12 +83,14 @@ public sealed class IndexModel : PageModel
     }
 
     /// <summary>Checks if there is an entry with the username entered.</summary>
+    /// <param name="userManager">The <see cref="UserManager{TUser}"/>.</param>
     /// <returns>
     /// Returns the <see cref="Task"/> containing the <see cref="JsonResult"/> 
     /// with <see langword="true"/> if a record with the entered username is found, 
     /// otherwise - <see langword="false"/>.
     /// </returns>
-    public async Task<JsonResult> OnPostCheckUsernameAsync([FromServices] UserManager<ApplicationUser> userManager)
+    public async Task<JsonResult> OnPostCheckUsernameAsync(
+        [FromServices] UserManager<ApplicationUser> userManager)
     {
         var user = await userManager.FindByNameAsync(Username);
 
