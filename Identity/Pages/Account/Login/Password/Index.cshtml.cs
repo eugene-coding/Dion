@@ -1,5 +1,3 @@
-using Common;
-
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 
@@ -10,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 
 using System.ComponentModel.DataAnnotations;
 
@@ -17,6 +16,7 @@ using System.Net;
 
 namespace Identity.Pages.Login.Password;
 
+/// <summary>The <see cref="PageModel">model</see> for the password page.</summary>
 [SecurityHeaders]
 [AllowAnonymous]
 public class IndexModel : PageModel
@@ -28,82 +28,92 @@ public class IndexModel : PageModel
     private readonly IIdentityServerInteractionService _interaction;
     private AuthorizationRequest _context;
 
+    /// <summary>Creates the <see cref="IndexModel"/> instance.</summary>
+    /// <param name="signInManager">The <see cref="SignInManager{TUser}"/>.</param>
+    /// <param name="interaction">The <see cref="IIdentityServerInteractionService"/>.</param>
+    /// <param name="localizer">The <see cref="IStringLocalizer"/>.</param>
     public IndexModel(
         SignInManager<ApplicationUser> signInManager,
-        IIdentityServerInteractionService interaction)
+        IIdentityServerInteractionService interaction,
+        IStringLocalizer<IndexModel> localizer)
     {
         _signInManager = signInManager;
         _interaction = interaction;
+        Localizer = localizer;
     }
+
+    /// <inheritdoc cref="IStringLocalizer"/>
+    public IStringLocalizer<IndexModel> Localizer { get; private init; }
 
     /// <summary>Gets the username.</summary>
     /// <remarks>The username stored in the session.</remarks>
     public string Username => HttpContext.Session.GetString(SessionKeys.Username);
 
     /// <summary>Gets or sets the user password.</summary>
-    [Required, FromForm]
+    [Required]
+    [BindProperty]
+    [Display(Name = "Password", Prompt = "Password")]
     [DataType(DataType.Password)]
     [PageRemote(
         AdditionalFields = FieldNames.RequestVerificationToken,
-        ErrorMessage = "Can`t sign in",
+        ErrorMessage = "Credetials don't match",
         HttpMethod = WebRequestMethods.Http.Post,
         PageHandler = "CheckPassword")]
     public string Password { get; set; }
 
     /// <inheritdoc cref="Login.IndexModel.ReturnUrl"/>
-    [BindProperty]
-    public string ReturnUrl { get; set; }
+    [BindProperty(SupportsGet = true)]
+    public string ReturnUrl { get; init; }
 
-    public Uri BackUrl { get; private set; }
+    /// <summary>Gets or sets the login page URL.</summary>
+    /// <remarks>Link to the previous authorization step.</remarks>
+    public string LoginUrl { get; private set; }
 
-    public async Task<IActionResult> OnGetAsync(string returnUrl)
+    /// <summary>Executed on <c>GET</c> request.</summary>
+    /// <remarks>
+    /// If there is no <see cref="Username">username</see>
+    /// in the <see cref="HttpContext.Session">session</see>,
+    /// the user will be redirected to the login page to enter it.
+    /// </remarks>
+    /// <param name="linkGenerator">The <see cref="LinkGenerator"/>.</param>
+    /// <returns>Returns the <see cref="Task"/> that loads the page.</returns>
+    public async Task<IActionResult> OnGetAsync([FromServices] LinkGenerator linkGenerator)
     {
-        ReturnUrl = returnUrl;
+        LoginUrl = linkGenerator.GetPathByPage("/Account/Login", values: new { ReturnUrl });
+
+        if (string.IsNullOrWhiteSpace(Username))
+        {
+            return Redirect(LoginUrl);
+        }
 
         _context = await _interaction.GetAuthorizationContextAsync(ReturnUrl);
 
-        if (string.IsNullOrEmpty(Username))
-        {
-            return await OnGetSessionTimeoutAsync();
-        }
-
-        SetRefreshHeader();
-
-        BackUrl = new("/Account/Login" + Request.QueryString.Value, UriKind.Relative);
-
         return Page();
-    }
-
-    private async Task<IActionResult> OnGetSessionTimeoutAsync()
-    {
-        var redirectUrl = new Uri(Urls.Web, "AuthorizeRedirect").AbsoluteUri;
-
-        if (_context is not null)
-        {
-            await _interaction.DenyAuthorizationAsync(_context, AuthorizationError.AccessDenied);
-
-            if (_context.IsNativeClient())
-            {
-                return this.LoadingPage(redirectUrl);
-            }
-        }
-
-        return Redirect(redirectUrl);
     }
 
     /// <summary>
     /// Attempts to sign in the entered <see cref="Password">password</see> 
     /// and <see cref="Username">username</see>.
     /// </summary>
-    /// <param name="userManager">The <see cref="UserManager{TUser}"/> from the services.</param>
+    /// <remarks>
+    /// If there is no <see cref="Username">username</see>
+    /// in the <see cref="HttpContext.Session">session</see>,
+    /// the user will be redirected to the login page to enter it.
+    /// </remarks>
+    /// <param name="userManager">The <see cref="UserManager{TUser}"/>.</param>
     /// <returns>
     /// Returns the <see cref="Task"/> containing the <see cref="JsonResult"/> 
     /// with <see langword="true"/> if the attempt is successfull, 
     /// otherwise - <see langword="false"/>.
     /// </returns>
-    public async Task<JsonResult> OnPostCheckPasswordAsync(
+    public async Task<IActionResult> OnPostCheckPasswordAsync(
         [FromServices] UserManager<ApplicationUser> userManager)
     {
+        if (string.IsNullOrWhiteSpace(Username))
+        {
+            return Redirect(LoginUrl);
+        }
+
         var user = await userManager.FindByNameAsync(Username);
 
         if (user is not null)
@@ -117,7 +127,36 @@ public class IndexModel : PageModel
         return new JsonResult(false);
     }
 
-    private IActionResult OnGetSuccess()
+    /// <summary>Executed when submitting the form.</summary>
+    /// <remarks>
+    /// <para>
+    /// Signs in using the <see cref="Username">username</see> 
+    /// and the <see cref="Password">password</see>
+    /// and then redirects to the <see cref="ReturnUrl">return URL</see>.
+    /// </para>
+    /// <para>
+    /// If there is no <see cref="Username">username</see>
+    /// in the <see cref="HttpContext.Session">session</see>,
+    /// the user will be redirected to the login page to enter it.
+    /// </para>
+    /// </remarks>
+    /// <returns>
+    /// Returns the <see cref="Task"/> containing the <see cref="IActionResult"/>.
+    /// </returns>
+    public async Task<IActionResult> OnPostAsync()
+    {
+        if (string.IsNullOrWhiteSpace(Username))
+        {
+            return Redirect(LoginUrl);
+        }
+
+        await _signInManager.PasswordSignInAsync(
+            Username, Password, false, false);
+
+        return RedirectToReturnUrl();
+    }
+
+    private IActionResult RedirectToReturnUrl()
     {
         if (_context is not null && _context.IsNativeClient())
         {
@@ -135,15 +174,5 @@ public class IndexModel : PageModel
         }
 
         throw new InvalidUrlException("The return URL is invalid", nameof(ReturnUrl));
-    }
-
-    private void SetRefreshHeader()
-    {
-        var page = "/Account/Login/Password";
-        var handler = "SessionTimeout";
-
-        var redirectUrl = new Uri($"{page}?handler={handler}", UriKind.Relative);
-
-        Response.Headers.Add(HeaderNames.Refresh, $"{Session.Timeout.TotalSeconds};url={redirectUrl}");
     }
 }
