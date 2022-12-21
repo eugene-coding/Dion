@@ -56,7 +56,7 @@ public sealed class IndexModel : PageModel
         AdditionalFields = FieldNames.RequestVerificationToken,
         ErrorMessage = "User doesn't exist",
         HttpMethod = WebRequestMethods.Http.Post,
-        PageHandler = "ValidateUsername")]
+        PageHandler = "CheckUsername")]
     public string Username
     {
         get => HttpContext.Session.GetString(SessionKeys.Username);
@@ -88,7 +88,7 @@ public sealed class IndexModel : PageModel
     /// with <see langword="true"/> if a record with the entered username is found, 
     /// otherwise - <see langword="false"/>.
     /// </returns>
-    public async Task<JsonResult> OnPostValidateUsernameAsync([FromServices] UserManager<ApplicationUser> userManager)
+    public async Task<JsonResult> OnPostCheckUsernameAsync([FromServices] UserManager<ApplicationUser> userManager)
     {
         var user = await userManager.FindByNameAsync(Username);
 
