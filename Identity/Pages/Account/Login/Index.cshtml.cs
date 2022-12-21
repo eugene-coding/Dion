@@ -28,7 +28,7 @@ public sealed class IndexModel : PageModel
     /// <summary>Creates the <see cref="IndexModel"/> instance.</summary>
     /// <param name="schemeProvider">The <see cref="IAuthenticationSchemeProvider"/>.</param>
     /// <param name="interaction">The <see cref="IIdentityServerInteractionService"/>.</param>
-    /// <param name="localizer">The <see cref="IStringLocalizer{T}"/>.</param>
+    /// <param name="localizer">The <see cref="IStringLocalizer"/>.</param>
     public IndexModel(
         IAuthenticationSchemeProvider schemeProvider,
         IIdentityServerInteractionService interaction,
@@ -51,10 +51,10 @@ public sealed class IndexModel : PageModel
     /// <remarks>The username stored in the session. When setting, the value is trimmed.</remarks>
     [Required]
     [BindProperty]
-    [Display(Name = nameof(Username), Prompt = nameof(Username))]
+    [Display(Name = "Username", Prompt = "Username")]
     [PageRemote(
         AdditionalFields = FieldNames.RequestVerificationToken,
-        ErrorMessage = "Username doesn`t exist",
+        ErrorMessage = "User doesn't exist",
         HttpMethod = WebRequestMethods.Http.Post,
         PageHandler = "ValidateUsername")]
     public string Username
