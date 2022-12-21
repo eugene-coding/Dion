@@ -19,10 +19,12 @@
     </div>
 
     <div>
-        <a class="btn btn-secondary" href="@Model.BackUrl">Назад</a>
+        <a class="btn btn-secondary" href="@Model.BackUrl">@Model.Localizer["Back"]</a>
 
-        <button id="@IndexModel.SubmitButtonId" 
-                class="btn btn-primary" type="submit">Войти</button>
+        <button id="@IndexModel.SubmitButtonId"
+                class="btn btn-primary" type="submit">
+            @Model.Localizer["Sign in"]
+        </button>
     </div>
 </form>
 
