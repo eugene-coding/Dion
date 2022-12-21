@@ -2,24 +2,17 @@
 @using Identity.Pages.Login.Password
 @model Identity.Pages.Login.Password.IndexModel
 
-<h1 class="mb-3">Ура, мы на втором этапе</h1>
+<h1 class="mb-3">@Model.Localizer["Sign in"]</h1>
 
-<form class="mb-3" method="post" data-ajax="true" data-ajax-method="post">
-    <input asp-for="ReturnUrl" type="hidden" />
-    <input asp-for="Username" type="hidden" />
-
-    
+<form id="form" class="mb-3" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="submit()">
     <div class="form-floating mb-3">
-        <input asp-for="Password" class="form-control" autofocus 
-               placeholder="@nameof(Model.Password)"
-               autocomplete="current-password" />
-
+        <input asp-for="Password" class="form-control" autocomplete="current-password" autofocus />
         <label asp-for="Password"></label>
         <span asp-validation-for="Password"></span>
     </div>
 
     <div>
-        <a class="btn btn-secondary" href="@Model.BackUrl">@Model.Localizer["Back"]</a>
+        <a class="btn btn-secondary" href="@Model.LoginUrl">@Model.Localizer["Back"]</a>
 
         <button id="@IndexModel.SubmitButtonId"
                 class="btn btn-primary" type="submit">
@@ -28,10 +21,12 @@
     </div>
 </form>
 
-<component type="typeof(ExternalProviders)" render-mode="Static" param-returnUrl="@Model.ReturnUrl" />
+<component type="typeof(ExternalProviders)"
+           render-mode="Static"
+           param-returnUrl="@Model.ReturnUrl" />
 
 @section Scripts {
-   <script>
+    <script>
         const input = document.getElementById("@nameof(Model.Password)");
         const button = document.getElementById("@IndexModel.SubmitButtonId");
 
