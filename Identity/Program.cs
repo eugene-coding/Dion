@@ -142,6 +142,8 @@ internal static class Program
     {
         services.AddIdentityServer(options =>
         {
+            options.UserInteraction.ErrorUrl = "/error";
+
             options.Events.RaiseErrorEvents = true;
             options.Events.RaiseInformationEvents = true;
             options.Events.RaiseFailureEvents = true;

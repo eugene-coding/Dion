@@ -117,13 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ErrorOccurred" xml:space="preserve">
-    <value>Sorry, there was an error</value>
-  </data>
-  <data name="HeadingTitle" xml:space="preserve">
+  <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
-  <data name="RequestId" xml:space="preserve">
+  <data name="Request Id" xml:space="preserve">
     <value>Request Id</value>
+  </data>
+  <data name="Sorry, there was an error" xml:space="preserve">
+    <value>Sorry, there was an error</value>
   </data>
 </root>
