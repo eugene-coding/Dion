@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Resources\**" />
+    <Content Remove="Resources\**" />
+    <EmbeddedResource Remove="Resources\**" />
+    <None Remove="Resources\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.2.0" />
     <PackageReference Include="Duende.IdentityServer.EntityFramework" Version="6.2.0" />
 
@@ -38,9 +45,5 @@
     <EmbeddedResource Update="Pages\Account\Login\Index.cshtml.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Resources\" />
   </ItemGroup>
 </Project>
