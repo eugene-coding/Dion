@@ -131,7 +131,7 @@ internal static class Program
         {
             options.AddDefaultPolicy(policy =>
             {
-                policy.WithOrigins(Urls.Web.ToString())
+                policy.WithOrigins(Urls.Web.AbsoluteUri)
                       .WithHeaders(HeaderNames.Authorization);
             });
         });
@@ -148,6 +148,8 @@ internal static class Program
     {
         services.AddIdentityServer(options =>
         {
+            options.UserInteraction.ErrorUrl = "/error";
+
             options.Events.RaiseErrorEvents = true;
             options.Events.RaiseInformationEvents = true;
             options.Events.RaiseFailureEvents = true;

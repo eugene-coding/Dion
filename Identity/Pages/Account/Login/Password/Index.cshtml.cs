@@ -13,6 +13,7 @@ using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
 
 using System.Net;
+using Identity.Extensions;
 
 namespace Identity.Pages.Login.Password;
 

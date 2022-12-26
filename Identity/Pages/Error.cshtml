@@ -1,0 +1,27 @@
+@page
+@model Identity.Pages.ErrorModel
+
+<h1>@Model.Localizer["Error"]</h1>
+
+<div class="alert alert-danger">
+    @Model.Localizer["Sorry, there was an error"]
+
+    @if (Model.Error is not null)
+    {
+        <strong>
+            <em>
+                : @Model.Error.Error
+            </em>
+        </strong>
+
+        if (Model.Error.ErrorDescription is not null)
+        {
+            <div>@Model.Error.ErrorDescription</div>
+        }
+    }
+</div>
+
+@if (Model?.Error?.RequestId is not null)
+{
+    <div>@Model.Localizer["Request Id"]: @Model.Error.RequestId</div>
+}

@@ -1,7 +1,6 @@
 ﻿using Duende.IdentityServer.EntityFramework.DbContexts;
 using Duende.IdentityServer.EntityFramework.Mappers;
 
-using Identity.Data;
 using Identity.Exceptions;
 using Identity.Models;
 
@@ -13,7 +12,7 @@ using Serilog;
 
 using System.Security.Claims;
 
-namespace Identity;
+namespace Identity.Data;
 
 internal static class SeedData
 {

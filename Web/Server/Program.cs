@@ -78,7 +78,7 @@ internal static class Program
         })
         .AddOpenIdConnect(oidc, options =>
         {
-            options.Authority = Urls.Identity.ToString();
+            options.Authority = Urls.Identity.AbsoluteUri;
 
             options.ClientId = Credentials.Web.Id;
             options.ClientSecret = Credentials.Web.Secret;
