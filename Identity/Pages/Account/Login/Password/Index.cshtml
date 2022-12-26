@@ -2,7 +2,7 @@
 @using Identity.Pages.Login.Password
 @model Identity.Pages.Login.Password.IndexModel
 
-<h1 class="mb-3">@Model.Localizer["Sign in"]</h1>
+<h1 class="title">@Model.Localizer["Sign in"]</h1>
 
 <form id="form" class="mb-3" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="submit()">
     <div class="form-floating mb-3">
@@ -15,7 +15,7 @@
         <a class="btn btn-secondary" href="@Model.LoginUrl">@Model.Localizer["Back"]</a>
 
         <button id="@IndexModel.SubmitButtonId"
-                class="btn btn-primary" type="submit">
+                class="form-button btn btn-primary" type="submit">
             @Model.Localizer["Sign in"]
         </button>
     </div>

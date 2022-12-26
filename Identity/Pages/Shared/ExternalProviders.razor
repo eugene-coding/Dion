@@ -1,14 +1,14 @@
 ﻿@if (_providers.Any())
 {
-    <section>
+    <section class="external-providers">
         <h2 class="title">@Localizer["Sign in using"]</h2>
 
-        <ul class="row list-inline">
+        <ul class="providers row list-inline">
             @foreach (var provider in _providers)
             {
                 <li class="col-4 list-inline-item">
-                    <a href="@GetProviderLink(provider.AuthenticationScheme)">
-                        <img src="@GetIconPath(provider.AuthenticationScheme)" alt="@provider.DisplayName" />
+                    <a class="provider" href="@GetProviderLink(provider.AuthenticationScheme)">
+                        <img src="@GetIconPath(provider.AuthenticationScheme)" width="20" height="20" alt="@provider.DisplayName" />
                     </a>
                 </li>
             }

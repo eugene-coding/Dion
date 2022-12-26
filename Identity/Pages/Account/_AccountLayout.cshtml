@@ -1,29 +1,18 @@
 @{
-    Layout = "_LayoutBase"; 
+    Layout = "_Layout";
 }
 
 @section Head {
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/account.css" />
     @RenderSection("head", required: false)
 }
 
-<div class="outer-wrapper container-fluid">
-    <main class="wrapper">
+<div class="body">
+    <main>
+        <img class="logo" src="/_content/UI/images/logo.png" height="64" width="64" alt="Логотип"/>
+
         @RenderBody()
     </main>
-
-    <footer class="footer">
-        <nav>
-            <ul class="navigation">
-                <li class="navigation-item">
-                    <a asp-host="https://localhost:5002">Политика конфиденциальности</a>
-                </li>
-                <li>
-                    <a asp-host="https://localhost:5002">Контакты</a>
-                </li>
-            </ul>
-        </nav> 
-    </footer>
 </div>
 
 @section Scripts {
@@ -36,5 +25,5 @@
         });
     </script>
 
-    @RenderSection("scripts", required: false)
+    @RenderSection("scripts", false)
 }

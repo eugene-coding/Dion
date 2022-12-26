@@ -1,4 +1,23 @@
-﻿.title {
-    font-size: .8rem;
+﻿.external-providers {
+    margin-top: 40px;
+}
+
+.title {
+    font-size: 14px;
     font-weight: 400;
+    line-height: 20px;
+    text-align: center;
+    margin: 0;
+}
+
+.providers {
+    margin: 12px auto 0;
+}
+
+.provider {
+    border: 1px solid #d8dce6;
+    border-radius: 44px;
+    height: 44px;
+    margin: 0 6px;
+    min-width: 44px;
 }
