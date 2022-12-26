@@ -12,8 +12,9 @@ using Serilog;
 
 using Common;
 
-using HeaderNames = Microsoft.Net.Http.Headers.HeaderNames;
 using System.Globalization;
+
+using HeaderNames = Microsoft.Net.Http.Headers.HeaderNames;
 
 #pragma warning disable CA1506
 internal static class Program
