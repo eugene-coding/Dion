@@ -1,0 +1,8 @@
+@page
+@model Identity.Pages.RedirectModel
+
+<h1>@Model.Localizer["You are now being returned to the application"]</h1>
+<p>@Model.Localizer["Once complete, you may close this tab."]</p>
+
+<meta http-equiv="refresh" content="0;url=@Model.RedirectUri" data-url="@Model.RedirectUri">
+<script src="~/js/signin-redirect.js"></script>
