@@ -80,7 +80,7 @@ public class IndexModel : PageModel
     /// <returns>Returns the <see cref="Task"/> that loads the page.</returns>
     public async Task<IActionResult> OnGetAsync([FromServices] LinkGenerator linkGenerator)
     {
-        LoginUrl = linkGenerator.GetPathByPage("/Account/Login", values: new { ReturnUrl });
+        LoginUrl = linkGenerator.GetPathByPage("/Account/Login/Index", values: new { ReturnUrl });
 
         if (string.IsNullOrWhiteSpace(Username))
         {
