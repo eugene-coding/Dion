@@ -4,8 +4,8 @@
 
 <h1 class="title">@Model.Localizer["Sign in"]</h1>
 
-<form class="mb-3" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="success">
-    <div class="form-floating">
+<form method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="success">
+    <div class="form-group form-floating">
         <input asp-for="Username" class="form-control" autocomplete="username" autofocus />
         <label asp-for="Username"></label>
         <span asp-validation-for="Username"></span>
