@@ -1,7 +1,21 @@
 ﻿.title {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
     margin-bottom: 25px;
 }
 
+.form-group {
+    margin-bottom: 24px;
+}
+
 .form-button {
+    padding: 9px 20px;
     width: 100%;
+}
+
+.field-validation-error {
+    color: var(--bs-danger);
+    display: inline-block;
+    margin-top: 4px;
 }
