@@ -3,11 +3,10 @@
 }
 
 .title {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 20px;
     text-align: center;
     margin: 0;
+    font-size: inherit;
+    font-weight: 400;
 }
 
 .providers {
