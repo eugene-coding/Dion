@@ -13,12 +13,14 @@ using Serilog;
 using Common;
 
 using HeaderNames = Microsoft.Net.Http.Headers.HeaderNames;
+using System.Globalization;
 
 internal static class Program
 {
     private static void Main(string[] args)
     {
-        Log.Logger = new LoggerConfiguration().WriteTo.Console()
+        Log.Logger = new LoggerConfiguration().
+            WriteTo.Console(formatProvider: CultureInfo.CurrentCulture)
             .CreateBootstrapLogger();
 
         Log.Information("Starting up");
@@ -114,7 +116,9 @@ internal static class Program
     private static void ConfigureSerilog(this ConfigureHostBuilder host)
     {
         host.UseSerilog((ctx, lc) => lc
-            .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}")
+            .WriteTo.Console(
+                outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
+                formatProvider: CultureInfo.CurrentCulture)
             .Enrich.FromLogContext()
             .ReadFrom.Configuration(ctx.Configuration));
     }
