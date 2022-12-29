@@ -86,7 +86,7 @@ public class Index : PageModel
             if (idp is not null and not Duende.IdentityServer.IdentityServerConstants.LocalIdentityProvider)
             {
                 // we need to see if the provider supports external logout
-                if (await HttpContext.GetSchemeThatSupportsSignOutAsync(idp))
+                if (await HttpContext.GetSchemeSupportingSignOutAsync(idp))
                 {
                     // build a return URL so the upstream provider will redirect back
                     // to us after the user has logged out. this allows us to then
