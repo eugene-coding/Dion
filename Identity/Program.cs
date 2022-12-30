@@ -94,6 +94,7 @@ internal static class Program
             OnPrepareResponse = context =>
             {
                 context.Context.Response.Headers.Add(HeaderNames.CacheControl, "public,max-age=600");
+                context.Context.Response.Headers.Remove(HeaderNames.ContentSecurityPolicy);
             }
         });
 
