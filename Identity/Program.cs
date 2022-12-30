@@ -30,7 +30,7 @@ internal static class Program
 
             // Uncomment to seed the database
             //Log.Information("Seeding database...");
-            //SeedData.InitializeAspIdentity(app);
+            //SeedData.Seed(app);
 
             app.Run();
         }
@@ -85,13 +85,6 @@ internal static class Program
         {
             app.UseDeveloperExceptionPage();
         }
-
-        // Uncomment to seed the database
-        //using (var scope = app.Services.CreateScope())
-        //{
-        //    var serviceProvider = scope.ServiceProvider;
-        //    SeedData.InitializeIdentityServer(serviceProvider);
-        //}
 
         app.ConfigureCsp();
 
