@@ -16,9 +16,17 @@ namespace Identity.Data;
 
 internal static class SeedData
 {
-    public static void InitializeIdentityServer(IServiceProvider serviceProvider)
+    public static void Seed(WebApplication app)
     {
-        using var context = serviceProvider.GetRequiredService<ConfigurationDbContext>();
+        var services = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider;
+
+        InitializeIdentityServer(services);
+        InitializeAspIdentity(services);
+    }
+
+    private static void InitializeIdentityServer(IServiceProvider services)
+    {
+        using var context = services.GetRequiredService<ConfigurationDbContext>();
 
         if (!context.Clients.Any())
         {
@@ -47,12 +55,11 @@ internal static class SeedData
         context.SaveChanges();
     }
 
-    public static void InitializeAspIdentity(WebApplication app)
+    private static void InitializeAspIdentity(IServiceProvider services)
     {
-        using var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
-        var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+        var context = services.GetService<ApplicationDbContext>();
+        var userMgr = services.GetRequiredService<UserManager<ApplicationUser>>();
 
-        var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         var alice = userMgr.FindByNameAsync("alice").Result;
 
         if (alice == null)

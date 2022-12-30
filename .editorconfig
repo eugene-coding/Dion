@@ -85,7 +85,7 @@ csharp_style_expression_bodied_accessors = true:error
 csharp_style_expression_bodied_constructors = false:error
 csharp_style_expression_bodied_indexers = true:error
 csharp_style_expression_bodied_lambdas = true:silent
-csharp_style_expression_bodied_local_functions = false:error
+csharp_style_expression_bodied_local_functions = false:warning
 csharp_style_expression_bodied_methods = false:error
 csharp_style_expression_bodied_operators = false:error
 csharp_style_expression_bodied_properties = true:error
@@ -102,7 +102,7 @@ csharp_style_prefer_switch_expression = true:error
 csharp_style_conditional_delegate_call = true:error
 
 # Предпочтения модификатора
-csharp_prefer_static_local_function = true:error
+csharp_prefer_static_local_function = true:warning
 csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async
 
 # Предпочтения для блоков кода
@@ -118,7 +118,7 @@ csharp_style_deconstructed_variable_declaration = true:error
 csharp_style_implicit_object_creation_when_type_is_apparent = true:error
 csharp_style_inlined_variable_declaration = true:error
 csharp_style_prefer_index_operator = true:error
-csharp_style_prefer_local_over_anonymous_function = true:error
+csharp_style_prefer_local_over_anonymous_function = true:silent
 csharp_style_prefer_null_check_over_type_check = true:error
 csharp_style_prefer_range_operator = true:error
 csharp_style_prefer_tuple_swap = true:error
@@ -328,6 +328,8 @@ dotnet_diagnostic.CA1070.severity = error
 
 # IDE0210: Преобразовать в операторы верхнего уровня
 dotnet_diagnostic.IDE0210.severity = none
+csharp_style_allow_blank_line_after_token_in_conditional_expression_experimental = true:silent
+csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimental = true:silent
 
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
