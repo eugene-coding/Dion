@@ -3,17 +3,15 @@
 }
 
 @section Head {
-    <link rel="stylesheet" href="~/css/account.css" />
+    <link rel="stylesheet" href="~/css/account.css" asp-append-version="true" />
     @RenderSection("head", required: false)
 }
 
-<div class="body">
-    <main>
-        <img class="logo" src="/_content/UI/images/logo.png" height="64" width="64" alt="Логотип"/>
+<main>
+    <img class="logo" src="/_content/UI/images/logo.png" height="64" width="64" alt="Логотип" asp-append-version="true" />
 
-        @RenderBody()
-    </main>
-</div>
+    @RenderBody()
+</main>
 
 @section Scripts {
     <partial name="_Validation" />

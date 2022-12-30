@@ -3,6 +3,7 @@ using Identity.Data;
 using Identity.Extensions.Hosting;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 
 using Serilog;
 
@@ -88,7 +89,14 @@ internal static class Program
 
         app.ConfigureCsp();
 
-        app.UseStaticFiles();
+        app.UseStaticFiles(new StaticFileOptions()
+        {
+            OnPrepareResponse = context =>
+            {
+                context.Context.Response.Headers.Add(HeaderNames.CacheControl, "public,max-age=600");
+            }
+        });
+
         app.UseRouting();
         app.UseIdentityServer();
         app.UseAuthorization();
