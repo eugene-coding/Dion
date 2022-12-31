@@ -1,21 +1,35 @@
-﻿.title {
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 22px;
-    margin-bottom: 25px;
-}
+﻿@media only screen and (min-width: 451px) {
+    .body:before {
+        content: '';
+        background-image: url(https://kartinkin.net/uploads/posts/2022-03/thumbs/1647987456_41-kartinkin-net-p-neitralnie-kartinki-na-rabochii-stol-43.png);
+        background-size: cover;
+        background-position: center;
+        filter: brightness(0.85);
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        z-index: -1;
+    }
 
-.form-group {
-    margin-bottom: 24px;
-}
 
-.form-button {
-    padding: 9px 20px;
-    width: 100%;
-}
+    .title {
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 22px;
+        margin-bottom: 25px;
+    }
 
-.field-validation-error {
-    color: var(--bs-danger);
-    display: inline-block;
-    margin-top: 4px;
-}
+    .form-group {
+        margin-bottom: 24px;
+    }
+
+    .form-button {
+        padding: 9px 20px;
+        width: 100%;
+    }
+
+    .field-validation-error {
+        color: var(--bs-danger);
+        display: inline-block;
+        margin-top: 4px;
+    }

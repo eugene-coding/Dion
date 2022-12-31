@@ -1,11 +1,10 @@
-﻿.body {
+﻿body {
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     min-height: 100vh;
 }
-
 
 .background {
     display: none;
@@ -18,18 +17,6 @@ main {
 }
 
 @media only screen and (min-width: 451px) {
-    .body:before {
-        content: '';
-        background-image: url(https://kartinkin.net/uploads/posts/2022-03/thumbs/1647987456_41-kartinkin-net-p-neitralnie-kartinki-na-rabochii-stol-43.png);
-        background-size: cover;
-        background-position: center;
-        filter: brightness(0.85);
-        height: 100%;
-        width: 100%;
-        position: fixed;
-        z-index: -1;
-    }
-
     main {
         width: 360px;
         border-radius: 16px;
