@@ -4,21 +4,22 @@
 
 <h1 class="title">@Model.Localizer["Sign in"]</h1>
 
-<form id="form" class="mb-3" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="submit()">
-    <div class="form-floating mb-3">
+<a href="@Model.LoginUrl" title="@Model.Localizer["Back"]">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" height="24" width="24" fill="#a9b0c0">
+        <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 278.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+    </svg>
+</a>
+
+<form method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="submit()">
+    <div class="form-group form-floating">
         <input asp-for="Password" class="form-control" autocomplete="current-password" autofocus />
         <label asp-for="Password"></label>
         <span asp-validation-for="Password"></span>
     </div>
 
-    <div>
-        <a class="btn btn-secondary" href="@Model.LoginUrl">@Model.Localizer["Back"]</a>
-
-        <button id="@IndexModel.SubmitButtonId"
-                class="form-button btn btn-primary" type="submit">
-            @Model.Localizer["Sign in"]
-        </button>
-    </div>
+    <button id="@IndexModel.SubmitButtonId" class="form-button btn btn-primary" type="submit">
+        @Model.Localizer["Sign in"]
+    </button>
 </form>
 
 <component type="typeof(ExternalProviders)"
