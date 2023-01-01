@@ -10,5 +10,5 @@ public sealed class AccessDeniedModel : PageModel
         Localizer = localizer;
     }
 
-    public IStringLocalizer<AccessDeniedModel> Localizer { get; private init; }
+    public IStringLocalizer<AccessDeniedModel> Localizer { get; }
 }

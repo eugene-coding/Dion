@@ -64,7 +64,7 @@ public sealed class IndexModel : PageModel
     }
 
     /// <inheritdoc cref="IStringLocalizer"/>
-    public IStringLocalizer<IndexModel> Localizer { get; private init; }
+    public IStringLocalizer<IndexModel> Localizer { get; }
 
     /// <summary>Executed on <c>GET</c> request.</summary>
     /// <remarks>

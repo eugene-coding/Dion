@@ -8,6 +8,6 @@ public sealed class Credential
         Secret = secret;
     }
 
-    public string Id { get; private init; }
-    public string Secret { get; private init; }
+    public string Id { get; }
+    public string Secret { get; }
 }

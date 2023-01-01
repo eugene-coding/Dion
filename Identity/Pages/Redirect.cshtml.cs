@@ -13,7 +13,7 @@ public class RedirectModel : PageModel
         Localizer = localizer;
     }
 
-    public IStringLocalizer<RedirectModel> Localizer { get; private init; }
+    public IStringLocalizer<RedirectModel> Localizer { get; }
 
     [BindProperty(SupportsGet = true)]
     public string RedirectUri { get; init; }

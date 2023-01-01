@@ -44,7 +44,7 @@ public class IndexModel : PageModel
     }
 
     /// <inheritdoc cref="IStringLocalizer"/>
-    public IStringLocalizer<IndexModel> Localizer { get; private init; }
+    public IStringLocalizer<IndexModel> Localizer { get; }
 
     /// <summary>Gets the username.</summary>
     /// <remarks>The username stored in the session.</remarks>
