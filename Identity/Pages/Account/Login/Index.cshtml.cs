@@ -49,7 +49,7 @@ public sealed class IndexModel : PageModel
 
     /// <summary>Gets or sets the username.</summary>
     /// <remarks>The username stored in the session. When setting, the value is trimmed.</remarks>
-    [Required]
+    [Required(ErrorMessage = "Enter the username")]
     [BindProperty]
     [Display(Name = "Username", Prompt = "Username")]
     [PageRemote(

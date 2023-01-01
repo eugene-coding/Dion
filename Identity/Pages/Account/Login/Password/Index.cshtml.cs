@@ -51,13 +51,13 @@ public class IndexModel : PageModel
     public string Username => HttpContext.Session.GetString(SessionKeys.Username);
 
     /// <summary>Gets or sets the user password.</summary>
-    [Required]
+    [Required(ErrorMessage = "Enter the password")]
     [BindProperty]
     [Display(Name = "Password", Prompt = "Password")]
     [DataType(DataType.Password)]
     [PageRemote(
         AdditionalFields = FieldNames.RequestVerificationToken,
-        ErrorMessage = "Credetials don't match",
+        ErrorMessage = "Wrong password",
         HttpMethod = WebRequestMethods.Http.Post,
         PageHandler = "CheckPassword")]
     public string Password { get; set; }

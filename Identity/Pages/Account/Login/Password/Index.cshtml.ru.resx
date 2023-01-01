@@ -120,7 +120,16 @@
   <data name="Back" xml:space="preserve">
     <value>Назад</value>
   </data>
+  <data name="Enter the password" xml:space="preserve">
+    <value>Введите пароль</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
   <data name="Sign in" xml:space="preserve">
     <value>Войти</value>
+  </data>
+  <data name="Wrong password" xml:space="preserve">
+    <value>Неверный пароль</value>
   </data>
 </root>
