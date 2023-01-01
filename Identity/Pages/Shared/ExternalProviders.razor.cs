@@ -5,11 +5,14 @@ using Duende.IdentityServer.Stores;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Localization;
 
 namespace Identity.Pages.Shared;
 
 public sealed partial class ExternalProviders
 {
+    private const string IconPath = "/images/providers";
+
     private AuthorizationRequest _context;
     private IEnumerable<Provider> _providers = Enumerable.Empty<Provider>();
 
@@ -17,6 +20,7 @@ public sealed partial class ExternalProviders
     [Inject] private IAuthenticationSchemeProvider SchemeProvider { get; init; }
     [Inject] private IIdentityProviderStore IdentityProviderStore { get; init; }
     [Inject] private IIdentityServerInteractionService Interaction { get; init; }
+    [Inject] private IStringLocalizer<ExternalProviders> Localizer { get; init; }
 
     [Parameter]
     public string ReturnUrl { get; init; }
@@ -110,6 +114,11 @@ public sealed partial class ExternalProviders
             });
 
         return providers;
+    }
+
+    private static Uri GetIconPath(string authenticationScheme)
+    {
+        return new Uri($"{IconPath}/{authenticationScheme}.svg", UriKind.Relative);
     }
 
     private sealed class Provider

@@ -1,12 +1,13 @@
 ﻿main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    text-align: center;
-    width: 100%;  
-    max-width: 400px;
-    padding: 1.5rem;
-    margin: 0 auto;
+    background-color: #fff;
+    padding: var(--main-padding);
+    position: relative;
+    width: 100%;
+}
+
+@media only screen and (min-width: 451px) {
+    main {
+        width: 360px;
+        border-radius: 16px;
+    }
 }

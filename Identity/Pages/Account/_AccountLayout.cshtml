@@ -1,13 +1,15 @@
 @{
-    Layout = "_LayoutBase";
+    Layout = "_Layout";
 }
 
 @section Head {
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/account.css" asp-append-version="true" />
     @RenderSection("head", required: false)
 }
 
-<main class="container-fluid">
+<main>
+    <img class="logo" src="/_content/UI/images/logo.png" height="64" width="64" alt="Логотип" asp-append-version="true" />
+
     @RenderBody()
 </main>
 
@@ -21,5 +23,5 @@
         });
     </script>
 
-    @RenderSection("scripts", required: false)
+    @RenderSection("scripts", false)
 }

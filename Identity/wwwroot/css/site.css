@@ -1,1 +1,13 @@
-﻿
+* {
+    transition: all cubic-bezier(0.39, 0.58, 0.57, 1) .1s;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    text-align: center;
+    min-height: 100vh;
+    min-width: 320px;
+}

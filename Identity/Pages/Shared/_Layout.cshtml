@@ -1,16 +1,23 @@
-@{
-    Layout = "_LayoutBase";
-}
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
 
-@section Head {
-    <link rel="stylesheet" href="/_content/UI/lib/bootstrap-icons/font/bootstrap-icons.min.css">
-    @RenderSection("head", required: false)
-}
+    <title>Duende IdentityServer</title>
 
-<main>
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" asp-append-version="true" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" asp-append-version="true" />
+
+    <link rel="stylesheet" href="/_content/UI/lib/bootstrap/css/bootstrap.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Identity.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script src="/_content/UI/lib/jquery/jquery.min.js" asp-append-version="true"></script>
+    @RenderSection("head", false)
+</head>
+<body>
     @RenderBody()
-</main>
 
-@section Scripts {
-    @RenderSection("scripts", required: false)
-}
+    @RenderSection("scripts", false)
+</body>
+</html>

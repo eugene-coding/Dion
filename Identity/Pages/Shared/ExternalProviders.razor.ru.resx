@@ -117,22 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Create" xml:space="preserve">
-    <value>Создать</value>
-  </data>
-  <data name="Don't have an account?" xml:space="preserve">
-    <value>Нет учётной записи?</value>
-  </data>
-  <data name="Enter the username" xml:space="preserve">
-    <value>Введите имя пользователя</value>
-  </data>
-  <data name="Sign in" xml:space="preserve">
-    <value>Войти</value>
-  </data>
-  <data name="User doesn't exist" xml:space="preserve">
-    <value>Пользователя не существует</value>
-  </data>
-  <data name="Username" xml:space="preserve">
-    <value>Имя пользователя</value>
+  <data name="Sign in using" xml:space="preserve">
+    <value>Войти с помощью</value>
   </data>
 </root>

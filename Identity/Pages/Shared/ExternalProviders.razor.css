@@ -1,0 +1,45 @@
+﻿* {
+    --link-diameter: 44px;
+}
+
+.external-providers {
+    margin-top: 40px;
+}
+
+.title {
+    text-align: center;
+    margin: 0;
+    font-size: inherit;
+    font-weight: 400;
+}
+
+.providers {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 12px auto 0;
+    padding: 0;
+}
+
+.provider {
+    margin: 0 6px;
+}
+
+.provider__link {
+    border: 1px solid #d8dce6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--link-diameter);
+    width: var(--link-diameter);
+}
+
+    .provider__link:hover {
+        background-color: #f1f2f5;
+    }
+
+    .provider__link:active {
+        transform: scale(.97);
+    }

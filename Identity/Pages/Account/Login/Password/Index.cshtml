@@ -1,37 +1,35 @@
 ﻿@page
+@using Identity.Pages.Login.Password
 @model Identity.Pages.Login.Password.IndexModel
 
-<h1 class="mb-3">Ура, мы на втором этапе</h1>
+<h1 class="title">@Model.Localizer["Sign in"]</h1>
 
-<form class="mb-3" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="success">
-    <div class="form-floating mb-3">
-        <input class="form-control" placeholder="@nameof(Model.Password)" asp-for="Password" autofocus />
+<a class="back" href="@Model.LoginUrl" title="@Model.Localizer["Back"]">
+    <svg class="back__icon" viewBox="0 0 384 512" height="20" width="20">
+        <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 278.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+    </svg>
+</a>
+
+<form method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="submit()">
+    <div class="form-group form-floating">
+        <input asp-for="Password" class="form-control" autocomplete="current-password" autofocus />
         <label asp-for="Password"></label>
         <span asp-validation-for="Password"></span>
     </div>
 
-    <div>
-        <a class="btn btn-secondary" href="@Model.BackUrl">Назад</a>
-        <button class="btn btn-primary" id="@Model.SubmitButtonId">Войти</button>
-    </div>
+    <button id="@IndexModel.SubmitButtonId" class="form-button btn btn-primary" type="submit">
+        @Model.Localizer["Sign in"]
+    </button>
 </form>
 
-<component type="typeof(ExternalProviders)" render-mode="Static" param-returnUrl="@Model.ReturnUrl" />
-
-@section Head {
-    <script src="~/js/scripts.js"></script>
-}
+<component type="typeof(ExternalProviders)"
+           render-mode="Static"
+           param-returnUrl="@Model.ReturnUrl" />
 
 @section Scripts {
     <script>
-        success = () => {
-            location = location.pathname + '?handler=Success';
-        };
-    </script>
-
-   <script>
         const input = document.getElementById("@nameof(Model.Password)");
-        const button = document.getElementById("@Model.SubmitButtonId");
+        const button = document.getElementById("@IndexModel.SubmitButtonId");
 
         validateInput(input, button);
     </script>
