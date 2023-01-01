@@ -96,7 +96,7 @@ internal static class Program
                 context.Context.Response.Headers.Add(HeaderNames.CacheControl, "public,max-age=600");
                 context.Context.Response.Headers.Remove(HeaderNames.ContentSecurityPolicy);
 
-                context.Context.Response.ContentType += ";charset=utf-8";
+                context.Context.Response.SetUtf8Charset();
             }
         });
 
