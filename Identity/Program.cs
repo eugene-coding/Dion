@@ -52,7 +52,9 @@ internal static class Program
 
         builder.Services.ConfigureCors();
 
-        builder.Services.AddRazorPages();
+        builder.Services.AddRazorPages()
+                        .AddDataAnnotationsLocalization();
+
         builder.Services.AddDistributedMemoryCache();
 
         builder.Services.AddSession(options =>
