@@ -1,6 +1,7 @@
 ﻿main {
     background-color: #fff;
-    padding: 32px;
+    padding: var(--main-padding);
+    position: relative;
     width: 100%;
 }
 

@@ -1,4 +1,8 @@
-﻿.logo {
+﻿* {
+    --main-padding: 32px;
+}
+
+.logo {
     margin-bottom: 16px;
 }
 

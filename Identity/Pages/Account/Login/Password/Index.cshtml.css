@@ -1,0 +1,39 @@
+﻿* {
+    --back-diameter: 36px;
+}
+
+.back {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    position: absolute;
+    top: var(--main-padding);
+    left: calc(var(--main-padding) / 2);
+    height: var(--back-diameter);
+    width: var(--back-diameter);
+    border-radius: 50%;
+}
+
+    .back:hover, .back:focus {
+        box-shadow: 0 4px 12px rgb(0 0 0 / 12%), 0 1px 1px rgb(0 0 0 / 10%);
+    }
+
+        .back:hover .back__icon, .back:focus .back__icon {
+            fill: #666;
+        }
+
+    .back:active {
+        transform: scale(.96);
+    }
+
+.back__icon {
+    fill: #a8afbf
+}
+
+@media only screen and (min-width: 451px) {
+    .back {
+        box-shadow: 0 4px 8px rgb(0 0 0 / 12%);
+        left: calc(0px - var(--back-diameter)/2);
+    }
+}
