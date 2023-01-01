@@ -1,5 +1,31 @@
-﻿@media only screen and (min-width: 451px) {
-    .body:before {
+﻿.logo {
+    margin-bottom: 16px;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-button {
+    padding: 9px 20px;
+    width: 100%;
+}
+
+.field-validation-error {
+    color: var(--bs-danger);
+    display: inline-block;
+    margin-top: 4px;
+}
+
+@media only screen and (min-width: 451px) {
+    body:before {
         content: '';
         background-image: url(https://kartinkin.net/uploads/posts/2022-03/thumbs/1647987456_41-kartinkin-net-p-neitralnie-kartinki-na-rabochii-stol-43.png);
         background-size: cover;
@@ -10,26 +36,4 @@
         position: fixed;
         z-index: -1;
     }
-
-
-    .title {
-        font-size: 18px;
-        font-weight: 400;
-        line-height: 22px;
-        margin-bottom: 25px;
-    }
-
-    .form-group {
-        margin-bottom: 24px;
-    }
-
-    .form-button {
-        padding: 9px 20px;
-        width: 100%;
-    }
-
-    .field-validation-error {
-        color: var(--bs-danger);
-        display: inline-block;
-        margin-top: 4px;
-    }
+}

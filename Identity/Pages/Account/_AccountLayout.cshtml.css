@@ -1,16 +1,4 @@
-﻿body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    min-height: 100vh;
-}
-
-.background {
-    display: none;
-}
-
-main {
+﻿main {
     background-color: #fff;
     padding: 32px;
     width: 100%;
@@ -21,8 +9,4 @@ main {
         width: 360px;
         border-radius: 16px;
     }
-}
-
-.logo {
-    margin-bottom: 16px;
 }
