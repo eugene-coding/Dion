@@ -21,7 +21,7 @@ public class ErrorModel : PageModel
     }
 
     /// <inheritdoc cref="IStringLocalizer{T}"/>
-    public IStringLocalizer<Index> Localizer { get; private init; }
+    public IStringLocalizer<Index> Localizer { get; }
 
     /// <inheritdoc cref="ErrorMessage"/>
     public ErrorMessage Error { get; private set; }
