@@ -15,12 +15,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using Identity.Extensions;
 
-namespace Identity.Pages.Login.Password;
+namespace Identity.Pages.Login;
 
 /// <summary>The <see cref="PageModel">model</see> for the password page.</summary>
 [SecurityHeaders]
 [AllowAnonymous]
-public class IndexModel : PageModel
+public class PasswordModel : PageModel
 {
     /// <inheritdoc cref="Login.IndexModel.SubmitButtonId"/>
     public const string SubmitButtonId = "submit";
@@ -29,14 +29,14 @@ public class IndexModel : PageModel
     private readonly IIdentityServerInteractionService _interaction;
     private AuthorizationRequest _context;
 
-    /// <summary>Creates the <see cref="IndexModel"/> instance.</summary>
+    /// <summary>Creates the <see cref="PasswordModel"/> instance.</summary>
     /// <param name="signInManager">The <see cref="SignInManager{TUser}"/>.</param>
     /// <param name="interaction">The <see cref="IIdentityServerInteractionService"/>.</param>
     /// <param name="localizer">The <see cref="IStringLocalizer"/>.</param>
-    public IndexModel(
+    public PasswordModel(
         SignInManager<ApplicationUser> signInManager,
         IIdentityServerInteractionService interaction,
-        IStringLocalizer<IndexModel> localizer)
+        IStringLocalizer<PasswordModel> localizer)
     {
         _signInManager = signInManager;
         _interaction = interaction;
@@ -44,7 +44,7 @@ public class IndexModel : PageModel
     }
 
     /// <inheritdoc cref="IStringLocalizer"/>
-    public IStringLocalizer<IndexModel> Localizer { get; }
+    public IStringLocalizer<PasswordModel> Localizer { get; }
 
     /// <summary>Gets the username.</summary>
     /// <remarks>The username stored in the session.</remarks>
