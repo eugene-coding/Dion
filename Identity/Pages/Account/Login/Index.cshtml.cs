@@ -102,7 +102,7 @@ public sealed class IndexModel : PageModel
     /// <returns>The <see cref="RedirectToPageResult"/>.</returns>
     public RedirectToPageResult OnGetSuccess()
     {
-        return RedirectToPage("/Account/Login/Password/Index", new { ReturnUrl });
+        return RedirectToPage("/Account/Login/Password", new { ReturnUrl });
     }
 
     private async Task<string> GetLoginHint()
