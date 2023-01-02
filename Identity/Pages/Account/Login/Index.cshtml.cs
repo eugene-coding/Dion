@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Localization;
 
 using System.ComponentModel.DataAnnotations;
@@ -22,6 +23,7 @@ public sealed class IndexModel : PageModel
     /// <summary>ID of the form submit button.</summary>
     public const string SubmitButtonId = "submit";
 
+    private readonly LinkGenerator _linkGenerator;
     private readonly IAuthenticationSchemeProvider _schemeProvider;
     private readonly IIdentityServerInteractionService _interaction;
 
@@ -30,10 +32,12 @@ public sealed class IndexModel : PageModel
     /// <param name="interaction">The <see cref="IIdentityServerInteractionService"/>.</param>
     /// <param name="localizer">The <see cref="IStringLocalizer"/>.</param>
     public IndexModel(
+        LinkGenerator linkGenerator,
         IAuthenticationSchemeProvider schemeProvider,
         IIdentityServerInteractionService interaction,
         IStringLocalizer<IndexModel> localizer)
     {
+        _linkGenerator = linkGenerator;
         _schemeProvider = schemeProvider;
         _interaction = interaction;
         Localizer = localizer;
@@ -63,6 +67,8 @@ public sealed class IndexModel : PageModel
         set => HttpContext.Session.SetString(SessionKeys.Username, value.Trim());
     }
 
+    public string RegistrationUrl { get; private set; }
+
     /// <inheritdoc cref="IStringLocalizer"/>
     public IStringLocalizer<IndexModel> Localizer { get; }
 
@@ -74,6 +80,8 @@ public sealed class IndexModel : PageModel
     /// <returns>Returns the <see cref="Task"/> that loads the page.</returns>
     public async Task OnGetAsync()
     {
+        RegistrationUrl = _linkGenerator.GetPathByPage("/Account/Registration/Index");
+
         var hint = await GetLoginHint();
 
         if (hint is not null)

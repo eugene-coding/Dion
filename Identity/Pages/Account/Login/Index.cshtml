@@ -19,7 +19,7 @@
 <component type="typeof(Prompt)" render-mode="Static"
            param-text="@Model.Localizer["Don't have an account?"].Value"
            param-buttonText="@Model.Localizer["Create"].Value"
-           param-url="@(new Uri("/", UriKind.Relative))" />
+           param-url="@Model.RegistrationUrl" />
 
 <component type="typeof(ExternalProviders)" render-mode="Static"
            param-returnUrl="@Model.ReturnUrl" />

@@ -14,5 +14,5 @@ public sealed partial class Prompt
 
     [Parameter]
     [EditorRequired]
-    public Uri Url { get; init; } = default!;
+    public string Url { get; init; } = string.Empty;
 }
