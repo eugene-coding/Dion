@@ -69,4 +69,13 @@
       <Generator></Generator>
     </EmbeddedResource>
   </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Duende.IdentityServer.Services" />
+    <Using Include="Microsoft.AspNetCore.Authentication" />
+    <Using Include="Microsoft.AspNetCore.Authorization" />
+    <Using Include="Microsoft.AspNetCore.Mvc" />
+    <Using Include="Microsoft.AspNetCore.Mvc.RazorPages" />
+    <Using Include="Microsoft.Extensions.Localization" />
+  </ItemGroup>
 </Project>
