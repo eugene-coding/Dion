@@ -1,11 +1,7 @@
 using Identity.Exceptions;
 using Identity.Models;
 
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Localization;
 
 namespace Identity.Pages.Account.Registration;
 
@@ -40,5 +36,18 @@ public class IndexModel : PageModel
         {
             throw new CreateUserFailedException(result.Errors.First().Description);
         }
+    }
+
+    /// <summary>Checks if there is no entry with the username entered.</summary>
+    /// <returns>
+    /// Returns the <see cref="Task"/> containing the <see cref="JsonResult"/> 
+    /// with <see langword="true"/> if a record with the entered username is not found, 
+    /// otherwise - <see langword="false"/>.
+    /// </returns>
+    public async Task<JsonResult> OnPostCheckUsernameAsync()
+    {
+        var user = await _userManager.FindByNameAsync(Input.Username);
+
+        return new JsonResult(user is null);
     }
 }
