@@ -1,11 +1,4 @@
-using Duende.IdentityServer.Services;
-
 using Identity.Exceptions;
-
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Identity.Pages.ExternalLogin;
 

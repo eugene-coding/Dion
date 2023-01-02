@@ -1,6 +1,5 @@
 using Duende.IdentityServer;
 using Duende.IdentityServer.Events;
-using Duende.IdentityServer.Services;
 
 using Identity.Exceptions;
 using Identity.Extensions;
@@ -8,11 +7,7 @@ using Identity.Models;
 
 using IdentityModel;
 
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using System.Security.Claims;
 
