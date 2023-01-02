@@ -20,6 +20,7 @@ public sealed class IndexModel : PageModel
     private readonly IIdentityServerInteractionService _interaction;
 
     /// <summary>Creates the <see cref="IndexModel"/> instance.</summary>
+    /// <param name="linkGenerator">The <see cref="LinkGenerator"/>.</param>
     /// <param name="schemeProvider">The <see cref="IAuthenticationSchemeProvider"/>.</param>
     /// <param name="interaction">The <see cref="IIdentityServerInteractionService"/>.</param>
     /// <param name="localizer">The <see cref="IStringLocalizer"/>.</param>
