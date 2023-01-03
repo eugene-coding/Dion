@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Net;
 
-namespace Identity.Pages.Account.Registration;
+namespace Identity.Pages.Account.Register;
 
 public sealed class InputModel
 {

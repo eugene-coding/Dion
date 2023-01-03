@@ -69,7 +69,7 @@ public sealed class IndexModel : PageModel
     /// <returns>Returns the <see cref="Task"/> that loads the page.</returns>
     public async Task OnGetAsync()
     {
-        RegistrationUrl = Url.Page("/Account/Registration/Index");
+        RegistrationUrl = Url.Page("/Account/Register/Index");
 
         var hint = await GetLoginHint();
 

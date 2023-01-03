@@ -3,7 +3,7 @@ using Identity.Models;
 
 using Microsoft.AspNetCore.Identity;
 
-namespace Identity.Pages.Account.Registration;
+namespace Identity.Pages.Account.Register;
 
 [AllowAnonymous]
 [SecurityHeaders]
@@ -11,7 +11,9 @@ public class IndexModel : PageModel
 {
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public IndexModel(UserManager<ApplicationUser> userManager, IStringLocalizer<IndexModel> localizer)
+    public IndexModel(
+        UserManager<ApplicationUser> userManager,
+        IStringLocalizer<IndexModel> localizer)
     {
         _userManager = userManager;
         Localizer = localizer;
@@ -22,16 +24,21 @@ public class IndexModel : PageModel
     [BindProperty]
     public InputModel Input { get; set; } = new();
 
-    public async Task OnPostAsync()
+    public async Task<IActionResult> OnPostAsync()
     {
         var user = new ApplicationUser()
         {
+            UserName = Input.Email,
             Email = Input.Email
         };
 
         var result = await _userManager.CreateAsync(user, Input.Password);
 
-        if (!result.Succeeded)
+        if (result.Succeeded)
+        {
+            return RedirectToPage("Confirmation");
+        }
+        else
         {
             throw new CreateUserFailedException(result.Errors.First().Description);
         }
