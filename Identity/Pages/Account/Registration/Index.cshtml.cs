@@ -26,7 +26,6 @@ public class IndexModel : PageModel
     {
         var user = new ApplicationUser()
         {
-            UserName = Input.Username,
             Email = Input.Email
         };
 
@@ -38,15 +37,26 @@ public class IndexModel : PageModel
         }
     }
 
-    /// <summary>Checks if there is no entry with the username entered.</summary>
+    /// <summary>Checks if there is no user with the <see cref="InputModel.Email">email</see> entered.</summary>
+    /// <remarks>
+    /// If a user with the specified <see cref="InputModel.Email">email</see> is found
+    /// and the <see cref="InputModel.Email">email</see> is not confirmed, 
+    /// the user will be redirected to the email confirmation page.
+    /// </remarks>
     /// <returns>
     /// Returns the <see cref="Task"/> containing the <see cref="JsonResult"/> 
-    /// with <see langword="true"/> if a record with the entered username is not found, 
+    /// with <see langword="true"/> if a user with the entered email is not found, 
     /// otherwise - <see langword="false"/>.
     /// </returns>
-    public async Task<JsonResult> OnPostCheckUsernameAsync()
+    public async Task<IActionResult> OnPostCheckEmailAsync()
     {
-        var user = await _userManager.FindByNameAsync(Input.Username);
+        var user = await _userManager.FindByEmailAsync(Input.Email);
+
+        if (user is not null && !user.EmailConfirmed)
+        {
+            // Redirect to the email confirmation page
+            return LocalRedirect("~/");
+        }
 
         return new JsonResult(user is null);
     }

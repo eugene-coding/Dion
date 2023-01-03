@@ -5,14 +5,7 @@
 
 <form method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="submit()">
     <div class="form-group form-floating">
-        <input asp-for="Input.Username" class="form-control" autocomplete="username"
-               data-val-remote-additionalfields="__RequestVerificationToken" />
-        <label asp-for="Input.Username"></label>
-        <span asp-validation-for="Input.Username"></span>
-    </div>
-
-    <div class="form-group form-floating">
-        <input asp-for="Input.Email" class="form-control" autocomplete="email" />
+        <input asp-for="Input.Email" class="form-control" data-val-remote-additionalfields="__RequestVerificationToken" autocomplete="email" />
         <label asp-for="Input.Email"></label>
         <span asp-validation-for="Input.Email"></span>
     </div>

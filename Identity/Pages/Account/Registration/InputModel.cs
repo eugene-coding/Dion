@@ -5,16 +5,13 @@ namespace Identity.Pages.Account.Registration;
 
 public sealed class InputModel
 {
-    [Required(ErrorMessage = "Enter the username")]
-    [Display(Name = "Username", Prompt = "Username")]
-    [PageRemote(
-        ErrorMessage = "The username already exists",
-        HttpMethod = WebRequestMethods.Http.Post,
-        PageHandler = "CheckUsername")]
-    public string Username { get; set; }
-
-    [Required]
+    [Required(ErrorMessage = "Enter the email")]
     [DataType(DataType.EmailAddress)]
+    [Display(Name = "Email", Prompt = "Email")]
+    [PageRemote(
+        ErrorMessage = "The email already exists",
+        HttpMethod = WebRequestMethods.Http.Post,
+        PageHandler = "CheckEmail")]
     public string Email { get; set; }
 
     [Required]
