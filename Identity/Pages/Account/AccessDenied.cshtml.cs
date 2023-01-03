@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Localization;
-
 namespace Identity.Pages.Account;
 
 public sealed class AccessDeniedModel : PageModel
