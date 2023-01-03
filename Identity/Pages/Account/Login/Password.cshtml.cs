@@ -71,11 +71,10 @@ public class PasswordModel : PageModel
     /// in the <see cref="HttpContext.Session">session</see>,
     /// the user will be redirected to the login page to enter it.
     /// </remarks>
-    /// <param name="linkGenerator">The <see cref="LinkGenerator"/>.</param>
     /// <returns>Returns the <see cref="Task"/> that loads the page.</returns>
-    public async Task<IActionResult> OnGetAsync([FromServices] LinkGenerator linkGenerator)
+    public async Task<IActionResult> OnGetAsync()
     {
-        LoginUrl = linkGenerator.GetPathByPage("/Account/Login/Index", values: new { ReturnUrl });
+        LoginUrl = Url.Page("/Account/Login/Index", new { ReturnUrl });
 
         if (string.IsNullOrWhiteSpace(Username))
         {

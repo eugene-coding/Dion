@@ -15,22 +15,18 @@ public sealed class IndexModel : PageModel
     /// <summary>ID of the form submit button.</summary>
     public const string SubmitButtonId = "submit";
 
-    private readonly LinkGenerator _linkGenerator;
     private readonly IAuthenticationSchemeProvider _schemeProvider;
     private readonly IIdentityServerInteractionService _interaction;
 
     /// <summary>Creates the <see cref="IndexModel"/> instance.</summary>
-    /// <param name="linkGenerator">The <see cref="LinkGenerator"/>.</param>
     /// <param name="schemeProvider">The <see cref="IAuthenticationSchemeProvider"/>.</param>
     /// <param name="interaction">The <see cref="IIdentityServerInteractionService"/>.</param>
     /// <param name="localizer">The <see cref="IStringLocalizer"/>.</param>
     public IndexModel(
-        LinkGenerator linkGenerator,
         IAuthenticationSchemeProvider schemeProvider,
         IIdentityServerInteractionService interaction,
         IStringLocalizer<IndexModel> localizer)
     {
-        _linkGenerator = linkGenerator;
         _schemeProvider = schemeProvider;
         _interaction = interaction;
         Localizer = localizer;
@@ -73,7 +69,7 @@ public sealed class IndexModel : PageModel
     /// <returns>Returns the <see cref="Task"/> that loads the page.</returns>
     public async Task OnGetAsync()
     {
-        RegistrationUrl = _linkGenerator.GetPathByPage("/Account/Registration/Index");
+        RegistrationUrl = Url.Page("/Account/Registration/Index");
 
         var hint = await GetLoginHint();
 
