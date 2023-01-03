@@ -3,7 +3,7 @@
 
 <h1 class="title">@Model.Localizer["Registration"]</h1>
 
-<form id="register" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="this.submit()">
+<form method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="this.submit()">
     <div class="form-group form-floating">
         <input asp-for="Input.Email" class="form-control" data-val-remote-additionalfields="__RequestVerificationToken" autocomplete="email" />
         <label asp-for="Input.Email"></label>

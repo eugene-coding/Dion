@@ -13,7 +13,7 @@ namespace Identity.Pages.Login;
 public sealed class IndexModel : PageModel
 {
     /// <summary>ID of the form submit button.</summary>
-    public const string SubmitButtonId = "submit";
+    public const string SubmitButtonId = "submit-button";
 
     private readonly IAuthenticationSchemeProvider _schemeProvider;
     private readonly IIdentityServerInteractionService _interaction;
@@ -69,7 +69,7 @@ public sealed class IndexModel : PageModel
     /// <returns>Returns the <see cref="Task"/> that loads the page.</returns>
     public async Task OnGetAsync()
     {
-        RegistrationUrl = Url.Page("/Account/Register/Index");
+        RegistrationUrl = Url.Page("../Register/Index");
 
         var hint = await GetLoginHint();
 
@@ -97,9 +97,9 @@ public sealed class IndexModel : PageModel
     /// <summary>Executed when the form is successfully validated.</summary>
     /// <remarks>Redirects to the password entry page.</remarks>
     /// <returns>The <see cref="RedirectToPageResult"/>.</returns>
-    public RedirectToPageResult OnGetSuccess()
+    public RedirectToPageResult OnPost()
     {
-        return RedirectToPage("/Account/Login/Password", new { ReturnUrl });
+        return RedirectToPage("Password", new { ReturnUrl });
     }
 
     private async Task<string> GetLoginHint()

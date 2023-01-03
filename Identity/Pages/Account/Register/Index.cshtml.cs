@@ -24,6 +24,19 @@ public class IndexModel : PageModel
     [BindProperty]
     public InputModel Input { get; set; } = new();
 
+    /// <summary>Checks if there is no user with the <see cref="InputModel.Email">email</see> entered.</summary>
+    /// <returns>
+    /// Returns the <see cref="Task"/> containing the <see cref="JsonResult"/> 
+    /// with <see langword="true"/> if a user with the entered email is not found, 
+    /// otherwise - <see langword="false"/>.
+    /// </returns>
+    public async Task<JsonResult> OnPostCheckEmailAsync()
+    {
+        var user = await _userManager.FindByEmailAsync(Input.Email);
+
+        return new JsonResult(user is null);
+    }
+
     public async Task<IActionResult> OnPostAsync()
     {
         var user = new ApplicationUser()
@@ -42,18 +55,5 @@ public class IndexModel : PageModel
         {
             throw new CreateUserFailedException(result.Errors.First().Description);
         }
-    }
-
-    /// <summary>Checks if there is no user with the <see cref="InputModel.Email">email</see> entered.</summary>
-    /// <returns>
-    /// Returns the <see cref="Task"/> containing the <see cref="JsonResult"/> 
-    /// with <see langword="true"/> if a user with the entered email is not found, 
-    /// otherwise - <see langword="false"/>.
-    /// </returns>
-    public async Task<JsonResult> OnPostCheckEmailAsync()
-    {
-        var user = await _userManager.FindByEmailAsync(Input.Email);
-
-        return new JsonResult(user is null);
     }
 }

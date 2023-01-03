@@ -18,7 +18,7 @@ namespace Identity.Pages.Login;
 public class PasswordModel : PageModel
 {
     /// <inheritdoc cref="Login.IndexModel.SubmitButtonId"/>
-    public const string SubmitButtonId = "submit";
+    public const string SubmitButtonId = "submit-button";
 
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly IIdentityServerInteractionService _interaction;
@@ -74,7 +74,7 @@ public class PasswordModel : PageModel
     /// <returns>Returns the <see cref="Task"/> that loads the page.</returns>
     public async Task<IActionResult> OnGetAsync()
     {
-        LoginUrl = Url.Page("/Account/Login/Index", new { ReturnUrl });
+        LoginUrl = Url.Page("Index", new { ReturnUrl });
 
         if (string.IsNullOrWhiteSpace(Username))
         {
