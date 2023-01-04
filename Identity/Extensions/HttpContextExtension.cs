@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
-
-namespace Identity.Extensions;
+﻿namespace Identity.Extensions;
 
 public static class HttpContextExtension
 {
