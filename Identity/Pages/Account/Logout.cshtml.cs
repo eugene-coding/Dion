@@ -1,3 +1,5 @@
+using Common;
+
 using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Extensions;
 
@@ -8,58 +10,27 @@ using IdentityModel;
 
 using Microsoft.AspNetCore.Identity;
 
-namespace Identity.Pages.Logout;
+namespace Identity.Pages;
 
 [SecurityHeaders]
 [AllowAnonymous]
-public class Index : PageModel
+public class LogoutModel : PageModel
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly IIdentityServerInteractionService _interaction;
     private readonly IEventService _events;
 
-    [BindProperty]
+    [BindProperty(SupportsGet = true)]
     public string LogoutId { get; set; }
 
-    public Index(SignInManager<ApplicationUser> signInManager, IIdentityServerInteractionService interaction, IEventService events)
+    public LogoutModel(SignInManager<ApplicationUser> signInManager, IIdentityServerInteractionService interaction, IEventService events)
     {
         _signInManager = signInManager;
         _interaction = interaction;
         _events = events;
     }
 
-    public async Task<IActionResult> OnGet(string logoutId)
-    {
-        LogoutId = logoutId;
-
-        var showLogoutPrompt = LogoutOptions.ShowLogoutPrompt;
-
-        if (User?.Identity.IsAuthenticated != true)
-        {
-            // if the user is not authenticated, then just show logged out page
-            showLogoutPrompt = false;
-        }
-        else
-        {
-            var context = await _interaction.GetLogoutContextAsync(LogoutId);
-            if (context?.ShowSignoutPrompt == false)
-            {
-                // it's safe to automatically sign-out
-                showLogoutPrompt = false;
-            }
-        }
-
-        if (showLogoutPrompt == false)
-        {
-            // if the request for logout was properly authenticated from IdentityServer, then
-            // we don't need to show the prompt and can just log the user out directly.
-            return await OnPost();
-        }
-
-        return Page();
-    }
-
-    public async Task<IActionResult> OnPost()
+    public async Task<IActionResult> OnGet()
     {
         if (User?.Identity.IsAuthenticated == true)
         {
@@ -86,7 +57,7 @@ public class Index : PageModel
                     // build a return URL so the upstream provider will redirect back
                     // to us after the user has logged out. this allows us to then
                     // complete our single sign-out processing.
-                    string url = Url.Page("/Account/Logout/Loggedout", new { logoutId = LogoutId });
+                    string url = Url.Page("Index", "Logout", new { logoutId = LogoutId });
 
                     // this triggers a redirect to the external provider for sign-out
                     return SignOut(new AuthenticationProperties { RedirectUri = url }, idp);
@@ -94,6 +65,15 @@ public class Index : PageModel
             }
         }
 
-        return RedirectToPage("/Account/Logout/LoggedOut", new { logoutId = LogoutId });
+        return await OnGetLogoutAsync();
+    }
+
+    public async Task<IActionResult> OnGetLogoutAsync()
+    {
+        var logout = await _interaction.GetLogoutContextAsync(LogoutId);
+
+        var redirectUrl = logout is not null ? logout.PostLogoutRedirectUri : Urls.WebRedirect.AbsoluteUri;
+
+        return Redirect(redirectUrl);
     }
 }
