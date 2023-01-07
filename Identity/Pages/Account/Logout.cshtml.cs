@@ -1,8 +1,5 @@
 using Common;
 
-using Duende.IdentityServer.Events;
-using Duende.IdentityServer.Extensions;
-
 using Identity.Extensions;
 using Identity.Models;
 
@@ -12,68 +9,71 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Identity.Pages;
 
+/// <summary>The <see cref="PageModel"/> for the Logout page.</summary>
 [SecurityHeaders]
 [AllowAnonymous]
 public class LogoutModel : PageModel
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly IIdentityServerInteractionService _interaction;
-    private readonly IEventService _events;
 
-    [BindProperty(SupportsGet = true)]
-    public string LogoutId { get; set; }
+    private string _logoutId;
+    private string _identityProvider;
 
-    public LogoutModel(SignInManager<ApplicationUser> signInManager, IIdentityServerInteractionService interaction, IEventService events)
+    /// <summary>Creates the <see cref="LogoutModel"/> instance.</summary>
+    /// <param name="signInManager">The <see cref="SignInManager{TUser}"/>.</param>
+    /// <param name="interaction">The <see cref="IIdentityServerInteractionService"/>.</param>
+    public LogoutModel(SignInManager<ApplicationUser> signInManager, IIdentityServerInteractionService interaction)
     {
         _signInManager = signInManager;
         _interaction = interaction;
-        _events = events;
     }
 
-    public async Task<IActionResult> OnGet()
+    public async Task<IActionResult> OnGet(string logoutId)
     {
+        _logoutId = logoutId;
+
         if (User?.Identity.IsAuthenticated == true)
         {
-            // if there's no current logout context, we need to create one
-            // this captures necessary info from the current logged in user
-            // this can still return null if there is no context needed
-            LogoutId ??= await _interaction.CreateLogoutContextAsync();
+            // if there is no logout ID, we need to create one to get info from the current logged user
+            _logoutId ??= await _interaction.CreateLogoutContextAsync();
+            _identityProvider = User.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
 
-            // delete local authentication cookie
             await _signInManager.SignOutAsync();
 
-            // raise the logout event
-            await _events.RaiseAsync(new UserLogoutSuccessEvent(User.GetSubjectId(), User.GetDisplayName()));
-
-            // see if we need to trigger federated logout
-            var idp = User.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
-
-            // if it's a local login we can ignore this workflow
-            if (idp is not null and not Duende.IdentityServer.IdentityServerConstants.LocalIdentityProvider)
+            if (await ShouldTriggerExternalSignOut())
             {
-                // we need to see if the provider supports external logout
-                if (await HttpContext.GetSchemeSupportingSignOutAsync(idp))
-                {
-                    // build a return URL so the upstream provider will redirect back
-                    // to us after the user has logged out. this allows us to then
-                    // complete our single sign-out processing.
-                    string url = Url.Page("Index", "Logout", new { logoutId = LogoutId });
-
-                    // this triggers a redirect to the external provider for sign-out
-                    return SignOut(new AuthenticationProperties { RedirectUri = url }, idp);
-                }
+                return ExternalSignOut();
             }
         }
 
-        return await OnGetLogoutAsync();
+        return await OnGetLoggedOutAsync();
     }
 
-    public async Task<IActionResult> OnGetLogoutAsync()
+    public async Task<IActionResult> OnGetLoggedOutAsync()
     {
-        var logout = await _interaction.GetLogoutContextAsync(LogoutId);
+        var logout = await _interaction.GetLogoutContextAsync(_logoutId);
 
         var redirectUrl = logout is not null ? logout.PostLogoutRedirectUri : Urls.WebRedirect.AbsoluteUri;
 
         return Redirect(redirectUrl);
+    }
+
+    private async Task<bool> ShouldTriggerExternalSignOut()
+    {
+        if (_identityProvider is not null and not Duende.IdentityServer.IdentityServerConstants.LocalIdentityProvider)
+        {
+            return await HttpContext.SchemeSupportsSignOutAsync(_identityProvider);
+        }
+
+        return false;
+    }
+
+    private SignOutResult ExternalSignOut()
+    {
+        // Redirect URL to complete the single sign-out processing
+        string url = Url.Page("Index", "LoggedOut", new { logoutId = _logoutId });
+
+        return SignOut(new AuthenticationProperties { RedirectUri = url }, _identityProvider);
     }
 }
