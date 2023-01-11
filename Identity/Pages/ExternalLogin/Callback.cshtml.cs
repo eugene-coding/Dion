@@ -50,7 +50,8 @@ public class Callback : PageModel
 
         if (_logger.IsEnabled(LogLevel.Debug))
         {
-            var externalClaims = externalUser.Claims.Select(c => $"{c.Type}: {c.Value}");
+            var externalClaims = externalUser.Claims.Print();
+            ;
             _logger.ExternalClaims(externalClaims);
         }
 
@@ -117,8 +118,8 @@ public class Callback : PageModel
         };
 
         // email
-        var email = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Email)?.Value ??
-                    claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+        var email = claims.GetEmail();
+
         if (email != null)
         {
             user.Email = email;
@@ -128,29 +129,26 @@ public class Callback : PageModel
         var filtered = new List<Claim>();
 
         // user's display name
-        var name = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Name)?.Value ??
-                   claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+        var name = claims.GetName();
         if (name != null)
         {
-            filtered.Add(new Claim(JwtClaimTypes.Name, name));
+            filtered.AddName(name);
         }
         else
         {
-            var first = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.GivenName)?.Value ??
-                        claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName)?.Value;
-            var last = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.FamilyName)?.Value ??
-                       claims.FirstOrDefault(x => x.Type == ClaimTypes.Surname)?.Value;
+            var first = claims.GetFirstName();
+            var last = claims.GetLastName();
             if (first != null && last != null)
             {
-                filtered.Add(new Claim(JwtClaimTypes.Name, first + " " + last));
+                filtered.AddName(first + " " + last);
             }
             else if (first != null)
             {
-                filtered.Add(new Claim(JwtClaimTypes.Name, first));
+                filtered.AddName(first);
             }
             else if (last != null)
             {
-                filtered.Add(new Claim(JwtClaimTypes.Name, last));
+                filtered.AddName(last);
             }
         }
 
@@ -186,33 +184,31 @@ public class Callback : PageModel
     private static void CaptureExternalLoginContext(AuthenticateResult externalResult, IList<Claim> localClaims, AuthenticationProperties localSignInProps)
     {
         // capture the idp used to login, so the session knows where the user came from
-        localClaims.Add(new Claim(JwtClaimTypes.IdentityProvider, externalResult.Properties.Items["scheme"]));
+        localClaims.AddIdentityProvider(externalResult.Properties.Items["scheme"]);
 
-        TryAddSessionId(externalResult, localClaims);
+        TryAddSessionId(externalResult.Principal.Claims, localClaims);
 
-        TryStoreIdToken(externalResult, localSignInProps);
+        TryStoreIdToken(externalResult.Properties, localSignInProps);
     }
 
     /// <summary>
     /// If the external system sent a session id claim, copy it over
     /// so we can use it for single sign-out
     /// </summary>
-    private static void TryAddSessionId(AuthenticateResult externalResult, IList<Claim> localClaims)
+    private static void TryAddSessionId(IEnumerable<Claim> externalClaims, IList<Claim> localClaims)
     {
-        // if the external system sent a session id claim, copy it over
-        // so we can use it for single sign-out
-        var sessionId = externalResult.Principal.Claims.FirstOrDefault(x => x.Type == JwtClaimTypes.SessionId);
+        var sessionId = externalClaims.GetSessionId();
 
         if (sessionId is not null)
         {
-            localClaims.Add(new Claim(JwtClaimTypes.SessionId, sessionId.Value));
+            localClaims.AddSessionId(sessionId);
         }
     }
 
     /// <summary>If the external provider issued an <c>id_token</c>, we'll keep it for signout.</summary>
-    private static void TryStoreIdToken(AuthenticateResult externalResult, AuthenticationProperties localSignInProps)
+    private static void TryStoreIdToken(AuthenticationProperties externalProperties, AuthenticationProperties localSignInProps)
     {
-        var value = externalResult.Properties.GetTokenValue(AuthenticationTokenNames.IdToken);
+        var value = externalProperties.GetTokenValue(AuthenticationTokenNames.IdToken);
 
         if (value is not null)
         {
