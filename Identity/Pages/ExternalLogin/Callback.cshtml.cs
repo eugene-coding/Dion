@@ -183,24 +183,46 @@ public class Callback : PageModel
 
     // if the external login is OIDC-based, there are certain things we need to preserve to make logout work
     // this will be different for WS-Fed, SAML2p or other protocols
-    private static void CaptureExternalLoginContext(AuthenticateResult externalResult, List<Claim> localClaims, AuthenticationProperties localSignInProps)
+    private static void CaptureExternalLoginContext(AuthenticateResult externalResult, IList<Claim> localClaims, AuthenticationProperties localSignInProps)
     {
         // capture the idp used to login, so the session knows where the user came from
         localClaims.Add(new Claim(JwtClaimTypes.IdentityProvider, externalResult.Properties.Items["scheme"]));
 
+        TryAddSessionId(externalResult, localClaims);
+
+        TryStoreIdToken(externalResult, localSignInProps);
+    }
+
+    /// <summary>
+    /// If the external system sent a session id claim, copy it over
+    /// so we can use it for single sign-out
+    /// </summary>
+    private static void TryAddSessionId(AuthenticateResult externalResult, IList<Claim> localClaims)
+    {
         // if the external system sent a session id claim, copy it over
         // so we can use it for single sign-out
-        var sid = externalResult.Principal.Claims.FirstOrDefault(x => x.Type == JwtClaimTypes.SessionId);
-        if (sid != null)
-        {
-            localClaims.Add(new Claim(JwtClaimTypes.SessionId, sid.Value));
-        }
+        var sessionId = externalResult.Principal.Claims.FirstOrDefault(x => x.Type == JwtClaimTypes.SessionId);
 
-        // if the external provider issued an id_token, we'll keep it for signout
-        var idToken = externalResult.Properties.GetTokenValue("id_token");
-        if (idToken != null)
+        if (sessionId is not null)
         {
-            localSignInProps.StoreTokens(new[] { new AuthenticationToken { Name = "id_token", Value = idToken } });
+            localClaims.Add(new Claim(JwtClaimTypes.SessionId, sessionId.Value));
+        }
+    }
+
+    /// <summary>If the external provider issued an <c>id_token</c>, we'll keep it for signout.</summary>
+    private static void TryStoreIdToken(AuthenticateResult externalResult, AuthenticationProperties localSignInProps)
+    {
+        var value = externalResult.Properties.GetTokenValue(AuthenticationTokenNames.IdToken);
+
+        if (value is not null)
+        {
+            var token = new AuthenticationToken
+            {
+                Name = AuthenticationTokenNames.IdToken,
+                Value = value
+            };
+
+            localSignInProps.StoreTokens(new[] { token });
         }
     }
 }
