@@ -1,16 +1,21 @@
-﻿using Identity;
+﻿using Common;
+
+using Identity;
 using Identity.Data;
 using Identity.Extensions.Hosting;
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Net.Http.Headers;
 
 using Serilog;
 
 using System.Globalization;
 
+using HeaderNames = Microsoft.Net.Http.Headers.HeaderNames;
+
 internal static class Program
 {
+    private const string ApiAuthorizationName = "Api";
+
     private static void Main(string[] args)
     {
         Log.Logger = new LoggerConfiguration().
@@ -51,6 +56,10 @@ internal static class Program
         builder.Services.AddLocalization();
 
         builder.Services.ConfigureCors();
+
+        builder.Services.AddControllers();
+        builder.Services.ConfigureAuthentication();
+        builder.Services.ConfigureAuthorization();
 
         builder.Services.AddRazorPages()
                         .AddDataAnnotationsLocalization();
@@ -104,11 +113,39 @@ internal static class Program
 
         app.UseRouting();
         app.UseIdentityServer();
+        app.UseAuthentication();
         app.UseAuthorization();
         app.UseSession();
+
+        app.MapControllers()
+            .RequireAuthorization(ApiAuthorizationName);
+
         app.MapRazorPages()
            .RequireAuthorization();
 
         return app;
+    }
+
+    private static void ConfigureAuthentication(this IServiceCollection services)
+    {
+        const string bearer = "bearer";
+
+        services.AddAuthentication(bearer)
+                .AddJwtBearer(bearer, options =>
+                {
+                    options.Authority = Urls.Identity.AbsoluteUri;
+                });
+    }
+
+    private static void ConfigureAuthorization(this IServiceCollection services)
+    {
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy(ApiAuthorizationName, policy =>
+            {
+                policy.RequireAuthenticatedUser()
+                      .RequireClaim("scope", ScopeNames.Api);
+            });
+        });
     }
 }
