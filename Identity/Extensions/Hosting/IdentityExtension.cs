@@ -1,8 +1,9 @@
-﻿using Duende.IdentityServer;
+﻿using Common;
+
+using Duende.IdentityServer;
 
 using Identity.Data;
 using Identity.Extensions.Hosting;
-using Identity.Models;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

@@ -1,9 +1,10 @@
+using Common;
+
 using Duende.IdentityServer;
 using Duende.IdentityServer.Events;
 
 using Identity.Exceptions;
 using Identity.Extensions;
-using Identity.Models;
 
 using IdentityModel;
 

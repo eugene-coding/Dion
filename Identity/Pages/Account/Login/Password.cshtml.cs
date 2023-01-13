@@ -1,14 +1,14 @@
+using Common;
+
 using Duende.IdentityServer.Models;
 
 using Identity.Exceptions;
-using Identity.Models;
+using Identity.Extensions;
 
 using Microsoft.AspNetCore.Identity;
 
 using System.ComponentModel.DataAnnotations;
-
 using System.Net;
-using Identity.Extensions;
 
 namespace Identity.Pages.Login;
 

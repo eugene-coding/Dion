@@ -1,8 +1,9 @@
-﻿using Duende.IdentityServer.EntityFramework.DbContexts;
+﻿using Common;
+
+using Duende.IdentityServer.EntityFramework.DbContexts;
 using Duende.IdentityServer.EntityFramework.Mappers;
 
 using Identity.Exceptions;
-using Identity.Models;
 
 using IdentityModel;
 
